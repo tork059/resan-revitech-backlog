@@ -1,0 +1,92 @@
+name: Бэклог
+
+on:
+  push:
+    branches: [main]
+  issues:
+    types: [opened]
+  schedule:
+    - cron: "5 19 * * *"   # 00:05 по Екатеринбургу — пересчёт «осталось дней»
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: backlog
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # Задачи из формы принимаются только от владельца репозитория
+    if: github.event_name != 'issues' || (github.event.issue.user.login == github.repository_owner && startsWith(github.event.issue.title, '[Задача]'))
+    runs-on: ubuntu-latest
+    outputs:
+      task_id: ${{ steps.issue.outputs.task_id }}
+      task_path: ${{ steps.issue.outputs.task_path }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Задача из формы
+        id: issue
+        if: github.event_name == 'issues'
+        run: python scripts/build.py from-issue "$GITHUB_EVENT_PATH"
+
+      - name: Сборка сводки
+        if: github.event_name != 'issues'
+        run: python scripts/build.py
+
+      - name: Коммит изменений
+        run: |
+          git config user.name  "backlog-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A tasks archive README.md
+          if git diff --cached --quiet; then
+            echo "Изменений нет"
+          else
+            MSG="chore: обновление сводки"
+            [ -n "${{ steps.issue.outputs.task_id }}" ] && MSG="feat: ${{ steps.issue.outputs.task_id }} из issue #${{ github.event.issue.number }}"
+            git commit -m "$MSG"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  close-issue:
+    needs: build
+    if: github.event_name == 'issues' && needs.build.outputs.task_id != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ответ и закрытие заявки
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ID: ${{ needs.build.outputs.task_id }}
+          P: ${{ needs.build.outputs.task_path }}
+        run: |
+          URL="https://github.com/${{ github.repository }}/blob/main/$P"
+          gh issue comment ${{ github.event.issue.number }} -R ${{ github.repository }} \
+            --body "✅ Создана задача **$ID** → [$P]($URL)
+          Дописать контекст можно прямо в карточке (кнопка ✎ на странице файла)."
+          gh issue close ${{ github.event.issue.number }} -R ${{ github.repository }} --reason completed

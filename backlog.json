@@ -1,0 +1,9 @@
+{
+  "title": "Бэклог · Ресан & Ревитех",
+  "subtitle": "Аналитика и разработка — департамент информационного развития и маркетинга",
+  "repo": "tork059/resan-revitech-backlog",
+  "id_prefix": "BL",
+  "timezone_offset_hours": 5,
+  "hot_days": 3,
+  "soon_days": 7
+}

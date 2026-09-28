@@ -1,0 +1,74 @@
+name: "＋ Новая задача"
+description: Быстро добавить задачу в бэклог — она сама превратится в карточку
+title: "[Задача] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Заполните хотя бы **Название**. Остальное можно дописать позже прямо в карточке задачи.
+        После отправки робот создаст файл в `tasks/`, обновит сводку и закроет эту заявку со ссылкой на карточку.
+  - type: input
+    id: title
+    attributes:
+      label: Название
+      placeholder: "Например: Отчёт по остаткам с группировкой по складам"
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: Суть и контекст
+      description: Что нужно, зачем, откуда пришло. Можно вставить текст письма или сообщения.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Приоритет
+      options:
+        - "Must — обязательно"
+        - "Should — важно"
+        - "Could — желательно"
+        - "Won't — не сейчас"
+      default: 1
+  - type: dropdown
+    id: type
+    attributes:
+      label: Тип
+      options:
+        - Аналитика
+        - Разработка
+        - Консультация
+        - Исследование
+        - Поддержка
+  - type: dropdown
+    id: status
+    attributes:
+      label: Статус
+      options:
+        - "Входящие — разберу позже"
+        - "Бэклог — уже понятно, что делать"
+      default: 0
+  - type: input
+    id: system
+    attributes:
+      label: Система
+      placeholder: "1С:УТ, 1С:БП, Битрикс24 …"
+  - type: input
+    id: initiator
+    attributes:
+      label: Инициатор
+      placeholder: Кто поставил задачу
+  - type: input
+    id: deadline
+    attributes:
+      label: Срок
+      placeholder: "15.10.2026"
+  - type: input
+    id: estimate
+    attributes:
+      label: Оценка
+      placeholder: "2h, 1d, 3d"
+  - type: input
+    id: bitrix
+    attributes:
+      label: Ссылка на Битрикс
+      placeholder: Необязательно

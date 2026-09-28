@@ -86,8 +86,8 @@
 
 | ID | Задача | Приоритет | Срок | Проект |
 |:--|:--|:--|:--|:--|
+| `BL-020` | [К1-11 · Битрикс и Insales на дельта-обмен](tasks/BL-020-k1-11-bitriks-i-insales-na-delta-obmen.md) | 🔵 Could | 12.10 · через 14 дн. | Оптимизация УТ |
 | `BL-016` | [К1 · Дневные выгрузки Insales и остатки (К1-2, К1-5)](tasks/BL-016-k1-dnevnye-vygruzki-bitriks-insales-i-ostatki-k1.md) | 🟠 Should | — | Оптимизация УТ |
-| `BL-020` | [К1-11 · Битрикс и Insales на дельта-обмен](tasks/BL-020-k1-11-bitriks-i-insales-na-delta-obmen.md) | 🔵 Could | — | Оптимизация УТ |
 
 ## 📥 Входящие · 0
 

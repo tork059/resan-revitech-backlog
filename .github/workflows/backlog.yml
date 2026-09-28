@@ -56,7 +56,11 @@ jobs:
             MSG="chore: обновление сводки"
             [ -n "${{ steps.issue.outputs.task_id }}" ] && MSG="feat: ${{ steps.issue.outputs.task_id }} из issue #${{ github.event.issue.number }}"
             git commit -m "$MSG"
-            git push
+            # правки из дашборда могут прийти во время сборки — подтягиваем и повторяем
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin main && git push && break
+              sleep $((i * 3))
+            done
           fi
 
       - uses: actions/configure-pages@v5

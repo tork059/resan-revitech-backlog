@@ -164,6 +164,47 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .c-impact{color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:6px}
 .board.b3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .lead{color:var(--muted);font-size:13px;margin:-4px 0 16px;max-width:900px}
+/* ── редактирование ── */
+.btn.ghost{background:transparent}
+.btn.sm{padding:6px 10px;font-size:12.5px}
+.btn.ok{color:var(--ok);border-color:rgba(158,206,106,.45)}
+.btn.danger{color:var(--must);border-color:rgba(247,118,142,.4)}
+.btn[disabled]{opacity:.5;cursor:default}
+.authed #authBtn{color:var(--ok);border-color:rgba(158,206,106,.35)}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.fld.full{grid-column:1/-1}
+.fld>label{font-size:11.5px;color:var(--faint)}
+.fld .req{color:var(--must)}
+.inp{background:var(--bg);border:1px solid var(--border-2);border-radius:8px;padding:8px 10px;font-size:13.5px;outline:none;width:100%;color:var(--text)}
+.inp:focus{border-color:var(--accent)}
+textarea.inp{min-height:78px;resize:vertical;font-family:inherit;line-height:1.5}
+textarea.inp.tall{min-height:120px}
+select.inp{appearance:none;padding-right:26px;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238a93a3' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center}
+input[type=date].inp{color-scheme:dark}
+.f-sec{grid-column:1/-1;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:8px;padding-top:12px;border-top:1px solid var(--border)}
+.f-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap;position:sticky;bottom:-40px;background:var(--surface);padding:12px 0 4px}
+.hint-s{font-size:12px;color:var(--faint);line-height:1.45}
+.panel{margin-top:12px;padding:12px;border:1px solid var(--border-2);border-radius:10px;background:var(--surface-2);display:flex;flex-direction:column;gap:8px}
+.panel .row-btns{display:flex;gap:8px;justify-content:flex-end}
+.journal{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:13px;max-height:160px;overflow:auto}
+.saving{position:relative}
+.saving::after{content:"Сохраняю…";position:absolute;right:22px;top:18px;font-size:12px;color:var(--accent)}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:30;background:rgba(5,7,10,.65);backdrop-filter:blur(2px);padding:16px}
+.modal.on{display:flex}
+.m-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;max-width:560px;width:100%;max-height:90vh;overflow:auto;padding:20px 22px;box-shadow:var(--shadow)}
+.m-box h3{margin:0 0 10px;font-size:17px}
+.m-box ol{padding-left:20px;margin:8px 0 14px;color:var(--muted);font-size:13.5px;line-height:1.6}
+.m-box code{font-family:var(--mono);font-size:12px;background:var(--surface-3);padding:1px 5px;border-radius:5px}
+.err-t{color:var(--must);font-size:13px;min-height:1em}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:all .25s;z-index:40;
+  background:var(--surface-3);border:1px solid var(--border-2);border-radius:10px;padding:10px 14px;font-size:13px;max-width:min(520px,calc(100% - 32px));box-shadow:var(--shadow)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.err{border-color:rgba(247,118,142,.5);color:#ffc4cf}
+.authed .md input[type=checkbox]{cursor:pointer}
+@media (max-width:640px){.form{grid-template-columns:1fr}.m-box{padding:16px}}
 footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 
 @media (max-width:1000px){
@@ -200,6 +241,7 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
       <div class="sub" id="subtitle"></div>
     </div>
     <div class="head-actions">
+      <button class="btn ghost" id="authBtn" type="button">🔑 Войти</button>
       <a class="btn" id="repoLink" target="_blank" rel="noopener">Репозиторий</a>
       <a class="btn primary" id="newLink" target="_blank" rel="noopener">＋ Новая задача</a>
     </div>
@@ -227,6 +269,9 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
   <div class="d-head" id="dHead"></div>
   <div class="d-body"><div class="md" id="dBody"></div></div>
 </aside>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="m-box" id="mBox"></div></div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
 const PCOLOR = {now:'var(--must)', next:'var(--should)', later:'var(--wont)'};
@@ -520,6 +565,434 @@ $('#fSystem').addEventListener('change', e => { S.system = e.target.value; rende
   fillFilters(); render();
   if(location.hash.length > 1) openTask(decodeURIComponent(location.hash.slice(1)));
 })();
+</script>
+<script>
+/* ═══════════════ Режим редактирования (GitHub API) ═══════════════
+   Токен хранится только в браузере этого устройства (localStorage).
+   Без токена дашборд — только просмотр. */
+const GH = {
+  token: null,
+  load(){ try{ this.token = localStorage.getItem('bl-token') || null; }catch(_){ this.token = null; } },
+  save(t){ this.token = t; try{ localStorage.setItem('bl-token', t); }catch(_){} },
+  clear(){ this.token = null; try{ localStorage.removeItem('bl-token'); }catch(_){} },
+  async api(path, opts={}){
+    const headers = {'Accept':'application/vnd.github+json','Authorization':`Bearer ${this.token}`,'X-GitHub-Api-Version':'2022-11-28'};
+    if(opts.body) headers['Content-Type'] = 'application/json';
+    const r = await fetch(`https://api.github.com${path}`, {...opts, headers, cache:'no-store'});
+    let data = null; try{ data = await r.json(); }catch(_){}
+    if(!r.ok){ const e = new Error((data && data.message) || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+    return data;
+  },
+  async getFile(path){
+    const d = await this.api(`/repos/${S.data.repo}/contents/${encPath(path)}?ref=main&t=${Date.now()}`);
+    return {sha: d.sha, text: b64dec(d.content), path: d.path};
+  },
+  async putFile(path, text, message, sha){
+    const body = {message, content: b64enc(text), branch: 'main'}; if(sha) body.sha = sha;
+    const d = await this.api(`/repos/${S.data.repo}/contents/${encPath(path)}`, {method:'PUT', body: JSON.stringify(body)});
+    return d.content.sha;
+  },
+  async tree(){
+    const d = await this.api(`/repos/${S.data.repo}/git/trees/main?recursive=1&t=${Date.now()}`);
+    return d.tree.map(x => x.path);
+  },
+};
+const encPath = p => p.split('/').map(encodeURIComponent).join('/');
+function b64enc(s){ const b = new TextEncoder().encode(s); let bin=''; for(let i=0;i<b.length;i+=0x8000) bin += String.fromCharCode.apply(null, b.subarray(i, i+0x8000)); return btoa(bin); }
+function b64dec(s){ return new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,'')), c => c.charCodeAt(0))); }
+const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+const errText = e => e.status === 401 ? 'токен не принят GitHub (истёк или отозван) — войдите заново'
+  : e.status === 403 ? 'у токена нет права записи (Contents: Read and write) в этот репозиторий'
+  : e.status === 404 ? 'файл не найден — возможно, задача уже перенесена в архив; обновите страницу'
+  : (e.message === 'Failed to fetch' ? 'нет связи с GitHub' : (e.message || 'ошибка'));
+
+/* ── файл задачи: шапка и разделы ── */
+const FM = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
+const ALIAS = {
+  status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','ожидание':'waiting','готово':'done','отменено':'canceled'},
+  priority: {'сейчас':'now','далее':'next','потом':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
+  moscow: {"won't":'wont'},
+  type: {'аналитика':'analysis','разработка':'dev','консультация':'consult','исследование':'research','поддержка':'support'},
+};
+function fmMap(text){
+  const m = FM.exec(text), map = {};
+  if(!m) return map;
+  m[1].split('\n').forEach(l => {
+    const i = l.indexOf(':'); if(i < 0 || /^\s*#/.test(l)) return;
+    map[l.slice(0,i).trim().toLowerCase()] = l.slice(i+1).split(/(?:^|\s)#\s/)[0].trim().replace(/^["']|["']$/g,'');
+  });
+  return map;
+}
+function fmSet(text, key, value){
+  const m = FM.exec(text); const lines = m[1].split('\n');
+  value = String(value ?? '').replace(/[\r\n]+/g,' ').replace(/\s#\s/g,' #').trim();
+  let done = false;
+  for(let i=0;i<lines.length;i++){
+    if(new RegExp('^' + key + '\\s*:').test(lines[i])){
+      let nl = value ? `${key}: ${value}` : `${key}:`;
+      const cm = /\s(#\s.*)$/.exec(lines[i]);
+      if(cm && nl.length <= 30) nl = nl.padEnd(20) + ' ' + cm[1];
+      lines[i] = nl; done = true; break;
+    }
+  }
+  if(!done) lines.push(value ? `${key}: ${value}` : `${key}:`);
+  return '---\n' + lines.join('\n') + '\n---\n' + text.slice(m[0].length);
+}
+function bodyOf(text){ const m = FM.exec(text); return m ? text.slice(m[0].length) : text; }
+function headOf(text){ const m = FM.exec(text); return m ? m[0].replace(/\n?$/,'\n') : ''; }
+function secParse(body){
+  const parts = body.split(/^## (.+)$/m), secs = [];
+  for(let i=1;i<parts.length;i+=2) secs.push({name: parts[i].trim(), content: (parts[i+1]||'').replace(/^\n+/,'').replace(/\s+$/,'')});
+  return {pre: parts[0].trim(), secs};
+}
+function secBuild(p){ return '\n' + (p.pre ? p.pre + '\n\n' : '') + p.secs.map(s => (`## ${s.name}\n` + s.content).trimEnd()).join('\n\n') + '\n'; }
+function secGet(text, name){ const s = secParse(bodyOf(text)).secs.find(x => x.name === name); return s ? s.content : ''; }
+function secSet(text, name, content){
+  const p = secParse(bodyOf(text)); const s = p.secs.find(x => x.name === name);
+  if(s) s.content = content.trim();
+  else if(content.trim()){
+    const j = p.secs.findIndex(x => x.name === 'Журнал');
+    const ns = {name, content: content.trim()};
+    j >= 0 ? p.secs.splice(j, 0, ns) : p.secs.push(ns);
+  }
+  return headOf(text) + secBuild(p);
+}
+function journalAdd(text, line){
+  const p = secParse(bodyOf(text)); let j = p.secs.find(x => x.name === 'Журнал');
+  if(!j){ j = {name:'Журнал', content:''}; p.secs.push(j); }
+  j.content = (j.content ? j.content + '\n' : '') + `- ${todayISO()} — ${line}`;
+  return headOf(text) + secBuild(p);
+}
+function toggleCheck(text, idx, on){
+  let i = -1; const head = headOf(text);
+  const body = bodyOf(text).replace(/^(\s*[-*+] )\[( |x|X)\]/gm, (m, a) => (++i === idx) ? `${a}[${on ? 'x' : ' '}]` : m);
+  return head + body;
+}
+function taskFromText(text, path){
+  const m = fmMap(text), t = {};
+  ['id','title','status','priority','order','moscow','impact','type','project','system','initiator','created','deadline','estimate','bitrix','closed']
+    .forEach(k => { let v = m[k] || ''; if(ALIAS[k]) v = ALIAS[k][v.toLowerCase()] || v.toLowerCase(); t[k] = v; });
+  t.tags = (m.tags || '').replace(/^\[|\]$/g,'').split(',').map(x => x.trim()).filter(Boolean);
+  t.body = bodyOf(text).trim(); t.path = path;
+  if(!S.data.labels.status[t.status]) t.status = 'inbox';
+  if(!S.data.labels.priority[t.priority]) t.priority = 'next';
+  return t;
+}
+const TR = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'};
+const slugify = s => ([...s.toLowerCase()].map(c => TR[c] ?? c).join('').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48).replace(/-$/,'') || 'task');
+
+/* ── UI-помощники ── */
+let toastTimer;
+function toast(msg, err){ const el = $('#toast'); el.textContent = msg; el.className = 'toast on' + (err ? ' err' : ''); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.className = 'toast', err ? 7000 : 4200); }
+const opt = (obj, cur, label=(k,v)=>v) => Object.entries(obj).map(([k,v]) => `<option value="${esc(k)}"${k===cur?' selected':''}>${esc(label(k,v))}</option>`).join('');
+function setAuthUI(){
+  document.body.classList.toggle('authed', !!GH.token);
+  $('#authBtn').textContent = GH.token ? '✓ Редактирование' : '🔑 Войти';
+  $('#authBtn').title = GH.token ? 'Режим редактирования включён. Нажмите, чтобы выйти.' : 'Включить режим редактирования';
+}
+function closeModal(){ $('#modal').classList.remove('on'); }
+
+/* ── вход / выход ── */
+function openAuth(){
+  if(!S.data) return;
+  if(GH.token){
+    $('#mBox').innerHTML = `<h3>Режим редактирования включён</h3>
+      <p class="hint-s">Токен сохранён только в этом браузере. Выйдите, если это общий или чужой компьютер.</p>
+      <div class="f-actions" style="position:static"><button class="btn" data-m="close">Закрыть</button><button class="btn danger" data-m="logout">Выйти и удалить токен</button></div>`;
+  } else {
+    $('#mBox').innerHTML = `<h3>🔑 Режим редактирования</h3>
+      <p class="hint-s">Нужен персональный токен GitHub с доступом только к этому репозиторию. Создаётся один раз, на каждом устройстве вставляется один раз.</p>
+      <ol>
+        <li>Откройте <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Fine-grained tokens → Generate new token ↗</a></li>
+        <li><b>Token name</b>: <code>Бэклог — дашборд</code>, <b>Expiration</b>: 90 дней или свой срок</li>
+        <li><b>Repository access</b> → <i>Only select repositories</i> → <code>${esc(S.data.repo.split('/')[1])}</code></li>
+        <li><b>Permissions → Repository permissions → Contents</b> → <i>Read and write</i></li>
+        <li><b>Generate token</b>, скопируйте его (начинается с <code>github_pat_</code>) и вставьте ниже</li>
+      </ol>
+      <div class="fld"><label>Токен</label><input class="inp" id="tokIn" type="password" autocomplete="off" placeholder="github_pat_…"></div>
+      <div class="err-t" id="tokErr"></div>
+      <p class="hint-s">Токен хранится только в этом браузере, никуда не отправляется, кроме GitHub, и не попадает в репозиторий. Не вводите его на общих компьютерах.</p>
+      <div class="f-actions" style="position:static"><button class="btn" data-m="close">Отмена</button><button class="btn primary" data-m="login">Проверить и войти</button></div>`;
+    setTimeout(() => $('#tokIn') && $('#tokIn').focus(), 50);
+  }
+  $('#modal').classList.add('on');
+}
+async function doLogin(){
+  const tok = ($('#tokIn').value || '').trim(); if(!tok){ $('#tokErr').textContent = 'Вставьте токен'; return; }
+  $('#tokErr').textContent = 'Проверяю…'; GH.token = tok;
+  try{
+    const r = await GH.api(`/repos/${S.data.repo}`);
+    if(r.permissions && r.permissions.push === false) throw Object.assign(new Error('У этого аккаунта нет права записи в репозиторий'), {status: 0});
+    GH.save(tok); setAuthUI(); closeModal(); render();
+    toast('Режим редактирования включён');
+    if(S.openId) openTask(S.openId);
+  }catch(e){ GH.token = null; $('#tokErr').textContent = e.status === 401 ? 'GitHub не принял токен — проверьте, что скопирован целиком' : errText(e); }
+}
+$('#authBtn').addEventListener('click', openAuth);
+$('#modal').addEventListener('click', e => {
+  const a = e.target.closest('[data-m]'); if(e.target.id === 'modal') return closeModal(); if(!a) return;
+  if(a.dataset.m === 'close') closeModal();
+  if(a.dataset.m === 'login') doLogin();
+  if(a.dataset.m === 'logout'){ GH.clear(); setAuthUI(); closeModal(); render(); if(S.openId) openTask(S.openId); toast('Вы вышли, токен удалён из браузера'); }
+});
+$('#modal').addEventListener('keydown', e => { if(e.key === 'Enter' && e.target.id === 'tokIn') doLogin(); });
+
+/* ── загрузка актуальной версии и сохранение ── */
+S.edit = null; S.mode = 'view'; S.busy = false;
+async function findPath(id){ return (await GH.tree()).find(p => new RegExp(`^(tasks|archive/\\d+)/${id}-[^/]*\\.md$`).test(p)); }
+async function loadFresh(t){
+  let f;
+  try{ f = await GH.getFile(t.path); }
+  catch(e){ if(e.status !== 404) throw e; const p = await findPath(t.id); if(!p) throw e; f = await GH.getFile(p); }
+  return {id: t.id, path: f.path, sha: f.sha, text: f.text};
+}
+function applyLocal(path, text){
+  const nt = taskFromText(text, path), i = S.data.tasks.findIndex(x => x.id === nt.id);
+  if(i >= 0) S.data.tasks[i] = nt; else S.data.tasks.push(nt);
+  fillFilters(); render();
+  return nt;
+}
+async function commit(mutate, message){
+  const E = S.edit;
+  for(let attempt = 0; attempt < 3; attempt++){
+    const next = mutate(E.text);
+    if(next === E.text) return false;
+    try{ E.sha = await GH.putFile(E.path, next, message, E.sha); E.text = next; applyLocal(E.path, next); return true; }
+    catch(e){
+      if(e.status === 409 || e.status === 422){ const f = await GH.getFile(E.path); E.sha = f.sha; E.text = f.text; continue; }
+      throw e;
+    }
+  }
+  throw new Error('Файл одновременно меняется в другом месте — обновите страницу');
+}
+async function run(fn, okMsg){
+  if(S.busy) return; S.busy = true; $('#drawer').classList.add('saving');
+  $('#drawer').querySelectorAll('button').forEach(b => b.disabled = true);
+  try{ const changed = await fn(); if(changed !== false) toast(okMsg || 'Сохранено. README и дашборд обновятся через ~1 минуту'); return true; }
+  catch(e){ toast('Не сохранилось: ' + errText(e), true); return false; }
+  finally{ S.busy = false; $('#drawer').classList.remove('saving'); $('#drawer').querySelectorAll('button').forEach(b => b.disabled = false); }
+}
+
+/* ── просмотр задачи: быстрые действия и чек-лист ── */
+const _openTask = openTask, _closeTask = closeTask;
+openTask = function(id){
+  S.mode = 'view'; S.openId = id;
+  _openTask(id);
+  if(!GH.token) return;
+  const t = S.data.tasks.find(x => x.id === id); if(!t) return;
+  decorate(t);
+  loadFresh(t).then(E => {
+    if(S.openId !== id || S.mode !== 'view') return;
+    S.edit = E;
+    const nt = applyLocal(E.path, E.text);   // показать актуальную версию из репозитория
+    _openTask(id); decorate(nt);
+  }).catch(e => toast('Не удалось загрузить актуальную версию: ' + errText(e), true));
+};
+closeTask = function(){
+  if(S.mode !== 'view' && S.dirty){ toast('Есть несохранённые изменения — нажмите «Сохранить» или «Отмена»'); return; }
+  S.mode = 'view'; S.newMode = false; S.openId = null; _closeTask();
+};
+
+function decorate(t){
+  const act = $('#dHead .d-actions'); if(!act) return;
+  const ed = act.querySelector('a[href*="/edit/"]'); if(ed) ed.remove();
+  const closed = t.status === 'done' || t.status === 'canceled';
+  const q = [];
+  if(!closed && t.status !== 'in-progress') q.push(['start','▶ В работу','']);
+  if(!closed && t.status !== 'waiting') q.push(['wait','⏳ Ожидание','']);
+  if(!closed) q.push(['done','✓ Готово','ok'], ['cancel','✕ Отменить','danger']);
+  if(closed) q.push(['reopen','↺ Вернуть в работу','']);
+  act.insertAdjacentHTML('afterbegin', `<button class="btn primary" data-act="edit">✎ Изменить</button>` +
+    q.map(([k,l,c]) => `<button class="btn sm ${c}" data-act="${k}">${l}</button>`).join(''));
+  act.insertAdjacentHTML('afterend', `<div id="actPanel"></div>`);
+  if(!closed) $('#dBody').querySelectorAll('input[type=checkbox]').forEach((c, i) => { c.disabled = false; c.dataset.ci = i; });
+}
+function panel(kind){
+  const cfg = {
+    wait: ['Кого или чего ждём? (запишется в журнал)', 'Поставить на ожидание'],
+    done: ['Итог: что сделано (запишется в журнал)', 'Закрыть как выполненную'],
+    cancel: ['Причина отмены (запишется в журнал)', 'Отменить задачу'],
+  }[kind];
+  $('#actPanel').innerHTML = `<div class="panel"><label class="hint-s">${cfg[0]}</label>
+    <textarea class="inp" id="pTxt" rows="2"></textarea>
+    <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-${kind}">${cfg[1]}</button></div></div>`;
+  $('#pTxt').focus();
+}
+const STATUS_MSG = {'in-progress':'взята в работу', waiting:'на ожидании', done:'выполнена', canceled:'отменена', backlog:'возвращена в бэклог'};
+async function setStatus(status, note){
+  const L = S.data.labels;
+  const ok = await run(() => commit(tx => {
+    const cur = taskFromText(tx, S.edit.path);
+    let n = fmSet(tx, 'status', status);
+    if(status === 'done' || status === 'canceled'){ if(!cur.closed) n = fmSet(n, 'closed', todayISO()); }
+    else if(cur.closed) n = fmSet(n, 'closed', '');
+    return journalAdd(n, `статус: ${L.status[cur.status]} → ${L.status[status]}${note ? '. ' + note : ''}`);
+  }, `${S.edit.id}: ${STATUS_MSG[status] || status} (дашборд)`),
+  status === 'done' || status === 'canceled' ? 'Сохранено. Задача уедет в архив после пересборки (~1 минута)' : undefined);
+  if(ok) openTask(S.edit.id);
+}
+$('#drawer').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if(!b || S.busy) return;
+  const a = b.dataset.act;
+  if(!S.edit && !['pclose','cancel-form','save-new'].includes(a)){ toast('Загружаю актуальную версию задачи — повторите через секунду'); return; }
+  if(a === 'edit') return openEdit();
+  if(a === 'start') return setStatus('in-progress');
+  if(a === 'reopen') return setStatus('in-progress');
+  if(a === 'wait' || a === 'done' || a === 'cancel') return panel(a);
+  if(a === 'pclose') return $('#actPanel').innerHTML = '';
+  if(a.startsWith('p-')){ const note = $('#pTxt').value.trim(); return setStatus({'p-wait':'waiting','p-done':'done','p-cancel':'canceled'}[a], note); }
+  if(a === 'cancel-form'){ S.dirty = false; S.mode = 'view'; return S.newMode ? (S.newMode = false, _closeTask()) : openTask(S.openId); }
+  if(a === 'save-edit') return saveEdit();
+  if(a === 'save-new') return saveNew();
+});
+$('#dBody').addEventListener('change', e => {
+  const c = e.target; if(c.type !== 'checkbox' || c.dataset.ci === undefined || !S.edit) return;
+  const i = +c.dataset.ci, on = c.checked, label = (c.parentElement.textContent || '').trim().slice(0, 60);
+  run(() => commit(tx => toggleCheck(tx, i, on), `${S.edit.id}: ${on ? '✓' : '☐'} ${label} (дашборд)`), on ? 'Пункт отмечен' : 'Отметка снята')
+    .then(ok => { if(!ok) c.checked = !on; });
+});
+
+/* ── форма: поля задачи ── */
+const STD_SECS = ['Суть','Контекст','Что сделать','Критерии готовности','Материалы'];
+function formFields(t, isNew){
+  const L = S.data.labels, P = S.data.projects || {};
+  const f = (k, label, html, full) => `<div class="fld${full?' full':''}"><label for="f_${k}">${label}</label>${html}</div>`;
+  const inp = (k, v, attrs='') => `<input class="inp" id="f_${k}" value="${esc(v||'')}" ${attrs}>`;
+  const sel = (k, obj, cur, lbl, empty) => `<select class="inp" id="f_${k}">${empty!==undefined?`<option value="">${empty}</option>`:''}${opt(obj, cur, lbl)}</select>`;
+  const statuses = isNew ? {inbox:L.status.inbox, backlog:L.status.backlog, 'in-progress':L.status['in-progress']} : L.status;
+  return [
+    f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
+    f('status', 'Статус', sel('status', statuses, t.status)),
+    f('priority', 'Горизонт — когда возьмусь', sel('priority', L.priority, t.priority, (k,v)=>`${v[0]} — ${v[1]}`)),
+    f('order', 'Очерёдность в горизонте', inp('order', t.order, 'type="number" min="1" placeholder="пусто — без номера"')),
+    f('deadline', 'Срок', inp('deadline', t.deadline, 'type="date"')),
+    f('moscow', 'MoSCoW — влияние на бизнес', sel('moscow', L.moscow, t.moscow, (k,v)=>`${v[0]} — ${v[1]}`, 'Не оценено')),
+    f('project', 'Проект', sel('project', Object.fromEntries(Object.entries(P).map(([k,v])=>[k,v.name])), t.project, undefined, 'Без проекта')),
+    f('impact', 'Чем задача важна для системы и бизнеса (одна фраза)', inp('impact', t.impact), true),
+    f('type', 'Тип', sel('type', L.type, t.type, undefined, '—')),
+    f('system', 'Система', inp('system', t.system, 'placeholder="1С:УТ, 1С:БП, Битрикс24…" list="dlSystems"')),
+    f('initiator', 'Инициатор', inp('initiator', t.initiator, 'placeholder="Кто поставил задачу"')),
+    f('estimate', 'Оценка', inp('estimate', t.estimate, 'placeholder="2h, 1d, 3d"')),
+    f('bitrix', 'Ссылка на Битрикс', inp('bitrix', t.bitrix, 'placeholder="https://…"')),
+    f('tags', 'Теги через запятую', inp('tags', (t.tags||[]).join(', '))),
+    `<datalist id="dlSystems">${[...new Set(S.data.tasks.map(x=>x.system).filter(Boolean))].map(s=>`<option value="${esc(s)}">`).join('')}</datalist>`,
+  ].join('');
+}
+function readFields(){
+  const v = k => ($('#f_' + k) ? $('#f_' + k).value : '').trim();
+  const tags = v('tags').split(',').map(x => x.trim()).filter(Boolean);
+  return {title:v('title'), status:v('status'), priority:v('priority'), order:v('order'), deadline:v('deadline'), moscow:v('moscow'),
+    project:v('project'), impact:v('impact'), type:v('type'), system:v('system'), initiator:v('initiator'), estimate:v('estimate'),
+    bitrix:v('bitrix'), tags: `[${tags.join(', ')}]`};
+}
+function formShell(title, sub, inner, saveAct, saveLabel){
+  $('#dHead').innerHTML = `<div class="d-top"><span class="id">${esc(sub)}</span><button class="d-close" id="dClose" aria-label="Закрыть">×</button></div>
+    <div class="d-title">${esc(title)}</div>`;
+  $('#dBody').innerHTML = `<div class="form" id="eForm">${inner}</div>
+    <div class="f-actions"><button class="btn" data-act="cancel-form">Отмена</button><button class="btn primary" data-act="${saveAct}">${saveLabel}</button></div>`;
+  $('#dClose').onclick = () => { S.dirty = false; S.mode = 'view'; if(S.newMode){ S.newMode = false; _closeTask(); } else openTask(S.openId); };
+  $('#eForm').addEventListener('input', () => S.dirty = true);
+  $('.d-body').scrollTop = 0;
+}
+
+/* ── изменение задачи ── */
+function openEdit(){
+  const E = S.edit, t = taskFromText(E.text, E.path);
+  S.mode = 'edit'; S.dirty = false;
+  const secs = secParse(bodyOf(E.text)).secs;
+  const names = [...STD_SECS, ...secs.map(s => s.name).filter(n => !STD_SECS.includes(n) && n !== 'Журнал')];
+  const journal = (secs.find(s => s.name === 'Журнал') || {content:''}).content.split('\n').filter(Boolean);
+  const inner = formFields(t, false) +
+    `<div class="f-sec">Описание</div>` +
+    names.map((n, i) => `<div class="fld full"><label for="s_${i}">${esc(n)}${n==='Что сделать'?' <span class="hint-s">— строки вида «- [ ] шаг»</span>':''}</label>
+      <textarea class="inp${['Контекст','Что сделать'].includes(n)?' tall':''}" id="s_${i}" data-sec="${esc(n)}">${esc(secGet(E.text, n))}</textarea></div>`).join('') +
+    `<div class="f-sec">Журнал</div>
+     <div class="fld full"><ul class="journal">${journal.map(l => `<li>${esc(l.replace(/^- /,''))}</li>`).join('') || '<li>пусто</li>'}</ul></div>
+     <div class="fld full"><label for="f_jnew">Новая запись в журнал (дата подставится сама)</label><input class="inp" id="f_jnew" placeholder="Например: согласовали с Эврисофт созвон на среду"></div>
+     <p class="hint-s full" style="grid-column:1/-1">Смена статуса, горизонта, MoSCoW, срока и очерёдности запишется в журнал автоматически.</p>`;
+  formShell(t.title, `${t.id} · редактирование`, inner, 'save-edit', 'Сохранить');
+}
+async function saveEdit(){
+  const E = S.edit, before = taskFromText(E.text, E.path), F = readFields(), L = S.data.labels;
+  if(!F.title){ toast('Название не может быть пустым', true); return; }
+  const secVals = [...$('#dBody').querySelectorAll('textarea[data-sec]')].map(x => [x.dataset.sec, x.value]);
+  const origSecs = Object.fromEntries(secVals.map(([n]) => [n, secGet(E.text, n)]));
+  const jnew = ($('#f_jnew').value || '').trim();
+  const lbl = {
+    status: v => L.status[v] || v || '—', priority: v => (L.priority[v]||[v])[0] || '—', moscow: v => (L.moscow[v]||[v])[0] || 'не оценено',
+    deadline: v => v ? v.split('-').reverse().join('.') : '—', order: v => v ? '#' + v : '—',
+  };
+  const names = {status:'статус', priority:'горизонт', moscow:'MoSCoW', deadline:'срок', order:'очерёдность'};
+  const changes = Object.keys(names).filter(k => (before[k]||'') !== (F[k]||'')).map(k => `${names[k]}: ${lbl[k](before[k])} → ${lbl[k](F[k])}`);
+  const ok = await run(() => commit(tx => {
+    const cur = taskFromText(tx, E.path); let n = tx;
+    for(const [k, v] of Object.entries(F)){
+      const was = k === 'tags' ? `[${(before.tags||[]).join(', ')}]` : (before[k] || '');
+      if(v !== was) n = fmSet(n, k, v);
+    }
+    if(F.status !== before.status){
+      if((F.status === 'done' || F.status === 'canceled') && !cur.closed) n = fmSet(n, 'closed', todayISO());
+      if(!(F.status === 'done' || F.status === 'canceled') && cur.closed) n = fmSet(n, 'closed', '');
+    }
+    for(const [name, val] of secVals) if(val.trim() !== origSecs[name].trim()) n = secSet(n, name, val);
+    if(changes.length) n = journalAdd(n, changes.join('; '));
+    if(jnew) n = journalAdd(n, jnew);
+    return n;
+  }, `${E.id}: правка через дашборд`));
+  if(ok){ S.dirty = false; openTask(E.id); }
+}
+
+/* ── новая задача ── */
+function openCreate(){
+  S.mode = 'create'; S.newMode = true; S.dirty = false; S.openId = null; S.edit = null;
+  const inner = formFields({status:'backlog', priority:'next'}, true) +
+    `<div class="f-sec">Описание</div>
+     <div class="fld full"><label for="n_sut">Суть — что нужно получить в итоге</label><textarea class="inp" id="n_sut"></textarea></div>
+     <div class="fld full"><label for="n_ctx">Контекст — откуда пришло, зачем бизнесу</label><textarea class="inp tall" id="n_ctx"></textarea></div>
+     <div class="fld full"><label for="n_todo">Что сделать — каждый шаг с новой строки</label><textarea class="inp tall" id="n_todo" placeholder="Связаться с подрядчиком&#10;Запросить правила обмена"></textarea></div>
+     <div class="fld full"><label for="n_done">Критерии готовности</label><textarea class="inp" id="n_done"></textarea></div>
+     <div class="fld full"><label for="n_mat">Материалы — ссылки, файлы, контакты</label><textarea class="inp" id="n_mat"></textarea></div>`;
+  formShell('Новая задача', 'номер присвоится при сохранении', inner, 'save-new', 'Создать задачу');
+  $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden','false');
+  setTimeout(() => $('#f_title').focus(), 60);
+}
+async function saveNew(){
+  const F = readFields(); if(!F.title){ toast('Заполните название', true); $('#f_title').focus(); return; }
+  const v = id => ($('#' + id).value || '').trim();
+  const lines = s => s.split('\n').map(x => x.trim()).filter(Boolean);
+  let created = null;
+  const ok = await run(async () => {
+    const [paths, tpl] = await Promise.all([GH.tree(), GH.getFile('templates/task.md')]);
+    const pref = (S.data.config.id_prefix || 'BL');
+    let num = Math.max(0, ...paths.map(p => { const m = new RegExp(`/${pref}-(\\d+)`).exec(p); return m ? +m[1] : 0; })) + 1;
+    let head = headOf(tpl.text);
+    const vals = {...F, created: todayISO(), closed: ''};
+    for(const [k, val] of Object.entries(vals)) head = fmSet(head, k, val);
+    const secs = [
+      ['Суть', v('n_sut')], ['Контекст', v('n_ctx')],
+      ['Что сделать', lines(v('n_todo')).map(x => x.replace(/^[-*]\s*(\[[ xX]\]\s*)?/, '')).map(x => `- [ ] ${x}`).join('\n')],
+      ['Критерии готовности', lines(v('n_done')).map(x => x.startsWith('-') ? x : `- ${x}`).join('\n')],
+      ['Материалы', lines(v('n_mat')).map(x => x.startsWith('-') ? x : `- ${x}`).join('\n')],
+    ].filter(([, c]) => c).map(([name, content]) => ({name, content}));
+    secs.push({name:'Журнал', content:`- ${todayISO()} — задача заведена (дашборд)`});
+    for(let attempt = 0; attempt < 5; attempt++, num++){
+      const id = `${pref}-${String(num).padStart(3,'0')}`;
+      const text = headOf(fmSet(head, 'id', id)) + secBuild({pre:'', secs});
+      const path = `tasks/${id}-${slugify(F.title)}.md`;
+      try{ const sha = await GH.putFile(path, text, `${id}: новая задача (дашборд)`); created = {id, path, sha, text}; break; }
+      catch(e){ if(e.status === 422) continue; throw e; }
+    }
+    if(!created) throw new Error('Не удалось подобрать свободный номер задачи');
+    applyLocal(created.path, created.text);
+  }, 'Задача создана. README и дашборд обновятся через ~1 минуту');
+  if(ok && created){ S.dirty = false; S.newMode = false; S.edit = created; openTask(created.id); }
+}
+
+/* ── кнопка «＋ Новая задача» ── */
+$('#newLink').addEventListener('click', e => { if(!GH.token || !S.data) return; e.preventDefault(); openCreate(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && $('#modal').classList.contains('on')){ e.stopPropagation(); closeModal(); } }, true);
+
+GH.load(); setAuthUI();
 </script>
 </body>
 </html>

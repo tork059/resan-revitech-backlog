@@ -336,7 +336,7 @@ def render_readme(tasks: list[dict]) -> str:
     L: list[str] = []
     L += ['<div align="center">', "", f"# {CONFIG['title']}", "", f"{CONFIG['subtitle']}", ""]
     L += [f"**[Дашборд]({dashboard_url()})** · [Архив](archive/README.md) · "
-          f"[Как вести бэклог](docs/GUIDE.md) · "
+          f"[Инструкция](docs/GUIDE.md) · "
           f"[＋ Новая задача](https://github.com/{repo}/issues/new?template=task.yml)", ""]
     L += [" ".join([
         badge("в работе", len(in_work), "7aa2f7"),

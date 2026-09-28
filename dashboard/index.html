@@ -364,7 +364,7 @@ function render(){
     html = groups.map(([name,c,fn]) => {
       const arr = active.filter(fn).sort(byDeadline);
       if(!arr.length) return '';
-      return section(name, c, arr, `<div class="list">${arr.map(row).join('')}</div>`);
+      return section(name, c, arr, `<div class="list">${arr.map(t=>row(t)).join('')}</div>`);
     }).join('') || `<div class="empty">Нет активных задач</div>`;
   }
   else if(S.tab === 'archive'){

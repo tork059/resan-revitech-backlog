@@ -6,26 +6,32 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
+![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
 
-<sub>Сводка собрана автоматически 28.09.2026 · не редактируйте этот файл вручную</sub>
+<sub>Сводка собрана автоматически 29.09.2026 · не редактируйте этот файл вручную</sub>
 
 </div>
+
+> [!CAUTION]
+> **Горит — срок истёк или наступает в ближайшие 3 дн.**
+>
+> - `BL-027` [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) — 02.10 · 🟠 через 3 дн.
+> - `BL-031` [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) — 02.10 · 🟠 через 3 дн.
 
 ## 📁 Проекты
 
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
-| **Автоматизация бухгалтерии** | `▱▱▱▱▱▱▱▱▱▱` 0/13 | 13 | `BL-001` 03.10 · 🟡 через 5 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
-| **Оптимизация 1С:УТ** | `▱▱▱▱▱▱▱▱▱▱` 0/18 | 18 | `BL-027` 02.10 · 🟡 через 4 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
+| **Автоматизация бухгалтерии** | `▱▱▱▱▱▱▱▱▱▱` 0/13 | 13 | `BL-001` 03.10 · 🟡 через 4 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
+| **Оптимизация 1С:УТ** | `▱▱▱▱▱▱▱▱▱▱` 0/18 | 18 | `BL-027` 02.10 · 🟠 через 3 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
 
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
-| `BL-031` | [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) | 🔴 Сейчас | 02.10 · 🟡 через 4 дн. | 🟥 Must | Оптимизация УТ |
-| `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | 🔴 Сейчас | 02.10 · 🟡 через 4 дн. | 🟧 Should | Оптимизация УТ |
-| `BL-001` | [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) | 🔴 Сейчас | 03.10 · 🟡 через 5 дн. | 🟧 Should | Бухгалтерия |
+| `BL-031` | [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) | 🔴 Сейчас | 02.10 · 🟠 через 3 дн. | 🟥 Must | Оптимизация УТ |
+| `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | 🔴 Сейчас | 02.10 · 🟠 через 3 дн. | 🟧 Should | Оптимизация УТ |
+| `BL-001` | [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) | 🔴 Сейчас | 03.10 · 🟡 через 4 дн. | 🟧 Should | Бухгалтерия |
 
 ## 🗂 Бэклог по горизонту
 
@@ -35,16 +41,16 @@
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | 12.10 · через 14 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
+| `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | 12.10 · через 13 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 | `BL-032` | [Создать тестовую базу — полный слепок рабочей УТ, закреплённый за нами](tasks/BL-032-sozdat-testovuyu-bazu-polnyy-slepok-rabochey-ut.md) | — | 🟥 Must | Оптимизация УТ | 1С:УТ, СУБД |
-| `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | 05.10 · 🟡 через 7 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
+| `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | 05.10 · 🟡 через 6 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 
 ### 🟠 Далее — ближайший месяц · 10
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-026` | [Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)](tasks/BL-026-nagruzochnyy-audit-zhurnalov-zakazy-pokupatelya.md) | 12.10 · через 14 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ · trade_blinan |
-| `BL-029` | [Обработка очистки дублей контрагентов](tasks/BL-029-obrabotka-ochistki-dubley-kontragentov.md) | 12.10 · через 14 дн. | 🟧 Should | — | 1С:УТ |
+| `BL-026` | [Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)](tasks/BL-026-nagruzochnyy-audit-zhurnalov-zakazy-pokupatelya.md) | 12.10 · через 13 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ · trade_blinan |
+| `BL-029` | [Обработка очистки дублей контрагентов](tasks/BL-029-obrabotka-ochistki-dubley-kontragentov.md) | 12.10 · через 13 дн. | 🟧 Should | — | 1С:УТ |
 | `BL-014` | [К1-0 · Замер ожиданий на управляемых блокировках (базовая линия)](tasks/BL-014-k1-0-zamer-ozhidaniy-na-upravlyaemyh-blokirovkah.md) | — | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-015` | [К1 · Быстрые правки расписаний: К1-3, К1-4, К1-6](tasks/BL-015-k1-bystrye-pravki-raspisaniy-k1-3-k1-4-k1-6.md) | — | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-017` | [К1-7, К1-8 · Закрыть «зомби»-задания и задать ограничение длительности](tasks/BL-017-k1-7-k1-8-zakryt-zombi-zadaniya-i-zadat-ogranich.md) | — | 🟥 Must | Оптимизация УТ | 1С:УТ |
@@ -144,7 +150,7 @@ _Пусто_
 
 | ID | Задача | Горизонт | Срок | Проект |
 |:--|:--|:--|:--|:--|
-| `BL-020` | [К1-11 · Битрикс и Insales на дельта-обмен](tasks/BL-020-k1-11-bitriks-i-insales-na-delta-obmen.md) | 🟠 Далее | 12.10 · через 14 дн. | Оптимизация УТ |
+| `BL-020` | [К1-11 · Битрикс и Insales на дельта-обмен](tasks/BL-020-k1-11-bitriks-i-insales-na-delta-obmen.md) | 🟠 Далее | 12.10 · через 13 дн. | Оптимизация УТ |
 | `BL-016` | [К1 · Дневные выгрузки Insales и остатки (К1-2, К1-5)](tasks/BL-016-k1-dnevnye-vygruzki-bitriks-insales-i-ostatki-k1.md) | 🟠 Далее | — | Оптимизация УТ |
 
 ## 📥 Входящие · 0

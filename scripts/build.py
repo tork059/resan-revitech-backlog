@@ -51,7 +51,8 @@ TYPES = {
     "research": "Исследование",
     "support": "Поддержка",
 }
-FIELDS = ["id", "title", "status", "priority", "type", "system", "initiator",
+PROJECTS = CONFIG.get("projects", {})
+FIELDS = ["id", "title", "status", "priority", "type", "project", "system", "initiator",
           "created", "deadline", "estimate", "bitrix", "tags", "closed"]
 
 # Русские синонимы — чтобы при ручной правке можно было писать по-русски.
@@ -131,6 +132,8 @@ def validate(t: dict) -> None:
         if t.get("priority"):
             WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}`, считаю Should")
         t["priority"] = "should"
+    if t.get("project") and t["project"] not in PROJECTS:
+        WARNINGS.append(f"{where} — неизвестный проект `{t['project']}` (список — в backlog.json)")
     if t.get("type") and t["type"] not in TYPES:
         WARNINGS.append(f"{where} — неизвестный тип `{t['type']}`")
     for key in ("created", "deadline", "closed"):
@@ -282,7 +285,7 @@ def prio(t: dict) -> str:
 def table(rows: list[dict], cols: list[str]) -> str:
     heads = {"id": "ID", "title": "Задача", "prio": "Приоритет", "deadline": "Срок",
              "type": "Тип", "system": "Система", "estimate": "Оценка",
-             "initiator": "Инициатор", "status": "Статус"}
+             "initiator": "Инициатор", "status": "Статус", "project": "Проект"}
     out = ["| " + " | ".join(heads[c] for c in cols) + " |",
            "|" + "|".join(":--" for _ in cols) + "|"]
     for t in rows:
@@ -296,6 +299,7 @@ def table(rows: list[dict], cols: list[str]) -> str:
             "estimate": esc(t.get("estimate") or "—"),
             "initiator": esc(t.get("initiator") or "—"),
             "status": " ".join(reversed(STATUSES[t["status"]])),
+            "project": esc(PROJECTS.get(t.get("project", ""), {}).get("short", "—")),
         }
         out.append("| " + " | ".join(cells[c] for c in cols) + " |")
     return "\n".join(out)
@@ -350,8 +354,24 @@ def render_readme(tasks: list[dict]) -> str:
         L += [f"> - `{t['id']}` {link(t)} — {deadline_cell(t)}" for t in hot]
         L += [""]
 
+    if PROJECTS:
+        L += ["## 📁 Проекты", "", "| Проект | Прогресс | Активных | Ближайший срок | Страница проекта |",
+              "|:--|:--|:--|:--|:--|"]
+        for key, pr in PROJECTS.items():
+            mine = [t for t in tasks if t.get("project") == key]
+            done = sum(t["status"] == "done" for t in mine)
+            total = sum(t["status"] != "canceled" for t in mine)
+            act = [t for t in mine if t["status"] not in CLOSED]
+            nxt = sorted([t for t in act if days_left(t) is not None], key=by_deadline)
+            pct = round(100 * done / total) if total else 0
+            bar = "▰" * round(pct / 10) + "▱" * (10 - round(pct / 10))
+            near = f"`{nxt[0]['id']}` {deadline_cell(nxt[0])}" if nxt else "—"
+            L.append(f"| **{esc(pr['name'])}** | `{bar}` {done}/{total} | {len(act)} | "
+                     f"{near} | [открыть ↗]({pr['url']}) |")
+        L += [""]
+
     L += ["## 🎯 В работе", ""]
-    L += [table(in_work, ["id", "title", "prio", "deadline", "estimate"]) if in_work
+    L += [table(in_work, ["id", "title", "prio", "deadline", "project", "estimate"]) if in_work
           else "_Сейчас ничего не в работе — возьмите задачу из Must._", ""]
 
     L += ["## 🗂 Бэклог по приоритету (MoSCoW)", "",
@@ -359,7 +379,7 @@ def render_readme(tasks: list[dict]) -> str:
     for key, (name, hint, icon) in PRIORITIES.items():
         rows = sorted([t for t in backlog if t["priority"] == key], key=sort_key)
         head = f"### {icon} {name} — {hint} · {len(rows)}"
-        body = table(rows, ["id", "title", "deadline", "type", "system", "estimate"]) if rows else "_Пусто_"
+        body = table(rows, ["id", "title", "deadline", "project", "type", "system"]) if rows else "_Пусто_"
         if key == "wont":
             L += [f"<details><summary><b>{icon} {name} — {hint} · {len(rows)}</b></summary>", "", body, "",
                   "</details>", ""]
@@ -368,7 +388,7 @@ def render_readme(tasks: list[dict]) -> str:
 
     L += [f"## ⏳ Ожидание · {len(waiting)}", "",
           "<sub>Ждём ответа, данных или решения от других.</sub>", ""]
-    L += [table(waiting, ["id", "title", "prio", "deadline", "initiator"]) if waiting else "_Пусто_", ""]
+    L += [table(waiting, ["id", "title", "prio", "deadline", "project"]) if waiting else "_Пусто_", ""]
 
     L += [f"## 📥 Входящие · {len(inbox)}", "",
           "<sub>Ещё не разобраны: нужно уточнить суть, приоритет и срок, затем перевести в `backlog`.</sub>", ""]
@@ -417,6 +437,7 @@ def write_data(tasks: list[dict]) -> None:
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "repo": repo_name(),
         "config": {k: CONFIG[k] for k in ("title", "subtitle", "hot_days", "soon_days")},
+        "projects": PROJECTS,
         "labels": {"status": {k: v[0] for k, v in STATUSES.items()},
                    "priority": {k: [v[0], v[1]] for k, v in PRIORITIES.items()},
                    "type": TYPES},
@@ -446,14 +467,14 @@ def build() -> None:
 
 # ─────────────────────── создание задач ───────────────────────
 def create_task(title: str, priority="should", type_="", system="", initiator="", deadline="",
-                estimate="", bitrix="", status="inbox", tags=None, body="") -> Path:
+                estimate="", bitrix="", status="inbox", tags=None, body="", project="") -> Path:
     tasks = load_tasks()
     WARNINGS.clear()
     tid = next_id(tasks)
     d = parse_date(deadline)
     values = {
         "id": tid, "title": title.strip(), "status": status, "priority": priority,
-        "type": ALIASES["type"].get(type_.lower(), type_.lower()), "system": system,
+        "type": ALIASES["type"].get(type_.lower(), type_.lower()), "project": project, "system": system,
         "initiator": initiator, "created": today().isoformat(),
         "deadline": d.isoformat() if d else "", "estimate": estimate, "bitrix": bitrix,
         "tags": "[" + ", ".join(tags or []) + "]", "closed": "",
@@ -477,7 +498,7 @@ def create_task(title: str, priority="should", type_="", system="", initiator=""
 ISSUE_FIELDS = {
     "название": "title", "суть и контекст": "body", "приоритет": "priority", "тип": "type",
     "система": "system", "инициатор": "initiator", "срок": "deadline", "оценка": "estimate",
-    "ссылка на битрикс": "bitrix", "статус": "status",
+    "ссылка на битрикс": "bitrix", "статус": "status", "проект": "project",
 }
 
 
@@ -498,6 +519,7 @@ def from_issue(event_path: str) -> None:
     prio_raw = vals.get("priority", "Should").lower().replace("won't", "wont")
     type_raw = vals.get("type", "")
     type_key = next((k for k, name in TYPES.items() if type_raw.lower().startswith(name.lower())), "")
+    proj = next((k for k, p in PROJECTS.items() if vals.get("project", "").strip() == p["name"]), "")
     status = "backlog" if vals.get("status", "").lower().startswith("бэклог") else "inbox"
     body = vals.get("body", "")
     body = f"## Суть\n{body}\n\n## Что сделать\n- [ ] \n\n## Критерии готовности\n- \n\n## Материалы\n- Создано из [issue #{issue['number']}]({issue['html_url']})"
@@ -506,7 +528,7 @@ def from_issue(event_path: str) -> None:
         priority=pick(prio_raw, PRIORITIES) or "should", type_=type_key,
         system=vals.get("system", ""), initiator=vals.get("initiator", ""),
         deadline=vals.get("deadline", ""), estimate=vals.get("estimate", ""),
-        bitrix=vals.get("bitrix", ""), status=status, body=body,
+        bitrix=vals.get("bitrix", ""), status=status, body=body, project=proj,
     )
     tid = path.name.split("-")[0] + "-" + path.name.split("-")[1]
     if out := os.environ.get("GITHUB_OUTPUT"):
@@ -519,7 +541,7 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd")
     n = sub.add_parser("new")
     n.add_argument("--title", required=True)
-    for opt in ("priority", "type", "system", "initiator", "deadline", "estimate", "bitrix", "status"):
+    for opt in ("priority", "type", "project", "system", "initiator", "deadline", "estimate", "bitrix", "status"):
         n.add_argument(f"--{opt}", default="")
     n.add_argument("--tags", default="")
     fi = sub.add_parser("from-issue")
@@ -528,7 +550,7 @@ def main() -> None:
     if args.cmd == "new":
         create_task(args.title, args.priority or "should", args.type, args.system, args.initiator,
                     args.deadline, args.estimate, args.bitrix, args.status or "inbox",
-                    [t.strip() for t in args.tags.split(",") if t.strip()])
+                    [t.strip() for t in args.tags.split(",") if t.strip()], project=args.project)
     elif args.cmd == "from-issue":
         from_issue(args.event)
     build()

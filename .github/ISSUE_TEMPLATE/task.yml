@@ -40,6 +40,15 @@ body:
         - Исследование
         - Поддержка
   - type: dropdown
+    id: project
+    attributes:
+      label: Проект
+      options:
+        - Без проекта
+        - Автоматизация бухгалтерии
+        - Оптимизация 1С:УТ
+      default: 0
+  - type: dropdown
     id: status
     attributes:
       label: Статус

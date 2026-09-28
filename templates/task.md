@@ -4,6 +4,7 @@ title: Короткое название задачи
 status: inbox        # inbox | backlog | in-progress | waiting | done | canceled
 priority: should     # must | should | could | wont
 type: analysis       # analysis | dev | consult | research | support
+project:             # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ        # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
 initiator:           # кто поставил задачу
 created: 2026-01-01

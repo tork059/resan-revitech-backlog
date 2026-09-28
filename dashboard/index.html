@@ -147,6 +147,17 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .md hr{border:0;border-top:1px solid var(--border);margin:18px 0}
 .md img{max-width:100%;border-radius:8px}
 
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-bottom:28px}
+.proj{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;cursor:pointer;transition:border-color .15s}
+.proj:hover{border-color:var(--border-2)}
+.proj.on{border-color:var(--accent)}
+.proj-h{display:flex;align-items:baseline;gap:10px}
+.proj-h b{font-weight:600}
+.proj-h a{margin-left:auto;font-size:12px;white-space:nowrap}
+.bar{height:6px;background:var(--surface-3);border-radius:99px;overflow:hidden;margin:10px 0 8px}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.proj-m{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12.5px}
+.pill.pr{background:rgba(125,207,255,.08);color:#9fb7d9}
 footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 
 @media (max-width:1000px){
@@ -195,6 +206,7 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
     <div class="tabs" id="tabs"></div>
     <div class="filters">
       <input class="search" id="q" type="search" placeholder="Поиск по задачам…" autocomplete="off">
+      <select class="select" id="fProject"><option value="">Все проекты</option></select>
       <select class="select" id="fType"><option value="">Все типы</option></select>
       <select class="select" id="fSystem"><option value="">Все системы</option></select>
     </div>
@@ -213,7 +225,7 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 <script>
 const PCOLOR = {must:'var(--must)', should:'var(--should)', could:'var(--could)', wont:'var(--wont)'};
 const PRIO = ['must','should','could','wont'];
-const S = {data:null, tab:'focus', q:'', type:'', system:''};
+const S = {data:null, tab:'focus', q:'', type:'', system:'', project:''};
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -251,6 +263,7 @@ function filtered(){
   const q = S.q.trim().toLowerCase();
   return S.data.tasks.filter(t =>
     (!S.type || t.type === S.type) &&
+    (!S.project || (S.project === '-' ? !t.project : t.project === S.project)) &&
     (!S.system || t.system === S.system) &&
     (!q || [t.id,t.title,t.system,t.initiator,(t.tags||[]).join(' '),t.body].join(' ').toLowerCase().includes(q)));
 }
@@ -260,6 +273,7 @@ function card(t, opts={}){
   const meta = [];
   if(opts.status) meta.push(`<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`);
   if(dl) meta.push(`<span class="pill dl ${dl.cls}">⏱ ${esc(dl.txt)}</span>`);
+  if(t.project && !S.project) meta.push(`<span class="pill pr">${esc((S.data.projects[t.project]||{}).short||t.project)}</span>`);
   if(t.type) meta.push(`<span class="pill">${esc(L.type[t.type]||t.type)}</span>`);
   if(t.system) meta.push(`<span class="pill">${esc(t.system)}</span>`);
   if(t.estimate) meta.push(`<span class="pill">≈ ${esc(t.estimate)}</span>`);
@@ -306,11 +320,15 @@ function render(){
 
   let html = '';
   if(S.tab === 'focus'){
+    html += projectsStrip();
     // «В работе» показываем целиком; в «Горит» — только то, что ещё не взято в работу
     const hot = active.filter(t=>isHot(t) && t.status!=='in-progress').sort(byDeadline);
     const notHot = t => !isHot(t);
     const work = active.filter(t=>t.status==='in-progress').sort(byPrio);
-    const next = active.filter(t=>t.status==='backlog' && t.priority!=='wont' && notHot(t)).sort(byPrio).slice(0,6);
+    // Очередь: приоритет → внутри него сначала сроки в ближайшие 3 недели, затем без срока, затем дальние
+    const bucket = t => { const n = daysLeft(t); return n === null ? 1 : n <= 21 ? 0 : 2; };
+    const next = active.filter(t=>t.status==='backlog' && t.priority!=='wont' && notHot(t))
+      .sort((a,b)=>PRIO.indexOf(a.priority)-PRIO.indexOf(b.priority) || bucket(a)-bucket(b) || byDeadline(a,b)).slice(0,6);
     const waiting = active.filter(t=>t.status==='waiting' && notHot(t)).sort(byDeadline);
     if(hot.length) html += section('Горит и ещё не в работе', 'var(--must)', hot, `<div class="grid">${hot.map(t=>card(t,{status:true})).join('')}</div>`);
     html += section('В работе', 'var(--accent)', work, work.length?`<div class="grid">${work.map(t=>card(t)).join('')}</div>`:`<div class="empty">Сейчас ничего не в работе — возьмите задачу из «Следующие»</div>`);
@@ -355,6 +373,22 @@ function render(){
   $('#view').innerHTML = html;
 }
 
+function projectsStrip(){
+  const P = S.data.projects || {}, keys = Object.keys(P);
+  if(!keys.length) return '';
+  return `<div class="projects">${keys.map(k => {
+    const mine = S.data.tasks.filter(t=>t.project===k);
+    const total = mine.filter(t=>t.status!=='canceled').length, done = mine.filter(t=>t.status==='done').length;
+    const act = mine.filter(t=>!isClosed(t)), pct = total ? Math.round(100*done/total) : 0;
+    const nxt = act.filter(t=>t.deadline).sort(byDeadline)[0], dl = nxt && dlInfo(nxt);
+    return `<div class="proj ${S.project===k?'on':''}" data-project="${esc(k)}">
+      <div class="proj-h"><b>${esc(P[k].name)}</b><a href="${esc(P[k].url)}" target="_blank" rel="noopener">страница ↗</a></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="proj-m"><span>${done} из ${total} готово · ${pct}%</span><span>активных ${act.length}</span>
+      ${nxt?`<span>ближайший срок: ${esc(nxt.id)} · ${esc(dl.n>S.data.config.soon_days?fmtD(nxt.deadline):dl.txt)}</span>`:''}</div></div>`;
+  }).join('')}</div>`;
+}
+
 function row(t, archived){
   const L = S.data.labels, dl = dlInfo(t);
   const meta = [];
@@ -378,6 +412,7 @@ function openTask(id){
     ['Статус', `<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`],
     ['Приоритет', `<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])} · ${esc(L.priority[t.priority][1])}</span>`],
     ['Срок', t.deadline ? `${esc(fmtD(t.deadline))}${dl && !isClosed(t) ? ` <span class="pill dl ${dl.cls}">${esc(dl.n>S.data.config.soon_days?'через '+dl.n+' дн.':dl.txt)}</span>`:''}` : '—'],
+    ['Проект', t.project && S.data.projects[t.project] ? `<a href="${esc(S.data.projects[t.project].url)}" target="_blank" rel="noopener">${esc(S.data.projects[t.project].name)} ↗</a>` : '—'],
     ['Тип', esc(L.type[t.type]||t.type||'—')],
     ['Система', esc(t.system||'—')],
     ['Инициатор', esc(t.initiator||'—')],
@@ -413,6 +448,8 @@ function fillFilters(){
   const L = S.data.labels, ts = S.data.tasks;
   const types = [...new Set(ts.map(t=>t.type).filter(Boolean))];
   const systems = [...new Set(ts.map(t=>t.system).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));
+  const P = S.data.projects || {};
+  $('#fProject').innerHTML = `<option value="">Все проекты</option>` + Object.keys(P).map(k=>`<option value="${esc(k)}">${esc(P[k].short||P[k].name)}</option>`).join('') + `<option value="-">Без проекта</option>`;
   $('#fType').innerHTML = `<option value="">Все типы</option>` + types.map(t=>`<option value="${esc(t)}">${esc(L.type[t]||t)}</option>`).join('');
   $('#fSystem').innerHTML = `<option value="">Все системы</option>` + systems.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
 }
@@ -420,6 +457,8 @@ function fillFilters(){
 document.addEventListener('click', e => {
   const tab = e.target.closest('[data-tab]');
   if(tab){ S.tab = tab.dataset.tab; try{localStorage.setItem('bl-tab',S.tab)}catch(_){}; render(); return; }
+  const pj = e.target.closest('[data-project]');
+  if(pj && !e.target.closest('a')){ S.project = S.project===pj.dataset.project ? '' : pj.dataset.project; $('#fProject').value = S.project; render(); return; }
   const c = e.target.closest('[data-id]');
   if(c){ openTask(c.dataset.id); return; }
   if(e.target.id === 'scrim') closeTask();
@@ -430,6 +469,7 @@ document.addEventListener('keydown', e => {
   if(e.key === '/' && document.activeElement !== $('#q')){ e.preventDefault(); $('#q').focus(); }
 });
 $('#q').addEventListener('input', e => { S.q = e.target.value; render(); });
+$('#fProject').addEventListener('change', e => { S.project = e.target.value; render(); });
 $('#fType').addEventListener('change', e => { S.type = e.target.value; render(); });
 $('#fSystem').addEventListener('change', e => { S.system = e.target.value; render(); });
 

@@ -5,5 +5,19 @@
   "id_prefix": "BL",
   "timezone_offset_hours": 5,
   "hot_days": 3,
-  "soon_days": 7
+  "soon_days": 7,
+  "projects": {
+    "buh": {
+      "name": "Автоматизация бухгалтерии",
+      "short": "Бухгалтерия",
+      "url": "https://tork059.github.io/resan-revitech-buh/",
+      "repo": "https://github.com/tork059/resan-revitech-buh"
+    },
+    "ut-opt": {
+      "name": "Оптимизация 1С:УТ",
+      "short": "Оптимизация УТ",
+      "url": "https://tork059.github.io/resan-ut-optimization/",
+      "repo": "https://github.com/tork059/resan-ut-optimization"
+    }
+  }
 }

@@ -2,8 +2,10 @@
 id: BL-000
 title: Короткое название задачи
 status: inbox        # inbox | backlog | in-progress | waiting | done | canceled
-priority: should     # must | should | could | wont
-order:               # очерёдность внутри приоритета: 1 — первая, можно пусто
+priority: next       # горизонт: now — сейчас | next — далее | later — потом
+order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+moscow:              # влияние на систему и бизнес: must | should | could | wont
+impact:              # одной фразой: чем задача важна для системы и бизнеса
 type: analysis       # analysis | dev | consult | research | support
 project:             # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ        # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …

@@ -2,7 +2,10 @@
 id: BL-013
 title: Н5 · Контроль учёта: закрытие периода и акт сверки
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: wont       # must | should | could | wont
+priority: later      # горизонт: now — сейчас | next — далее | later — потом
+order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+moscow: should       # влияние на систему и бизнес: must | should | could | wont
+impact: Защищает закрытый период от изменений и устраняет завышение сумм в акте сверки — риск ошибочных расчётов с контрагентами
 type: analysis       # analysis | dev | consult | research | support
 project: buh         # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ, 1С:БП # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
@@ -36,3 +39,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-09-28 — задача заведена
 - 2026-09-28 — отложено на неопределённый срок: приоритет у оптимизации 1С, бухгалтерия потом (было: should)
+- 2026-09-28 — новая схема приоритетов: горизонт «Потом»; MoSCoW — Should

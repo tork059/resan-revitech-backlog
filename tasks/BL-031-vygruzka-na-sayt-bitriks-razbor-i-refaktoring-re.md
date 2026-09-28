@@ -2,8 +2,10 @@
 id: BL-031
 title: Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания
 status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: must       # must | should | could | wont
-order: 1             # очерёдность внутри приоритета: 1 — первая, можно пусто
+priority: now        # горизонт: now — сейчас | next — далее | later — потом
+order: 1             # очерёдность внутри горизонта: 1 — первая, можно пусто
+moscow: must         # влияние на систему и бизнес: must | should | could | wont
+impact: Самый большой вклад в дневную нагрузку (≈2 ч/сут в рабочем окне) — прямая причина зависаний у пользователей
 type: dev            # analysis | dev | consult | research | support
 project: ut-opt      # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ, Битрикс24 # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
@@ -43,3 +45,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-09-28 — задача заведена
+- 2026-09-28 — новая схема приоритетов: горизонт «Сейчас» (#1); MoSCoW — Must

@@ -2,8 +2,10 @@
 id: BL-032
 title: Создать тестовую базу — полный слепок рабочей УТ, закреплённый за нами
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: must       # must | should | could | wont
-order: 4             # очерёдность внутри приоритета: 1 — первая, можно пусто
+priority: now        # горизонт: now — сейчас | next — далее | later — потом
+order: 4             # очерёдность внутри горизонта: 1 — первая, можно пусто
+moscow: must         # влияние на систему и бизнес: must | should | could | wont
+impact: Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы
 type: support        # analysis | dev | consult | research | support
 project: ut-opt      # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ, СУБД  # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
@@ -38,3 +40,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-09-28 — задача заведена
+- 2026-09-28 — новая схема приоритетов: горизонт «Сейчас» (#4); MoSCoW — Must

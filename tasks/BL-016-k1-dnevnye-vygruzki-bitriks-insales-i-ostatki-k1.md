@@ -2,7 +2,10 @@
 id: BL-016
 title: К1 · Дневные выгрузки Insales и остатки (К1-2, К1-5)
 status: waiting      # inbox | backlog | in-progress | waiting | done | canceled
-priority: should     # must | should | could | wont
+priority: next       # горизонт: now — сейчас | next — далее | later — потом
+order: 9             # очерёдность внутри горизонта: 1 — первая, можно пусто
+moscow: should       # влияние на систему и бизнес: must | should | could | wont
+impact: ≈1,1 ч/сут в рабочем окне (остатки, Insales); зависит от допустимой задержки данных на сайтах
 type: dev            # analysis | dev | consult | research | support
 project: ut-opt      # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ, Битрикс24, Insales # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
@@ -41,3 +44,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-09-28 — задача заведена
 - 2026-09-28 — К1-1 (дневная серия Битрикс) вынесена в BL-031 — разбор и рефакторинг выгрузки на Битрикс
+- 2026-09-28 — новая схема приоритетов: горизонт «Далее» (#9); MoSCoW — Should

@@ -22,13 +22,25 @@ body:
   - type: dropdown
     id: priority
     attributes:
-      label: Приоритет
+      label: Горизонт
+      description: Когда возьмусь за задачу
       options:
-        - "Must — обязательно"
-        - "Should — важно"
-        - "Could — желательно"
-        - "Won't — не сейчас"
+        - "Сейчас — эта неделя"
+        - "Далее — ближайший месяц"
+        - "Потом — когда-нибудь"
       default: 1
+  - type: dropdown
+    id: moscow
+    attributes:
+      label: MoSCoW — влияние на бизнес
+      description: Насколько задача важна для системы и бизнеса (не зависит от сроков)
+      options:
+        - "Не оценено"
+        - "Must — критично"
+        - "Should — важно, есть обходной путь"
+        - "Could — улучшение"
+        - "Won't — влияние несущественно"
+      default: 0
   - type: dropdown
     id: type
     attributes:

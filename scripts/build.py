@@ -3,7 +3,7 @@
 
 Команды:
   python scripts/build.py                 — пересобрать README, архив и данные дашборда
-  python scripts/build.py new --title "…" [--priority must] [--type dev] [--system 1С:УТ]
+  python scripts/build.py new --title "…" [--priority now|next|later] [--moscow must] [--type dev] [--system 1С:УТ]
                                           [--initiator …] [--deadline 2026-10-15]
                                           [--estimate 2d] [--bitrix URL] [--status backlog]
   python scripts/build.py from-issue EVENT.json — создать задачу из формы GitHub Issue
@@ -37,13 +37,20 @@ STATUSES = {
     "canceled": ("Отменено", "🚫"),
 }
 CLOSED = {"done", "canceled"}
+# Приоритет = горизонт: когда я за это возьмусь
 PRIORITIES = {
-    "must": ("Must", "обязательно", "🔴"),
-    "should": ("Should", "важно", "🟠"),
-    "could": ("Could", "желательно", "🔵"),
-    "wont": ("Won't", "не сейчас", "⚪"),
+    "now": ("Сейчас", "эта неделя, в фокусе", "🔴"),
+    "next": ("Далее", "ближайший месяц", "🟠"),
+    "later": ("Потом", "когда-нибудь", "⚪"),
 }
 PRIO_ORDER = list(PRIORITIES)
+# MoSCoW = влияние на систему и бизнес, не зависит от сроков и очерёдности
+MOSCOW = {
+    "must": ("Must", "критично для системы и бизнеса", "🟥"),
+    "should": ("Should", "важно, но есть обходной путь", "🟧"),
+    "could": ("Could", "улучшение, эффект умеренный", "🟦"),
+    "wont": ("Won't", "влияние несущественно", "⬜"),
+}
 TYPES = {
     "analysis": "Аналитика",
     "dev": "Разработка",
@@ -52,7 +59,7 @@ TYPES = {
     "support": "Поддержка",
 }
 PROJECTS = CONFIG.get("projects", {})
-FIELDS = ["id", "title", "status", "priority", "order", "type", "project", "system", "initiator",
+FIELDS = ["id", "title", "status", "priority", "order", "moscow", "impact", "type", "project", "system", "initiator",
           "created", "deadline", "estimate", "bitrix", "tags", "closed"]
 
 # Русские синонимы — чтобы при ручной правке можно было писать по-русски.
@@ -60,8 +67,11 @@ ALIASES = {
     "status": {"входящие": "inbox", "бэклог": "backlog", "в работе": "in-progress",
                "ожидание": "waiting", "готово": "done", "отменено": "canceled",
                "todo": "backlog", "wip": "in-progress"},
-    "priority": {"won't": "wont", "обязательно": "must", "важно": "should",
-                 "желательно": "could", "не сейчас": "wont"},
+    "priority": {"сейчас": "now", "далее": "next", "потом": "later",
+                 # старые значения MoSCoW в поле priority
+                 "must": "now", "should": "next", "could": "later", "wont": "later", "won't": "later"},
+    "moscow": {"won't": "wont", "обязательно": "must", "важно": "should",
+               "желательно": "could", "не сейчас": "wont"},
     "type": {"аналитика": "analysis", "разработка": "dev", "консультация": "consult",
              "исследование": "research", "поддержка": "support", "development": "dev"},
 }
@@ -110,7 +120,7 @@ def parse_task(path: Path) -> dict | None:
         meta[key.strip().lower()] = strip_comment(val).strip().strip('"').strip("'")
     tags = meta.get("tags", "").strip("[]")
     meta["tags"] = [t.strip().strip('"\'') for t in tags.split(",") if t.strip()]
-    for key in ("status", "priority", "type"):
+    for key in ("status", "priority", "moscow", "type"):
         raw = meta.get(key, "").strip().lower()
         meta[key] = ALIASES.get(key, {}).get(raw, raw)
     meta["body"] = text[m.end():].strip()
@@ -130,8 +140,11 @@ def validate(t: dict) -> None:
         t["status"] = "inbox"
     if t.get("priority") not in PRIORITIES:
         if t.get("priority"):
-            WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}`, считаю Should")
-        t["priority"] = "should"
+            WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}` (now / next / later), считаю «Далее»")
+        t["priority"] = "next"
+    if t.get("moscow") and t["moscow"] not in MOSCOW:
+        WARNINGS.append(f"{where} — неизвестная оценка MoSCoW `{t['moscow']}` (must / should / could / wont)")
+        t["moscow"] = ""
     if t.get("order") and not str(t["order"]).isdigit():
         WARNINGS.append(f"{where} — `order` должен быть числом (1 — первая в очереди)")
     if t.get("project") and t["project"] not in PROJECTS:
@@ -289,8 +302,16 @@ def prio(t: dict) -> str:
     return f"{icon} {name}"
 
 
+def mos(t: dict) -> str:
+    if t.get("moscow") not in MOSCOW:
+        return "—"
+    name, _, icon = MOSCOW[t["moscow"]]
+    return f"{icon} {name}"
+
+
 def table(rows: list[dict], cols: list[str]) -> str:
-    heads = {"id": "ID", "title": "Задача", "prio": "Приоритет", "deadline": "Срок",
+    heads = {"id": "ID", "title": "Задача", "prio": "Горизонт", "deadline": "Срок", "moscow": "MoSCoW",
+             "impact": "Влияние на систему и бизнес",
              "type": "Тип", "system": "Система", "estimate": "Оценка",
              "initiator": "Инициатор", "status": "Статус", "project": "Проект"}
     out = ["| " + " | ".join(heads[c] for c in cols) + " |",
@@ -300,6 +321,8 @@ def table(rows: list[dict], cols: list[str]) -> str:
             "id": f"`{t['id']}`",
             "title": link(t),
             "prio": prio(t),
+            "moscow": mos(t),
+            "impact": esc(t.get("impact") or "—"),
             "deadline": deadline_cell(t),
             "type": TYPES.get(t.get("type", ""), t.get("type", "") or "—"),
             "system": esc(t.get("system") or "—"),
@@ -330,7 +353,7 @@ def render_readme(tasks: list[dict]) -> str:
     active = [t for t in tasks if t["status"] not in CLOSED]
     closed = [t for t in tasks if t["status"] in CLOSED]
     hot = sorted([t for t in active if t["status"] != "inbox" and (n := days_left(t)) is not None
-                  and n <= CONFIG["hot_days"] and t["priority"] != "wont"], key=by_deadline)
+                  and n <= CONFIG["hot_days"]], key=by_deadline)
     in_work = sorted([t for t in active if t["status"] == "in-progress"], key=sort_key)
     waiting = sorted([t for t in active if t["status"] == "waiting"], key=by_deadline)
     inbox = sorted([t for t in active if t["status"] == "inbox"], key=lambda t: t.get("created", ""))
@@ -348,7 +371,8 @@ def render_readme(tasks: list[dict]) -> str:
     L += [" ".join([
         badge("в работе", len(in_work), "7aa2f7"),
         badge("горит", len(hot), "f7768e" if hot else "414868"),
-        badge("Must", sum(t["priority"] == "must" for t in active), "e06c75"),
+        badge("сейчас", sum(t["priority"] == "now" for t in active), "e06c75"),
+        badge("Must для бизнеса", sum(t.get("moscow") == "must" for t in active), "c0392b"),
         badge("всего активных", len(active), "565f89"),
         badge("закрыто за 30 дн", len(done_30), "9ece6a"),
     ]), ""]
@@ -378,20 +402,35 @@ def render_readme(tasks: list[dict]) -> str:
         L += [""]
 
     L += ["## 🎯 В работе", ""]
-    L += [table(in_work, ["id", "title", "prio", "deadline", "project", "estimate"]) if in_work
-          else "_Сейчас ничего не в работе — возьмите задачу из Must._", ""]
+    L += [table(in_work, ["id", "title", "prio", "deadline", "moscow", "project"]) if in_work
+          else "_Сейчас ничего не в работе — возьмите задачу из «Сейчас»._", ""]
 
-    L += ["## 🗂 Бэклог по приоритету (MoSCoW)", "",
-          "<sub>Внутри группы — сначала по очерёдности (`order`), затем по сроку: ближайшие сверху, без срока — в конце.</sub>", ""]
+    L += ["## 🗂 Бэклог по горизонту", "",
+          "<sub>Сейчас — эта неделя, Далее — ближайший месяц, Потом — когда-нибудь. "
+          "Внутри группы — по очерёдности (`order`), затем по сроку.</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
         rows = sorted([t for t in backlog if t["priority"] == key], key=sort_key)
         head = f"### {icon} {name} — {hint} · {len(rows)}"
-        body = table(rows, ["id", "title", "deadline", "project", "type", "system"]) if rows else "_Пусто_"
-        if key == "wont":
+        body = table(rows, ["id", "title", "deadline", "moscow", "project", "system"]) if rows else "_Пусто_"
+        if key == "later":
             L += [f"<details><summary><b>{icon} {name} — {hint} · {len(rows)}</b></summary>", "", body, "",
                   "</details>", ""]
         else:
             L += [head, "", body, ""]
+
+    L += ["## ⚖️ MoSCoW — влияние на систему и бизнес", "",
+          "<sub>Оценка важности задачи для системы и бизнеса. Не зависит от сроков и очерёдности — "
+          "показывает, что реально критично.</sub>", ""]
+    for key, (name, hint, icon) in MOSCOW.items():
+        rows = sorted([t for t in active if t.get("moscow") == key],
+                      key=lambda t: (PRIO_ORDER.index(t["priority"]), order_of(t), t["id"]))
+        body = table(rows, ["id", "title", "impact", "prio"]) if rows else "_Пусто_"
+        opened = " open" if key == "must" else ""
+        L += [f"<details{opened}><summary><b>{icon} {name} — {hint} · {len(rows)}</b></summary>", "", body, "",
+              "</details>", ""]
+    unrated = [t for t in active if t.get("moscow") not in MOSCOW]
+    if unrated:
+        L += [f"<sub>Без оценки MoSCoW: {', '.join(t['id'] for t in unrated)}</sub>", ""]
 
     L += [f"## ⏳ Ожидание · {len(waiting)}", "",
           "<sub>Ждём ответа, данных или решения от других.</sub>", ""]
@@ -447,6 +486,7 @@ def write_data(tasks: list[dict]) -> None:
         "projects": PROJECTS,
         "labels": {"status": {k: v[0] for k, v in STATUSES.items()},
                    "priority": {k: [v[0], v[1]] for k, v in PRIORITIES.items()},
+                   "moscow": {k: [v[0], v[1]] for k, v in MOSCOW.items()},
                    "type": TYPES},
         "warnings": WARNINGS,
         "tasks": [{**{k: t.get(k, "") for k in FIELDS}, "path": rel(t["path"]), "body": t["body"]}
@@ -473,14 +513,17 @@ def build() -> None:
 
 
 # ─────────────────────── создание задач ───────────────────────
-def create_task(title: str, priority="should", type_="", system="", initiator="", deadline="",
-                estimate="", bitrix="", status="inbox", tags=None, body="", project="") -> Path:
+def create_task(title: str, priority="next", type_="", system="", initiator="", deadline="",
+                estimate="", bitrix="", status="inbox", tags=None, body="", project="",
+                moscow="", impact="", order="") -> Path:
     tasks = load_tasks()
     WARNINGS.clear()
     tid = next_id(tasks)
     d = parse_date(deadline)
     values = {
-        "id": tid, "title": title.strip(), "status": status, "priority": priority,
+        "id": tid, "title": title.strip(), "status": status,
+        "priority": ALIASES["priority"].get(priority.lower(), priority.lower()),
+        "order": order, "moscow": moscow, "impact": impact,
         "type": ALIASES["type"].get(type_.lower(), type_.lower()), "project": project, "system": system,
         "initiator": initiator, "created": today().isoformat(),
         "deadline": d.isoformat() if d else "", "estimate": estimate, "bitrix": bitrix,
@@ -506,6 +549,7 @@ ISSUE_FIELDS = {
     "название": "title", "суть и контекст": "body", "приоритет": "priority", "тип": "type",
     "система": "system", "инициатор": "initiator", "срок": "deadline", "оценка": "estimate",
     "ссылка на битрикс": "bitrix", "статус": "status", "проект": "project",
+    "moscow — влияние на бизнес": "moscow", "горизонт": "priority",
 }
 
 
@@ -523,7 +567,10 @@ def from_issue(event_path: str) -> None:
         if key and value and value != "_No response_":
             vals[key] = value
     pick = lambda v, table: next((k for k in table if v and v.lower().startswith(k)), "")
-    prio_raw = vals.get("priority", "Should").lower().replace("won't", "wont")
+    prio_raw = vals.get("priority", "Далее").lower()
+    prio_key = next((k for k, v in PRIORITIES.items() if prio_raw.startswith(v[0].lower())), "next")
+    mos_raw = vals.get("moscow", "").lower().replace("won't", "wont")
+    mos_key = next((k for k in MOSCOW if mos_raw.startswith(k)), "")
     type_raw = vals.get("type", "")
     type_key = next((k for k, name in TYPES.items() if type_raw.lower().startswith(name.lower())), "")
     proj = next((k for k, p in PROJECTS.items() if vals.get("project", "").strip() == p["name"]), "")
@@ -532,10 +579,10 @@ def from_issue(event_path: str) -> None:
     body = f"## Суть\n{body}\n\n## Что сделать\n- [ ] \n\n## Критерии готовности\n- \n\n## Материалы\n- Создано из [issue #{issue['number']}]({issue['html_url']})"
     path = create_task(
         title=vals.get("title") or issue["title"].removeprefix("[Задача]").strip(),
-        priority=pick(prio_raw, PRIORITIES) or "should", type_=type_key,
+        priority=prio_key, type_=type_key,
         system=vals.get("system", ""), initiator=vals.get("initiator", ""),
         deadline=vals.get("deadline", ""), estimate=vals.get("estimate", ""),
-        bitrix=vals.get("bitrix", ""), status=status, body=body, project=proj,
+        bitrix=vals.get("bitrix", ""), status=status, body=body, project=proj, moscow=mos_key,
     )
     tid = path.name.split("-")[0] + "-" + path.name.split("-")[1]
     if out := os.environ.get("GITHUB_OUTPUT"):
@@ -548,16 +595,17 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd")
     n = sub.add_parser("new")
     n.add_argument("--title", required=True)
-    for opt in ("priority", "type", "project", "system", "initiator", "deadline", "estimate", "bitrix", "status"):
+    for opt in ("priority", "moscow", "impact", "order", "type", "project", "system", "initiator", "deadline", "estimate", "bitrix", "status"):
         n.add_argument(f"--{opt}", default="")
     n.add_argument("--tags", default="")
     fi = sub.add_parser("from-issue")
     fi.add_argument("event")
     args = ap.parse_args()
     if args.cmd == "new":
-        create_task(args.title, args.priority or "should", args.type, args.system, args.initiator,
+        create_task(args.title, args.priority or "next", args.type, args.system, args.initiator,
                     args.deadline, args.estimate, args.bitrix, args.status or "inbox",
-                    [t.strip() for t in args.tags.split(",") if t.strip()], project=args.project)
+                    [t.strip() for t in args.tags.split(",") if t.strip()], project=args.project,
+                    moscow=args.moscow, impact=args.impact, order=args.order)
     elif args.cmd == "from-issue":
         from_issue(args.event)
     build()

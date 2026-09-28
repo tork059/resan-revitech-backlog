@@ -158,6 +158,12 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .bar i{display:block;height:100%;background:var(--ok);border-radius:99px}
 .proj-m{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12.5px}
 .pill.pr{background:rgba(125,207,255,.08);color:#9fb7d9}
+.pill.ms{background:transparent;color:var(--mc);border:1px dashed color-mix(in srgb,var(--mc) 55%,transparent)}
+.d-impact{margin-top:12px;padding:10px 12px;border-radius:9px;background:var(--surface-2);border:1px solid var(--border);font-size:13px;line-height:1.5}
+.d-impact span{display:block;color:var(--faint);font-size:11.5px;margin-bottom:2px}
+.c-impact{color:var(--muted);font-size:12.5px;line-height:1.45;margin-top:6px}
+.board.b3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.lead{color:var(--muted);font-size:13px;margin:-4px 0 16px;max-width:900px}
 footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 
 @media (max-width:1000px){
@@ -223,8 +229,10 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 </aside>
 
 <script>
-const PCOLOR = {must:'var(--must)', should:'var(--should)', could:'var(--could)', wont:'var(--wont)'};
-const PRIO = ['must','should','could','wont'];
+const PCOLOR = {now:'var(--must)', next:'var(--should)', later:'var(--wont)'};
+const PRIO = ['now','next','later'];
+const MCOLOR = {must:'#f7768e', should:'#e0af68', could:'#7dcfff', wont:'#6b7394'};
+const MOS = ['must','should','could','wont'];
 const S = {data:null, tab:'focus', q:'', type:'', system:'', project:''};
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -247,7 +255,7 @@ function dlInfo(t){
   return {n, txt, cls};
 }
 const isClosed = t => t.status === 'done' || t.status === 'canceled';
-const isHot = t => !isClosed(t) && t.status !== 'inbox' && t.priority !== 'wont' && daysLeft(t) !== null && daysLeft(t) <= S.data.config.hot_days;
+const isHot = t => !isClosed(t) && t.status !== 'inbox' && daysLeft(t) !== null && daysLeft(t) <= S.data.config.hot_days;
 const ord = t => /^\d+$/.test(String(t.order||'')) ? +t.order : 999;
 function byPrio(a,b){
   const pa = PRIO.indexOf(a.priority), pb = PRIO.indexOf(b.priority); if(pa!==pb) return pa-pb;
@@ -273,6 +281,15 @@ function card(t, opts={}){
   const L = S.data.labels, dl = dlInfo(t);
   const meta = [];
   if(opts.status) meta.push(`<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`);
+  if(opts.impact){
+    return `<div class="card" style="--pc:${MCOLOR[t.moscow]||'var(--wont)'}" data-id="${esc(t.id)}" tabindex="0">
+      <div class="c-top"><span class="id">${esc(t.id)}</span><span class="pill p" style="--pc:${PCOLOR[t.priority]}">${esc(L.priority[t.priority][0])}</span></div>
+      <div class="c-title">${esc(t.title)}</div>
+      ${t.impact && t.priority!=='later'?`<div class="c-impact">${esc(t.impact)}</div>`:''}
+      ${t.project && !S.project ? `<div class="c-meta"><span class="pill pr">${esc((S.data.projects[t.project]||{}).short||t.project)}</span></div>`:''}
+    </div>`;
+  }
+  if(t.moscow && MCOLOR[t.moscow]) meta.push(`<span class="pill ms" style="--mc:${MCOLOR[t.moscow]}" title="MoSCoW — влияние на бизнес">${esc(L.moscow[t.moscow][0])}</span>`);
   if(dl) meta.push(`<span class="pill dl ${dl.cls}">⏱ ${esc(dl.txt)}</span>`);
   if(t.project && !S.project) meta.push(`<span class="pill pr">${esc((S.data.projects[t.project]||{}).short||t.project)}</span>`);
   if(t.type) meta.push(`<span class="pill">${esc(L.type[t.type]||t.type)}</span>`);
@@ -290,7 +307,7 @@ function section(title, color, arr, html){
 }
 
 const TABS = [
-  ['focus','Фокус'], ['prio','Приоритеты'], ['status','Статусы'], ['time','Сроки'], ['archive','Архив']
+  ['focus','Фокус'], ['prio','Горизонт'], ['moscow','MoSCoW'], ['status','Статусы'], ['time','Сроки'], ['archive','Архив']
 ];
 
 function render(){
@@ -306,8 +323,8 @@ function render(){
   $('#kpis').innerHTML = [
     ['work','В работе', A.filter(t=>t.status==='in-progress').length, 'status'],
     ['hot','Горит', A.filter(isHot).length, 'focus'],
-    ['','Must в бэклоге', A.filter(t=>t.priority==='must').length, 'prio'],
-    ['','Входящие', A.filter(t=>t.status==='inbox').length, 'status'],
+    ['','Сейчас в фокусе', A.filter(t=>t.priority==='now').length, 'prio'],
+    ['','Must для бизнеса', A.filter(t=>t.moscow==='must').length, 'moscow'],
     ['done','Закрыто за 30 дн.', done30, 'archive'],
   ].map(([c,l,v,tab])=>`<div class="kpi ${c}" data-tab="${tab}"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
 
@@ -328,7 +345,7 @@ function render(){
     const work = active.filter(t=>t.status==='in-progress').sort(byPrio);
     // Очередь: приоритет → внутри него сначала сроки в ближайшие 3 недели, затем без срока, затем дальние
     const bucket = t => { const n = daysLeft(t); return n === null ? 1 : n <= 21 ? 0 : 2; };
-    const next = active.filter(t=>t.status==='backlog' && t.priority!=='wont' && notHot(t))
+    const next = active.filter(t=>t.status==='backlog' && t.priority!=='later' && notHot(t))
       .sort((a,b)=>PRIO.indexOf(a.priority)-PRIO.indexOf(b.priority) || ord(a)-ord(b) || bucket(a)-bucket(b) || byDeadline(a,b)).slice(0,6);
     const waiting = active.filter(t=>t.status==='waiting' && notHot(t)).sort(byDeadline);
     if(hot.length) html += section('Горит и ещё не в работе', 'var(--must)', hot, `<div class="grid">${hot.map(t=>card(t,{status:true})).join('')}</div>`);
@@ -338,13 +355,23 @@ function render(){
   }
   else if(S.tab === 'prio'){
     const pool = active.filter(t=>t.status!=='inbox');
-    html = `<div class="board">${PRIO.map(p => {
+    html = `<p class="lead">Горизонт — когда я возьмусь за задачу. Внутри колонки — по очерёдности, затем по сроку.</p><div class="board b3">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort((a,b)=>ord(a)-ord(b) || byDeadline(a,b));
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
         <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
     }).join('')}</div>`;
     const inbox = active.filter(t=>t.status==='inbox');
     if(inbox.length) html += `<div style="height:22px"></div>` + section('Входящие — ещё не разобраны', 'var(--faint)', inbox, `<div class="grid">${inbox.map(t=>card(t)).join('')}</div>`);
+  }
+  else if(S.tab === 'moscow'){
+    html = `<p class="lead">MoSCoW — влияние задачи на систему и бизнес. Не зависит от сроков и очерёдности: показывает, что реально критично. Бейдж на карточке — горизонт; задачи «Потом» показаны кратко — полное описание по клику.</p>
+      <div class="board">${MOS.map(m => {
+      const arr = active.filter(t=>t.moscow===m).sort(byPrio);
+      return `<div class="col"><div class="col-h"><span class="dot" style="background:${MCOLOR[m]}"></span>${L.moscow[m][0]}
+        <span class="cnt">${arr.length}</span></div><div class="hint" style="color:var(--faint);font-size:12px;margin:-6px 4px 10px">${esc(L.moscow[m][1])}</div>${stack(arr,{impact:true})}</div>`;
+    }).join('')}</div>`;
+    const un = active.filter(t=>!MCOLOR[t.moscow]);
+    if(un.length) html += `<div style="height:22px"></div>` + section('Без оценки MoSCoW', 'var(--faint)', un, `<div class="grid">${un.map(t=>card(t)).join('')}</div>`);
   }
   else if(S.tab === 'status'){
     const cols = [['inbox','var(--faint)'],['backlog','var(--should)'],['in-progress','var(--accent)'],['waiting','#bb9af7']];
@@ -411,7 +438,8 @@ function openTask(id){
   const edit = `https://github.com/${repo}/edit/main/${encodeURI(t.path)}`;
   const meta = [
     ['Статус', `<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`],
-    ['Приоритет', `<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])} · ${esc(L.priority[t.priority][1])}</span>`],
+    ['Горизонт', `<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])}${ord(t)<999?' · #'+ord(t):''}</span>`],
+    ['MoSCoW', t.moscow && MCOLOR[t.moscow] ? `<span class="pill ms" style="--mc:${MCOLOR[t.moscow]}" title="${esc(L.moscow[t.moscow][1])}">${esc(L.moscow[t.moscow][0])}</span>` : '—'],
     ['Срок', t.deadline ? `${esc(fmtD(t.deadline))}${dl && !isClosed(t) ? ` <span class="pill dl ${dl.cls}">${esc(dl.n>S.data.config.soon_days?'через '+dl.n+' дн.':dl.txt)}</span>`:''}` : '—'],
     ['Проект', t.project && S.data.projects[t.project] ? `<a href="${esc(S.data.projects[t.project].url)}" target="_blank" rel="noopener">${esc(S.data.projects[t.project].name)} ↗</a>` : '—'],
     ['Тип', esc(L.type[t.type]||t.type||'—')],
@@ -426,6 +454,7 @@ function openTask(id){
   $('#dHead').innerHTML = `<div class="d-top"><span class="id">${esc(t.id)}</span><button class="d-close" id="dClose" aria-label="Закрыть">×</button></div>
     <div class="d-title">${esc(t.title)}</div>
     <dl class="d-meta">${meta.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+    ${t.impact?`<div class="d-impact"><span>Влияние на систему и бизнес</span>${esc(t.impact)}</div>`:''}
     <div class="d-actions"><a class="btn" href="${blob}" target="_blank" rel="noopener">Открыть на GitHub ↗</a>
       <a class="btn" href="${edit}" target="_blank" rel="noopener">✎ Редактировать</a></div>`;
   let body = t.body || '_Описание не заполнено_';

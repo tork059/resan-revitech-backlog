@@ -2,7 +2,10 @@
 id: BL-011
 title: Н3 · Автоматическая сверка ОСВ Ресан / Ревитех
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: wont       # must | should | could | wont
+priority: later      # горизонт: now — сейчас | next — далее | later — потом
+order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+moscow: should       # влияние на систему и бизнес: must | should | could | wont
+impact: Снимает ручную построчную сверку ОСВ двух организаций; обходной путь — ручная сверка
 type: dev            # analysis | dev | consult | research | support
 project: buh         # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:БП        # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
@@ -35,3 +38,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-09-28 — задача заведена
 - 2026-09-28 — отложено на неопределённый срок: приоритет у оптимизации 1С, бухгалтерия потом (было: should)
+- 2026-09-28 — новая схема приоритетов: горизонт «Потом»; MoSCoW — Should

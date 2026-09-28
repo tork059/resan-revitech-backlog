@@ -37,10 +37,10 @@
 |:--|:--|:--|:--|:--|:--|
 | `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | 12.10 · через 14 дн. | Оптимизация УТ | Аналитика | 1С:УТ |
 | `BL-032` | [Создать тестовую базу — полный слепок рабочей УТ, закреплённый за нами](tasks/BL-032-sozdat-testovuyu-bazu-polnyy-slepok-rabochey-ut.md) | — | Оптимизация УТ | Поддержка | 1С:УТ, СУБД |
+| `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | 05.10 · 🟡 через 7 дн. | Оптимизация УТ | Разработка | 1С:УТ |
 | `BL-026` | [Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)](tasks/BL-026-nagruzochnyy-audit-zhurnalov-zakazy-pokupatelya.md) | 12.10 · через 14 дн. | Оптимизация УТ | Аналитика | 1С:УТ · trade_blinan |
 | `BL-014` | [К1-0 · Замер ожиданий на управляемых блокировках (базовая линия)](tasks/BL-014-k1-0-zamer-ozhidaniy-na-upravlyaemyh-blokirovkah.md) | — | Оптимизация УТ | Аналитика | 1С:УТ |
 | `BL-024` | [К3-1 · Выяснить основной режим запуска конфигурации УТ](tasks/BL-024-k3-1-vyyasnit-osnovnoy-rezhim-zapuska-konfigurat.md) | — | Оптимизация УТ | Исследование | 1С:УТ |
-| `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | — | Оптимизация УТ | Разработка | 1С:УТ |
 
 ### 🟠 Should — важно · 7
 

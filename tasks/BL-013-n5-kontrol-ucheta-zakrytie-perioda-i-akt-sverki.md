@@ -2,7 +2,7 @@
 id: BL-013
 title: Н5 · Контроль учёта: закрытие периода и акт сверки
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: should     # must | should | could | wont
+priority: wont       # must | should | could | wont
 type: analysis       # analysis | dev | consult | research | support
 project: buh         # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ, 1С:БП # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
@@ -14,7 +14,6 @@ bitrix:              # ссылка на задачу в Битрикс24, ес�
 tags: [закрытие периода, Н5] # [отчёты, регламенты]
 closed:              # заполняется автоматически при закрытии
 ---
-
 ## Суть
 Ввести запрет редактирования закрытого периода и найти причину завышенных сумм в акте сверки.
 
@@ -36,3 +35,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-09-28 — задача заведена
+- 2026-09-28 — отложено на неопределённый срок: приоритет у оптимизации 1С, бухгалтерия потом (было: should)

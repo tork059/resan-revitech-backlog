@@ -52,7 +52,7 @@ TYPES = {
     "support": "Поддержка",
 }
 PROJECTS = CONFIG.get("projects", {})
-FIELDS = ["id", "title", "status", "priority", "type", "project", "system", "initiator",
+FIELDS = ["id", "title", "status", "priority", "order", "type", "project", "system", "initiator",
           "created", "deadline", "estimate", "bitrix", "tags", "closed"]
 
 # Русские синонимы — чтобы при ручной правке можно было писать по-русски.
@@ -132,6 +132,8 @@ def validate(t: dict) -> None:
         if t.get("priority"):
             WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}`, считаю Should")
         t["priority"] = "should"
+    if t.get("order") and not str(t["order"]).isdigit():
+        WARNINGS.append(f"{where} — `order` должен быть числом (1 — первая в очереди)")
     if t.get("project") and t["project"] not in PROJECTS:
         WARNINGS.append(f"{where} — неизвестный проект `{t['project']}` (список — в backlog.json)")
     if t.get("type") and t["type"] not in TYPES:
@@ -258,9 +260,14 @@ def deadline_cell(t: dict) -> str:
     return f"{fmt_date(d)} · {tail}"
 
 
+def order_of(t: dict) -> int:
+    v = str(t.get("order", "")).strip()
+    return int(v) if v.isdigit() else 999
+
+
 def sort_key(t: dict):
     n = days_left(t)
-    return (PRIO_ORDER.index(t["priority"]), n is None, n if n is not None else 0,
+    return (PRIO_ORDER.index(t["priority"]), order_of(t), n is None, n if n is not None else 0,
             t.get("created", ""), t.get("id", ""))
 
 
@@ -375,7 +382,7 @@ def render_readme(tasks: list[dict]) -> str:
           else "_Сейчас ничего не в работе — возьмите задачу из Must._", ""]
 
     L += ["## 🗂 Бэклог по приоритету (MoSCoW)", "",
-          "<sub>Внутри группы — по сроку: просроченные и ближайшие сверху, без срока — в конце.</sub>", ""]
+          "<sub>Внутри группы — сначала по очерёдности (`order`), затем по сроку: ближайшие сверху, без срока — в конце.</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
         rows = sorted([t for t in backlog if t["priority"] == key], key=sort_key)
         head = f"### {icon} {name} — {hint} · {len(rows)}"

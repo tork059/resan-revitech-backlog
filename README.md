@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 1](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-1-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![Must: 14](https://img.shields.io/badge/Must-14-e06c75?style=flat-square) ![всего активных: 30](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-30-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
+![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![Must: 9](https://img.shields.io/badge/Must-9-e06c75?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 28.09.2026 · не редактируйте этот файл вручную</sub>
 
@@ -17,42 +17,35 @@
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
 | **Автоматизация бухгалтерии** | `▱▱▱▱▱▱▱▱▱▱` 0/13 | 13 | `BL-001` 03.10 · 🟡 через 5 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
-| **Оптимизация 1С:УТ** | `▱▱▱▱▱▱▱▱▱▱` 0/16 | 16 | — | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
+| **Оптимизация 1С:УТ** | `▱▱▱▱▱▱▱▱▱▱` 0/18 | 18 | `BL-027` 02.10 · 🟡 через 4 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
 
 | ID | Задача | Приоритет | Срок | Проект | Оценка |
 |:--|:--|:--|:--|:--|:--|
+| `BL-031` | [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) | 🔴 Must | 02.10 · 🟡 через 4 дн. | Оптимизация УТ | — |
+| `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | 🔴 Must | 02.10 · 🟡 через 4 дн. | Оптимизация УТ | — |
 | `BL-001` | [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) | 🔴 Must | 03.10 · 🟡 через 5 дн. | Бухгалтерия | — |
 
 ## 🗂 Бэклог по приоритету (MoSCoW)
 
-<sub>Внутри группы — по сроку: просроченные и ближайшие сверху, без срока — в конце.</sub>
+<sub>Внутри группы — сначала по очерёдности (`order`), затем по сроку: ближайшие сверху, без срока — в конце.</sub>
 
-### 🔴 Must — обязательно · 13
+### 🔴 Must — обязательно · 6
 
 | ID | Задача | Срок | Проект | Тип | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-002` | [Н1·1.2 Анализ файла правил обмена от Иннотеха](tasks/BL-002-n1-1-2-analiz-fayla-pravil-obmena-ot-innoteha.md) | 16.10 · через 18 дн. | Бухгалтерия | Аналитика | 1С:УТ → 1С:БП |
-| `BL-003` | [Н1·1.3 Согласование целевой схемы обмена и решения по канцтоварам](tasks/BL-003-n1-1-3-soglasovanie-tselevoy-shemy-obmena-i-resh.md) | 23.10 · через 25 дн. | Бухгалтерия | Консультация | 1С:УТ → 1С:БП |
-| `BL-004` | [Н1·1.4 ТЗ для Иннотеха (З-1 – З-4) и контроль доработки](tasks/BL-004-n1-1-4-tz-dlya-innoteha-z-1-z-4-i-kontrol-dorabo.md) | 06.11 · через 39 дн. | Бухгалтерия | Аналитика | 1С:УТ → 1С:БП |
-| `BL-005` | [Н1·1.5 Приёмка доработок обмена на копиях баз](tasks/BL-005-n1-1-5-priemka-dorabotok-obmena-na-kopiyah-baz.md) | 20.11 · через 53 дн. | Бухгалтерия | Аналитика | 1С:УТ → 1С:БП |
-| `BL-006` | [Н1·1.6 Права доступа, регламентное задание выгрузки, журнал и уведомления](tasks/BL-006-n1-1-6-prava-dostupa-reglamentnoe-zadanie-vygruz.md) | 27.11 · через 60 дн. | Бухгалтерия | Разработка | 1С:УТ, 1С:БП |
-| `BL-007` | [Н1·1.7 Пилот автоматического обмена](tasks/BL-007-n1-1-7-pilot-avtomaticheskogo-obmena.md) | 11.12 · через 74 дн. | Бухгалтерия | Поддержка | 1С:УТ → 1С:БП |
-| `BL-008` | [Н1·1.8 Ввод обмена в эксплуатацию, отключение ручной выгрузки](tasks/BL-008-n1-1-8-vvod-obmena-v-ekspluatatsiyu-otklyuchenie.md) | 14.12 · через 77 дн. | Бухгалтерия | Поддержка | 1С:УТ → 1С:БП |
-| `BL-010` | [Н2 · Первичные документы и НДС: счета-фактуры на аванс, адреса ОП](tasks/BL-010-n2-pervichnye-dokumenty-i-nds-scheta-faktury-na.md) | — | Бухгалтерия | Аналитика | 1С:УТ, Диадок |
+| `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | 12.10 · через 14 дн. | Оптимизация УТ | Аналитика | 1С:УТ |
+| `BL-032` | [Создать тестовую базу — полный слепок рабочей УТ, закреплённый за нами](tasks/BL-032-sozdat-testovuyu-bazu-polnyy-slepok-rabochey-ut.md) | — | Оптимизация УТ | Поддержка | 1С:УТ, СУБД |
 | `BL-014` | [К1-0 · Замер ожиданий на управляемых блокировках (базовая линия)](tasks/BL-014-k1-0-zamer-ozhidaniy-na-upravlyaemyh-blokirovkah.md) | — | Оптимизация УТ | Аналитика | 1С:УТ |
 | `BL-024` | [К3-1 · Выяснить основной режим запуска конфигурации УТ](tasks/BL-024-k3-1-vyyasnit-osnovnoy-rezhim-zapuska-konfigurat.md) | — | Оптимизация УТ | Исследование | 1С:УТ |
 | `BL-026` | [Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)](tasks/BL-026-nagruzochnyy-audit-zhurnalov-zakazy-pokupatelya.md) | — | Оптимизация УТ | Аналитика | 1С:УТ · trade_blinan |
-| `BL-027` | [Аудит производительности по пользователям (5+ выгрузок за день, мониторинг неделю)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | — | Оптимизация УТ | Аналитика | 1С:УТ |
 | `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | — | Оптимизация УТ | Разработка | 1С:УТ |
 
-### 🟠 Should — важно · 9
+### 🟠 Should — важно · 7
 
 | ID | Задача | Срок | Проект | Тип | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-011` | [Н3 · Автоматическая сверка ОСВ Ресан / Ревитех](tasks/BL-011-n3-avtomaticheskaya-sverka-osv-resan-reviteh.md) | — | Бухгалтерия | Разработка | 1С:БП |
-| `BL-013` | [Н5 · Контроль учёта: закрытие периода и акт сверки](tasks/BL-013-n5-kontrol-ucheta-zakrytie-perioda-i-akt-sverki.md) | — | Бухгалтерия | Аналитика | 1С:УТ, 1С:БП |
 | `BL-015` | [К1 · Быстрые правки расписаний: К1-3, К1-4, К1-6](tasks/BL-015-k1-bystrye-pravki-raspisaniy-k1-3-k1-4-k1-6.md) | — | Оптимизация УТ | Разработка | 1С:УТ |
 | `BL-017` | [К1-7, К1-8 · Закрыть «зомби»-задания и задать ограничение длительности](tasks/BL-017-k1-7-k1-8-zakryt-zombi-zadaniya-i-zadat-ogranich.md) | — | Оптимизация УТ | Разработка | 1С:УТ |
 | `BL-018` | [К1-9 · Пересобрать ночное окно](tasks/BL-018-k1-9-peresobrat-nochnoe-okno.md) | — | Оптимизация УТ | Аналитика | 1С:УТ |
@@ -61,29 +54,39 @@
 | `BL-029` | [Обработка очистки дублей контрагентов](tasks/BL-029-obrabotka-ochistki-dubley-kontragentov.md) | — | — | Разработка | 1С:УТ |
 | `BL-030` | [Обработка удаления помеченных на удаление объектов с проверкой ссылок](tasks/BL-030-obrabotka-udaleniya-pomechennyh-na-udalenie-obek.md) | — | Оптимизация УТ | Разработка | 1С:УТ |
 
-### 🔵 Could — желательно · 3
+### 🔵 Could — желательно · 2
 
 | ID | Задача | Срок | Проект | Тип | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-012` | [Н4 · Банк и платежи: ДиректБанк, платёжки по заявкам, НДС в выписках](tasks/BL-012-n4-bank-i-platezhi-direktbank-platezhki-po-zayav.md) | — | Бухгалтерия | Разработка | 1С:УТ, 1С:БП |
 | `BL-021` | [К1-12, К1-13 · Порядок в заданиях: ошибки Диадока, мёртвые и бесхозные задания](tasks/BL-021-k1-12-k1-13-poryadok-v-zadaniyah-oshibki-diadoka.md) | — | Оптимизация УТ | Поддержка | 1С:УТ |
 | `BL-023` | [К2-5, К2-6 · Первый прогон УПО в рабочей базе и регламент](tasks/BL-023-k2-5-k2-6-pervyy-progon-upo-v-rabochey-baze-i-re.md) | — | Оптимизация УТ | Поддержка | 1С:УТ |
 
-<details><summary><b>⚪ Won't — не сейчас · 0</b></summary>
+<details><summary><b>⚪ Won't — не сейчас · 12</b></summary>
 
-_Пусто_
+| ID | Задача | Срок | Проект | Тип | Система |
+|:--|:--|:--|:--|:--|:--|
+| `BL-002` | [Н1·1.2 Анализ файла правил обмена от Иннотеха](tasks/BL-002-n1-1-2-analiz-fayla-pravil-obmena-ot-innoteha.md) | — | Бухгалтерия | Аналитика | 1С:УТ → 1С:БП |
+| `BL-003` | [Н1·1.3 Согласование целевой схемы обмена и решения по канцтоварам](tasks/BL-003-n1-1-3-soglasovanie-tselevoy-shemy-obmena-i-resh.md) | — | Бухгалтерия | Консультация | 1С:УТ → 1С:БП |
+| `BL-004` | [Н1·1.4 ТЗ для Иннотеха (З-1 – З-4) и контроль доработки](tasks/BL-004-n1-1-4-tz-dlya-innoteha-z-1-z-4-i-kontrol-dorabo.md) | — | Бухгалтерия | Аналитика | 1С:УТ → 1С:БП |
+| `BL-005` | [Н1·1.5 Приёмка доработок обмена на копиях баз](tasks/BL-005-n1-1-5-priemka-dorabotok-obmena-na-kopiyah-baz.md) | — | Бухгалтерия | Аналитика | 1С:УТ → 1С:БП |
+| `BL-006` | [Н1·1.6 Права доступа, регламентное задание выгрузки, журнал и уведомления](tasks/BL-006-n1-1-6-prava-dostupa-reglamentnoe-zadanie-vygruz.md) | — | Бухгалтерия | Разработка | 1С:УТ, 1С:БП |
+| `BL-007` | [Н1·1.7 Пилот автоматического обмена](tasks/BL-007-n1-1-7-pilot-avtomaticheskogo-obmena.md) | — | Бухгалтерия | Поддержка | 1С:УТ → 1С:БП |
+| `BL-008` | [Н1·1.8 Ввод обмена в эксплуатацию, отключение ручной выгрузки](tasks/BL-008-n1-1-8-vvod-obmena-v-ekspluatatsiyu-otklyuchenie.md) | — | Бухгалтерия | Поддержка | 1С:УТ → 1С:БП |
+| `BL-009` | [Бухгалтерия: закрыть открытые вопросы (В-01, В-04, В-07, В-08, В-12, В-13)](tasks/BL-009-buhgalteriya-zakryt-otkrytye-voprosy-v-01-v-04-v.md) | — | Бухгалтерия | Консультация | 1С:УТ, 1С:БП |
+| `BL-010` | [Н2 · Первичные документы и НДС: счета-фактуры на аванс, адреса ОП](tasks/BL-010-n2-pervichnye-dokumenty-i-nds-scheta-faktury-na.md) | — | Бухгалтерия | Аналитика | 1С:УТ, Диадок |
+| `BL-011` | [Н3 · Автоматическая сверка ОСВ Ресан / Ревитех](tasks/BL-011-n3-avtomaticheskaya-sverka-osv-resan-reviteh.md) | — | Бухгалтерия | Разработка | 1С:БП |
+| `BL-012` | [Н4 · Банк и платежи: ДиректБанк, платёжки по заявкам, НДС в выписках](tasks/BL-012-n4-bank-i-platezhi-direktbank-platezhki-po-zayav.md) | — | Бухгалтерия | Разработка | 1С:УТ, 1С:БП |
+| `BL-013` | [Н5 · Контроль учёта: закрытие периода и акт сверки](tasks/BL-013-n5-kontrol-ucheta-zakrytie-perioda-i-akt-sverki.md) | — | Бухгалтерия | Аналитика | 1С:УТ, 1С:БП |
 
 </details>
 
-## ⏳ Ожидание · 4
+## ⏳ Ожидание · 2
 
 <sub>Ждём ответа, данных или решения от других.</sub>
 
 | ID | Задача | Приоритет | Срок | Проект |
 |:--|:--|:--|:--|:--|
-| `BL-009` | [Бухгалтерия: закрыть открытые вопросы (В-01, В-04, В-07, В-08, В-12, В-13)](tasks/BL-009-buhgalteriya-zakryt-otkrytye-voprosy-v-01-v-04-v.md) | 🟠 Should | 05.10 · 🟡 через 7 дн. | Бухгалтерия |
-| `BL-016` | [К1 · Дневные выгрузки Битрикс/Insales и остатки (К1-1, К1-2, К1-5)](tasks/BL-016-k1-dnevnye-vygruzki-bitriks-insales-i-ostatki-k1.md) | 🟠 Should | — | Оптимизация УТ |
-| `BL-019` | [К1-10 · resanopt_goods_full на инкрементальную выгрузку](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | 🟠 Should | — | Оптимизация УТ |
+| `BL-016` | [К1 · Дневные выгрузки Insales и остатки (К1-2, К1-5)](tasks/BL-016-k1-dnevnye-vygruzki-bitriks-insales-i-ostatki-k1.md) | 🟠 Should | — | Оптимизация УТ |
 | `BL-020` | [К1-11 · Битрикс и Insales на дельта-обмен](tasks/BL-020-k1-11-bitriks-i-insales-na-delta-obmen.md) | 🔵 Could | — | Оптимизация УТ |
 
 ## 📥 Входящие · 0

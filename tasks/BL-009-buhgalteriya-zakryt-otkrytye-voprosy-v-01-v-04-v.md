@@ -1,20 +1,19 @@
 ---
 id: BL-009
 title: Бухгалтерия: закрыть открытые вопросы (В-01, В-04, В-07, В-08, В-12, В-13)
-status: waiting      # inbox | backlog | in-progress | waiting | done | canceled
-priority: should     # must | should | could | wont
+status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+priority: wont       # must | should | could | wont
 type: consult        # analysis | dev | consult | research | support
 project: buh         # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ, 1С:БП # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
 initiator:           # кто поставил задачу
 created: 2026-09-28
-deadline: 2026-10-05 # ГГГГ-ММ-ДД, можно оставить пустым
+deadline:            # ГГГГ-ММ-ДД, можно оставить пустым
 estimate:            # оценка: 2h, 1d, 3d …
 bitrix:              # ссылка на задачу в Битрикс24, если есть
 tags: [вопросы]      # [отчёты, регламенты]
 closed:              # заполняется автоматически при закрытии
 ---
-
 ## Суть
 Получить ответы на вопросы, от которых зависят этапы 1.2–1.4 и очерёдность Н2–Н5.
 
@@ -39,3 +38,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-09-28 — задача заведена
+- 2026-09-28 — отложено на неопределённый срок: приоритет у оптимизации 1С, бухгалтерия потом (было: should, срок 2026-10-05)

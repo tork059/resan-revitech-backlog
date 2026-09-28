@@ -248,9 +248,10 @@ function dlInfo(t){
 }
 const isClosed = t => t.status === 'done' || t.status === 'canceled';
 const isHot = t => !isClosed(t) && t.status !== 'inbox' && t.priority !== 'wont' && daysLeft(t) !== null && daysLeft(t) <= S.data.config.hot_days;
+const ord = t => /^\d+$/.test(String(t.order||'')) ? +t.order : 999;
 function byPrio(a,b){
   const pa = PRIO.indexOf(a.priority), pb = PRIO.indexOf(b.priority); if(pa!==pb) return pa-pb;
-  return byDeadline(a,b);
+  return ord(a)-ord(b) || byDeadline(a,b);
 }
 function byDeadline(a,b){
   const x = daysLeft(a), y = daysLeft(b);
@@ -278,7 +279,7 @@ function card(t, opts={}){
   if(t.system) meta.push(`<span class="pill">${esc(t.system)}</span>`);
   if(t.estimate) meta.push(`<span class="pill">≈ ${esc(t.estimate)}</span>`);
   return `<div class="card" style="--pc:${PCOLOR[t.priority]}" data-id="${esc(t.id)}" tabindex="0">
-    <div class="c-top"><span class="id">${esc(t.id)}</span>${opts.noPrio?'':`<span class="pill p">${esc(L.priority[t.priority][0])}</span>`}</div>
+    <div class="c-top"><span class="id">${esc(t.id)}</span>${ord(t)<999?`<span class="pill" title="Очерёдность">#${ord(t)}</span>`:''}${opts.noPrio?'':`<span class="pill p">${esc(L.priority[t.priority][0])}</span>`}</div>
     <div class="c-title">${esc(t.title)}</div>
     ${meta.length?`<div class="c-meta">${meta.join('')}</div>`:''}
   </div>`;
@@ -328,7 +329,7 @@ function render(){
     // Очередь: приоритет → внутри него сначала сроки в ближайшие 3 недели, затем без срока, затем дальние
     const bucket = t => { const n = daysLeft(t); return n === null ? 1 : n <= 21 ? 0 : 2; };
     const next = active.filter(t=>t.status==='backlog' && t.priority!=='wont' && notHot(t))
-      .sort((a,b)=>PRIO.indexOf(a.priority)-PRIO.indexOf(b.priority) || bucket(a)-bucket(b) || byDeadline(a,b)).slice(0,6);
+      .sort((a,b)=>PRIO.indexOf(a.priority)-PRIO.indexOf(b.priority) || ord(a)-ord(b) || bucket(a)-bucket(b) || byDeadline(a,b)).slice(0,6);
     const waiting = active.filter(t=>t.status==='waiting' && notHot(t)).sort(byDeadline);
     if(hot.length) html += section('Горит и ещё не в работе', 'var(--must)', hot, `<div class="grid">${hot.map(t=>card(t,{status:true})).join('')}</div>`);
     html += section('В работе', 'var(--accent)', work, work.length?`<div class="grid">${work.map(t=>card(t)).join('')}</div>`:`<div class="empty">Сейчас ничего не в работе — возьмите задачу из «Следующие»</div>`);
@@ -338,7 +339,7 @@ function render(){
   else if(S.tab === 'prio'){
     const pool = active.filter(t=>t.status!=='inbox');
     html = `<div class="board">${PRIO.map(p => {
-      const arr = pool.filter(t=>t.priority===p).sort(byDeadline);
+      const arr = pool.filter(t=>t.priority===p).sort((a,b)=>ord(a)-ord(b) || byDeadline(a,b));
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
         <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
     }).join('')}</div>`;

@@ -111,6 +111,7 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .reg-f .pill{margin-left:auto}
 .reg-r.nested{background:rgba(255,255,255,.012)}
 .reg-r.nested .id{padding-left:18px}
+.proj-list .reg-h,.proj-list .reg-r{grid-template-columns:74px minmax(0,1fr) 82px 150px}
 .reg-g{padding:9px 16px;font-size:12px;font-weight:600;color:var(--muted);background:var(--bg);border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
 .reg-g:first-child{border-top:0}
 .reg-g .cnt{color:var(--faint);font-weight:500}
@@ -278,6 +279,7 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
   .reg-r{grid-template-columns:62px minmax(0,1fr);row-gap:4px}
   .reg-r>.m{grid-column:2}
   .reg-r.nested .id{padding-left:8px}
+  .proj-list .reg-r{grid-template-columns:62px minmax(0,1fr)}
   .grid,.grid2{grid-template-columns:1fr}
   .filters{margin-left:0;width:100%}
   .search{flex:1 1 100%;width:auto;min-width:0}
@@ -438,9 +440,9 @@ function section(title, color, arr, html){
 }
 
 const TABS = [
-  ['prio','Горизонт'], ['backlog','Бэклог'], ['projects','Проекты'], ['moscow','MoSCoW'], ['time','Сроки'], ['archive','Архив']
+  ['prio','Горизонт'], ['backlog','Бэклог'], ['projects','Проекты'], ['moscow','MoSCoW'], ['archive','Архив']
 ];
-const TAB_MIGRATE = {focus:'prio', status:'backlog'};
+const TAB_MIGRATE = {focus:'prio', status:'backlog', time:'prio'};
 
 function render(){
   const all = S.data.tasks, L = S.data.labels;
@@ -499,20 +501,6 @@ function render(){
     const un = active.filter(t=>!MCOLOR[t.moscow]);
     if(un.length) html += `<div style="height:22px"></div>` + section('Без оценки MoSCoW', 'var(--faint)', un, `<div class="grid">${un.map(t=>card(t)).join('')}</div>`);
   }
-  else if(S.tab === 'time'){
-    const groups = [
-      ['Просрочено','var(--must)', t=>daysLeft(t)!==null && daysLeft(t)<0],
-      ['Ближайшие 7 дней','var(--should)', t=>daysLeft(t)!==null && daysLeft(t)>=0 && daysLeft(t)<=7],
-      ['8–21 день','var(--accent)', t=>daysLeft(t)!==null && daysLeft(t)>7 && daysLeft(t)<=21],
-      ['Позже','var(--could)', t=>daysLeft(t)!==null && daysLeft(t)>21],
-      ['Без срока','var(--faint)', t=>daysLeft(t)===null],
-    ];
-    html = groups.map(([name,c,fn]) => {
-      const arr = active.filter(fn).sort(byDeadline);
-      if(!arr.length) return '';
-      return section(name, c, arr, `<div class="list">${arr.map(t=>row(t)).join('')}</div>`);
-    }).join('') || `<div class="empty">Нет активных задач</div>`;
-  }
   else if(S.tab === 'archive'){
     const arr = closed.slice().sort((a,b)=>(b.closed||'').localeCompare(a.closed||''));
     html = arr.length ? `<div class="list">${arr.map(t=>row(t,true)).join('')}</div>` : `<div class="empty">Архив пока пуст</div>`;
@@ -543,24 +531,38 @@ function projectsView(){
       <div class="proj-m"><span>${x.done} из ${x.total} готово · ${x.pct}%</span><span>активных ${x.act.length}</span>
       ${x.nxt?`<span>ближайший срок: ${esc(x.nxt.id)} · ${esc(dl.n>S.data.config.soon_days?fmtD(x.nxt.deadline):dl.txt)}</span>`:''}</div></div>`;
   };
-  let html = `<p class="lead">Какие задачи к какому проекту относятся и что в проекте движется. Выберите проект — ниже его задачи по горизонту. Фильтр проекта в панели сверху на эту вкладку не влияет.</p>
+  let html = `<p class="lead">Проекты и их задачи. Выберите проект — ниже все его задачи по состоянию: в работе, запланировано, ожидание, бэклог, сделано.</p>
     <div class="projects">${keys.map(k => cardP(k, P[k].name, P[k].url, P[k].description, P[k].status)).join('')}
     ${authed ? `<button class="proj add" data-pnew="1" type="button">＋ Новый проект</button>` : ''}</div>`;
-  const k = S.projSel, pr = P[k] || {name:'Без проекта'};
-  const ids = new Set(filtered(true).map(t=>t.id));
-  const x = projectStats(k), act = x.act.filter(t=>ids.has(t.id) && isPlanned(t)), closed = x.mine.filter(t=>isClosed(t) && ids.has(t.id));
-  const parked = x.act.filter(t=>ids.has(t.id) && !isPlanned(t)).sort((a,b)=>(a.created||'').localeCompare(b.created||''));
+  const k = S.projSel, pr = P[k];
+  const q = S.q.trim().toLowerCase();
+  const mine = S.data.tasks.filter(t => t.project === k &&
+    (!S.type || t.type === S.type) && (!S.system || t.system === S.system) &&
+    (!q || [t.id,t.title,t.system,t.initiator,(t.tags||[]).join(' '),t.body].join(' ').toLowerCase().includes(q)));
+  const x = projectStats(k);
+  const groups = [
+    ['В работе', 'var(--accent)', t => t.status === 'in-progress', byHorizon],
+    ['Запланировано', '#8fd3f5', t => t.status === 'todo', byHorizon],
+    ['Ожидание', '#bb9af7', t => t.status === 'waiting', byHorizon],
+    ['Бэклог и входящие', 'var(--should)', t => t.status === 'backlog' || t.status === 'inbox', byHorizon],
+    ['Сделано', 'var(--ok)', isClosed, (a,b) => (b.closed||'').localeCompare(a.closed||'')],
+  ];
+  const pRow = t => {
+    const dl = dlInfo(t), closed = isClosed(t);
+    return `<div class="reg-r" data-id="${esc(t.id)}"><span class="id">${esc(t.id)}</span>
+      <div><div class="t">${esc(t.title)}</div>${t.impact && !closed ? `<div class="i">${esc(t.impact)}</div>` : ''}</div>
+      <span class="m">${t.moscow && MCOLOR[t.moscow] ? `<span class="pill ms" style="--mc:${MCOLOR[t.moscow]}">${esc(L.moscow[t.moscow][0])}</span>` : '—'}</span>
+      <span class="m">${closed ? `<span class="pill st ${t.status}">${esc(L.status[t.status])} ${esc(fmtD(t.closed))}</span>`
+        : dl ? `<span class="pill dl ${dl.cls}">⏱ ${esc(dl.n>S.data.config.soon_days?fmtD(t.deadline):dl.txt)}</span>` : '—'}</span></div>`;
+  };
+  const inWork = x.mine.filter(t => t.status === 'in-progress').length;
   html += `<div class="p-head"><h2>${esc(pr.name)}</h2>${pr.url?`<a href="${esc(pr.url)}" target="_blank" rel="noopener">страница проекта ↗</a>`:''}
-    ${pr.repo?`<a href="${esc(pr.repo)}" target="_blank" rel="noopener">репозиторий ↗</a>`:''}${pr.description?`<div class="desc">${esc(pr.description)}</div>`:''}</div>
-    <div class="board b3">${PRIO.map(p => {
-      const arr = act.filter(t=>t.priority===p).sort(byHorizon);
-      return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
-        <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
-    }).join('')}</div>`;
-  if(parked.length) html += `<div style="height:22px"></div>` + section('Бэклог и входящие проекта — не запланированы', 'var(--should)', parked,
-    `<div class="list">${parked.map(t=>row(t)).join('')}</div>`);
-  if(closed.length) html += `<div style="height:22px"></div>` + section('Закрыто в проекте', 'var(--ok)', closed,
-    `<div class="list">${closed.sort((a,b)=>(b.closed||'').localeCompare(a.closed||'')).map(t=>row(t,true)).join('')}</div>`);
+    ${pr.repo?`<a href="${esc(pr.repo)}" target="_blank" rel="noopener">репозиторий ↗</a>`:''}${pr.description?`<div class="desc">${esc(pr.description)}</div>`:''}
+    <div class="desc">Всего задач: <b>${x.total}</b> · сделано: <b>${x.done}</b> (${x.pct}%) · в работе: <b>${inWork}</b> · не закрыто: <b>${x.act.length}</b></div></div>
+    <div class="reg proj-list">${mine.length ? `<div class="reg-h"><span>ID</span><span>Задача</span><span>MoSCoW</span><span>Срок</span></div>` +
+      groups.map(([name, color, fn, sorter]) => { const arr = mine.filter(fn).sort(sorter); return arr.length ?
+        `<div class="reg-g"><span class="dot" style="background:${color}"></span>${name} <span class="cnt">${arr.length}</span></div>` + arr.map(pRow).join('') : ''; }).join('')
+      : '<div class="empty">В проекте пока нет задач</div>'}</div>`;
   return html;
 }
 

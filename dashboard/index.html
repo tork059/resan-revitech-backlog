@@ -92,7 +92,7 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .card.hot::after{content:"горит";position:absolute;right:12px;bottom:10px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--must);opacity:.8}
 /* реестр бэклога */
 .reg{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.reg-h,.reg-r{display:grid;grid-template-columns:74px minmax(0,1fr) 150px 82px 92px 110px;gap:12px;align-items:center;padding:10px 16px}
+.reg-h,.reg-r{display:grid;grid-template-columns:74px minmax(0,1fr) 82px 92px 120px;gap:12px;align-items:center;padding:10px 16px}
 .reg-h{font-size:11.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:var(--surface-2)}
 .reg-r{border-top:1px solid var(--border);cursor:pointer}
 .reg-r:first-of-type{border-top:0}
@@ -101,6 +101,16 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .reg-r .i{color:var(--faint);font-size:12px;margin-top:2px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .reg-r .m{color:var(--muted);font-size:12.5px}
 .reg-r .old{color:var(--should)}
+.reg-f{display:flex;align-items:center;gap:10px;padding:11px 16px;border-top:1px solid var(--border);cursor:pointer;background:var(--surface-2);user-select:none}
+.reg-f:first-of-type{border-top:0}
+.reg-f:hover{background:var(--surface-3)}
+.reg-f b{font-weight:600}
+.reg-f .cnt{color:var(--faint);font-size:12.5px}
+.reg-f .chev{color:var(--muted);transition:transform .15s;display:inline-block;width:10px}
+.reg-f.open .chev{transform:rotate(90deg)}
+.reg-f .pill{margin-left:auto}
+.reg-r.nested{background:rgba(255,255,255,.012)}
+.reg-r.nested .id{padding-left:18px}
 .reg-g{padding:9px 16px;font-size:12px;font-weight:600;color:var(--muted);background:var(--bg);border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
 .reg-g:first-child{border-top:0}
 .reg-g .cnt{color:var(--faint);font-weight:500}
@@ -267,6 +277,7 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
   .reg-h{display:none}
   .reg-r{grid-template-columns:62px minmax(0,1fr);row-gap:4px}
   .reg-r>.m{grid-column:2}
+  .reg-r.nested .id{padding-left:8px}
   .grid,.grid2{grid-template-columns:1fr}
   .filters{margin-left:0;width:100%}
   .search{flex:1 1 100%;width:auto;min-width:0}
@@ -546,42 +557,32 @@ function projectsView(){
   return html;
 }
 
-const BL_SORT = {project:'По проекту', age:'Давно лежат', moscow:'По MoSCoW'};
 function backlogView(active){
   const L = S.data.labels, P = S.data.projects || {};
-  S.blSort = S.blSort || 'project';
+  S.blOpen = S.blOpen || new Set();
   const inbox = active.filter(t=>t.status==='inbox').sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id));
-  const bl = active.filter(t=>t.status==='backlog');
-  const pname = t => t.project && P[t.project] ? (P[t.project].short || P[t.project].name) : 'Без проекта';
-  const regRow = t => {
+  const bl = active.filter(t=>t.status==='backlog').sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id));
+  const regRow = (t, nested) => {
     const a = ageDays(t), dl = dlInfo(t);
-    return `<div class="reg-r" data-id="${esc(t.id)}"><span class="id">${esc(t.id)}</span>
+    return `<div class="reg-r${nested?' nested':''}" data-id="${esc(t.id)}"><span class="id">${esc(t.id)}</span>
       <div><div class="t">${esc(t.title)}</div>${t.impact?`<div class="i">${esc(t.impact)}</div>`:''}</div>
-      <span class="m">${esc(pname(t))}</span>
       <span class="m">${t.moscow && MCOLOR[t.moscow] ? `<span class="pill ms" style="--mc:${MCOLOR[t.moscow]}">${esc(L.moscow[t.moscow][0])}</span>` : '—'}</span>
       <span class="m ${a!==null && a>=30?'old':''}">${a===null?'—':a===0?'сегодня':a+' дн.'}</span>
       <span class="m">${dl ? `<span class="pill dl ${dl.cls}">⏱ ${esc(dl.n>S.data.config.soon_days?fmtD(t.deadline):dl.txt)}</span>` : '—'}</span></div>`;
   };
-  let body = '';
-  if(!bl.length) body = `<div class="empty">Бэклог пуст</div>`;
-  else if(S.blSort === 'project'){
-    const groups = {};
-    bl.forEach(t => (groups[pname(t)] = groups[pname(t)] || []).push(t));
-    body = Object.entries(groups).sort((a,b)=> a[0]==='Без проекта' ? 1 : b[0]==='Без проекта' ? -1 : a[0].localeCompare(b[0],'ru'))
-      .map(([g, arr]) => `<div class="reg-g">${esc(g)} <span class="cnt">${arr.length}</span></div>` +
-        arr.sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id)).map(regRow).join('')).join('');
-  } else if(S.blSort === 'age'){
-    body = bl.slice().sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id)).map(regRow).join('');
-  } else {
-    body = MOS.concat(['']).map(m => { const arr = bl.filter(t => m ? t.moscow===m : !MCOLOR[t.moscow]); return arr.length ?
-      `<div class="reg-g">${m ? esc(L.moscow[m][0]+' — '+L.moscow[m][1]) : 'Без оценки'} <span class="cnt">${arr.length}</span></div>` + arr.map(regRow).join('') : ''; }).join('');
-  }
-  return `<p class="lead">Хранилище задач, по которым пока не ясны ни сроки, ни очередь. Здесь нет горизонта — задача попадает на «Горизонт», только когда её запланируют. Сверху — новые «Входящие», их нужно разобрать.</p>
+  const folders = Object.keys(P).map(k => [k, bl.filter(t=>t.project===k)]).filter(([,arr]) => arr.length);
+  const loose = bl.filter(t => !t.project || !P[t.project]);
+  const body = folders.map(([k, arr]) => {
+    const open = S.blOpen.has(k), must = arr.filter(t=>t.moscow==='must').length;
+    return `<div class="reg-f${open?' open':''}" data-blf="${esc(k)}"><span class="chev">▸</span><span class="f-ico">📁</span>
+        <b>${esc(P[k].name)}</b><span class="cnt">${arr.length} ${arr.length%10===1&&arr.length%100!==11?'задача':[2,3,4].includes(arr.length%10)&&![12,13,14].includes(arr.length%100)?'задачи':'задач'}</span>
+        ${must?`<span class="pill ms" style="--mc:${MCOLOR.must}">Must · ${must}</span>`:''}</div>` + (open ? arr.map(t=>regRow(t, true)).join('') : '');
+  }).join('') + loose.map(t=>regRow(t, false)).join('');
+  return `<p class="lead">Хранилище задач, по которым пока не ясны ни сроки, ни очередь. Задача попадает на «Горизонт», когда её запланируют. Сверху — новые «Входящие», их нужно разобрать.</p>
     <section class="section inbox-list"><h2><span class="dot" style="background:var(--accent)"></span>Входящие — разобрать <span class="cnt">${inbox.length}</span></h2>
       ${inbox.length ? `<div class="list">${inbox.map(t=>row(t)).join('')}</div>` : `<div class="empty" style="text-align:left;padding:4px 2px">Всё разобрано ✨ Новые задачи появятся здесь.</div>`}</section>
-    <section class="section"><div class="sec-bar"><h2 style="margin:0"><span class="dot" style="background:var(--should)"></span>Бэклог — хранилище <span class="cnt">${bl.length}</span></h2>
-      <div class="seg">${Object.entries(BL_SORT).map(([k,l])=>`<button data-blsort="${k}" class="${S.blSort===k?'on':''}">${l}</button>`).join('')}</div></div>
-      <div class="reg"><div class="reg-h"><span>ID</span><span>Задача</span><span>Проект</span><span>MoSCoW</span><span>Лежит</span><span>Срок</span></div>${body}</div></section>`;
+    <section class="section"><h2><span class="dot" style="background:var(--should)"></span>Бэклог — хранилище <span class="cnt">${bl.length}</span></h2>
+      <div class="reg">${bl.length ? `<div class="reg-h"><span>ID</span><span>Задача</span><span>MoSCoW</span><span>В бэклоге</span><span>Срок</span></div>${body}` : '<div class="empty">Бэклог пуст</div>'}</div></section>`;
 }
 
 function row(t, archived){
@@ -654,8 +655,8 @@ function fillFilters(){
 document.addEventListener('click', e => {
   const tab = e.target.closest('[data-tab]');
   if(tab){ S.tab = tab.dataset.tab; try{localStorage.setItem('bl-tab',S.tab)}catch(_){}; render(); return; }
-  const bs = e.target.closest('[data-blsort]');
-  if(bs){ S.blSort = bs.dataset.blsort; render(); return; }
+  const bf = e.target.closest('[data-blf]');
+  if(bf){ const k = bf.dataset.blf; S.blOpen.has(k) ? S.blOpen.delete(k) : S.blOpen.add(k); render(); return; }
   if(e.target.closest('[data-pedit],[data-pnew]')) return;   // обрабатывается в режиме редактирования
   const pj = e.target.closest('[data-proj]');
   if(pj && !e.target.closest('a')){ S.projSel = pj.dataset.proj; render(); return; }

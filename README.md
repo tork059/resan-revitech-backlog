@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![горит: 3](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-3-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
+![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 30.09.2026 · не редактируйте этот файл вручную</sub>
 
@@ -16,7 +16,6 @@
 > **Горит — срок истёк или наступает в ближайшие 3 дн.**
 >
 > - `BL-027` [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) — 02.10 · 🟠 через 2 дн.
-> - `BL-031` [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) — 02.10 · 🟠 через 2 дн.
 > - `BL-001` [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) — 03.10 · 🟠 через 3 дн.
 
 ## 📁 Проекты
@@ -30,7 +29,7 @@
 
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
-| `BL-031` | [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) | 🔴 Сейчас | 02.10 · 🟠 через 2 дн. | 🟥 Must | Оптимизация УТ |
+| `BL-031` | [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) | 🔴 Сейчас | 12.10 · через 12 дн. | 🟥 Must | Оптимизация УТ |
 | `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | 🔴 Сейчас | 02.10 · 🟠 через 2 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-001` | [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) | 🔴 Сейчас | 03.10 · 🟠 через 3 дн. | 🟧 Should | Бухгалтерия |
 

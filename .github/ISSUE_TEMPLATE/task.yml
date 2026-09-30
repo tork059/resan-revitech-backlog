@@ -20,16 +20,6 @@ body:
       label: Суть и контекст
       description: Что нужно, зачем, откуда пришло. Можно вставить текст письма или сообщения.
   - type: dropdown
-    id: priority
-    attributes:
-      label: Горизонт
-      description: Когда возьмусь за задачу
-      options:
-        - "Сейчас — эта неделя"
-        - "Далее — ближайший месяц"
-        - "Потом — когда-нибудь"
-      default: 1
-  - type: dropdown
     id: moscow
     attributes:
       label: MoSCoW — влияние на бизнес

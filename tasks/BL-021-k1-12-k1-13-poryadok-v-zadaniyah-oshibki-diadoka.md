@@ -2,8 +2,7 @@
 id: BL-021
 title: К1-12, К1-13 · Порядок в заданиях: ошибки Диадока, мёртвые и бесхозные задания
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт: now — сейчас | next — далее | later — потом
-order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Ошибки задания Диадока затрагивают ЭДО; мёртвые и бесхозные задания — риск неконтролируемых запусков
 type: support        # analysis | dev | consult | research | support

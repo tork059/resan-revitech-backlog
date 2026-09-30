@@ -2,8 +2,7 @@
 id: BL-024
 title: К3-1 · Выяснить основной режим запуска конфигурации УТ
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 7             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Ключевая развилка контура К3 (возможен ли тонкий клиент); на работу пользователей напрямую не влияет
 type: research       # analysis | dev | consult | research | support

@@ -2,8 +2,7 @@
 id: BL-009
 title: Бухгалтерия: закрыть открытые вопросы (В-01, В-04, В-07, В-08, В-12, В-13)
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт: now — сейчас | next — далее | later — потом
-order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Разблокирует этапы Н1 (правила от Иннотеха, решение по канцтоварам) и очерёдность направлений Н2–Н5
 type: consult        # analysis | dev | consult | research | support

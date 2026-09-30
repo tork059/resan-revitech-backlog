@@ -2,8 +2,7 @@
 id: BL-017
 title: К1-7, К1-8 · Закрыть «зомби»-задания и задать ограничение длительности
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 6             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Риск стабильности: отключённые задания уже запускались днём (20,4 ч одним прогоном), таймаутов нет — повтор кладёт рабочее окно
 type: dev            # analysis | dev | consult | research | support

@@ -2,8 +2,7 @@
 id: BL-015
 title: К1 · Быстрые правки расписаний: К1-3, К1-4, К1-6
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 5             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: ≈1,2 ч/сут машинного времени из вечернего окна при минимальном риске
 type: dev            # analysis | dev | consult | research | support

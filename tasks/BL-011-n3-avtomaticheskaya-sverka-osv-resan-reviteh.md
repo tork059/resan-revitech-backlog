@@ -2,8 +2,7 @@
 id: BL-011
 title: Н3 · Автоматическая сверка ОСВ Ресан / Ревитех
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт: now — сейчас | next — далее | later — потом
-order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Снимает ручную построчную сверку ОСВ двух организаций; обходной путь — ручная сверка
 type: dev            # analysis | dev | consult | research | support

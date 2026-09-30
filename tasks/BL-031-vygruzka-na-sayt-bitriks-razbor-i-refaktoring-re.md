@@ -2,8 +2,7 @@
 id: BL-031
 title: Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания
 status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: now        # горизонт: now — сейчас | next — далее | later — потом
-order: 1             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Самый большой вклад в дневную нагрузку (≈2 ч/сут в рабочем окне) — прямая причина зависаний у пользователей
 type: dev            # analysis | dev | consult | research | support

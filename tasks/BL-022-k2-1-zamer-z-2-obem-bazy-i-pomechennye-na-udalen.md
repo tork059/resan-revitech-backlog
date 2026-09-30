@@ -2,8 +2,7 @@
 id: BL-022
 title: К2-1 · Замер З-2: объём базы и помеченные на удаление объекты
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 10            # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Покажет, даст ли удаление помеченных эффект по объёму базы; без замера контур К2 не начинать
 type: analysis       # analysis | dev | consult | research | support

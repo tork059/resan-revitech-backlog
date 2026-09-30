@@ -2,8 +2,7 @@
 id: BL-020
 title: К1-11 · Битрикс и Insales на дельта-обмен
 status: waiting      # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 3             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Убирает компромисс по частоте обновления сайтов после обрезки дневных серий — улучшение сверх основного эффекта
 type: dev            # analysis | dev | consult | research | support

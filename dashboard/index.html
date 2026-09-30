@@ -360,6 +360,15 @@ function dlInfo(t){
 const isClosed = t => t.status === 'done' || t.status === 'canceled';
 const PLANNED = ['todo','in-progress','waiting'];
 const isPlanned = t => PLANNED.includes(t.status);
+const MOS_RANK = {must:0, should:1, could:2, wont:3};
+const mosRank = t => MOS_RANK[t.moscow] ?? 4;
+// Горизонт считается сам: в работе → Сейчас; срок не дальше месяца → Далее; иначе (или без срока) → Потом
+function horizonOf(t){
+  if(t.status === 'in-progress') return 'now';
+  const n = daysLeft(t);
+  return n !== null && n <= (S.data.config.next_days || 30) ? 'next' : 'later';
+}
+const syncHorizon = t => { if(!isClosed(t)) t.priority = horizonOf(t); return t; };
 const ageDays = t => { const d = parseD(t.created); return d ? Math.round((todayLocal() - d)/864e5) : null; };
 function ruleIssues(tasks){
   const out = [], L = S.data.labels, hot = S.data.config.hot_days;
@@ -367,8 +376,6 @@ function ruleIssues(tasks){
     const n = daysLeft(t);
     if((t.status==='backlog'||t.status==='inbox') && n!==null && n<=hot)
       out.push([t.id, `горящий срок (${dlInfo(t).txt}), а задача в статусе «${L.status[t.status]}» — запланируйте, возьмите в работу или перенесите срок`]);
-    if(t.status==='in-progress' && t.priority!=='now')
-      out.push([t.id, `задача в работе, но горизонт «${L.priority[t.priority][0]}» — у задач в работе горизонт «Сейчас»`]);
   });
   return out;
 }
@@ -376,7 +383,7 @@ const isHot = t => !isClosed(t) && t.status !== 'inbox' && daysLeft(t) !== null 
 const ord = t => /^\d+$/.test(String(t.order||'')) ? +t.order : 999;
 function byPrio(a,b){
   const pa = PRIO.indexOf(a.priority), pb = PRIO.indexOf(b.priority); if(pa!==pb) return pa-pb;
-  return ord(a)-ord(b) || byDeadline(a,b);
+  return byHorizon(a,b);
 }
 function byDeadline(a,b){
   const x = daysLeft(a), y = daysLeft(b);
@@ -385,12 +392,12 @@ function byDeadline(a,b){
   return PRIO.indexOf(a.priority)-PRIO.indexOf(b.priority) || (a.created||'').localeCompare(b.created||'');
 }
 
-// Горизонт: задачи со сроком — по сроку (горящие сверху), без срока — по очерёдности
+// Внутри колонки: сначала срок (ближайший сверху), при равном сроке — MoSCoW; без срока — по MoSCoW
 function byHorizon(a,b){
   const x = daysLeft(a), y = daysLeft(b);
   if(x!==null && y===null) return -1; if(x===null && y!==null) return 1;
   if(x!==null && x!==y) return x-y;
-  return ord(a)-ord(b) || (a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id);
+  return mosRank(a)-mosRank(b) || (a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id);
 }
 function filtered(ignoreProject){
   const q = S.q.trim().toLowerCase();
@@ -420,7 +427,7 @@ function card(t, opts={}){
   if(t.system) meta.push(`<span class="pill">${esc(t.system)}</span>`);
   if(t.estimate) meta.push(`<span class="pill">≈ ${esc(t.estimate)}</span>`);
   return `<div class="card${isHot(t)?' hot':''}" style="--pc:${PCOLOR[t.priority]}" data-id="${esc(t.id)}" tabindex="0">
-    <div class="c-top"><span class="id">${esc(t.id)}</span>${ord(t)<999?`<span class="pill" title="Очерёдность">#${ord(t)}</span>`:''}${opts.noPrio?'':`<span class="pill p">${esc(L.priority[t.priority][0])}</span>`}</div>
+    <div class="c-top"><span class="id">${esc(t.id)}</span>${opts.noPrio?'':`<span class="pill p">${esc(L.priority[t.priority][0])}</span>`}</div>
     <div class="c-title">${esc(t.title)}</div>
     ${meta.length?`<div class="c-meta">${meta.join('')}</div>`:''}
   </div>`;
@@ -470,7 +477,7 @@ function render(){
   let html = '';
   if(S.tab === 'prio'){
     const pool = active.filter(isPlanned);
-    html = `<p class="lead">Главный экран: запланированные задачи, задачи в работе и на ожидании. В каждой колонке сверху — задачи с ближайшим сроком (горящие подсвечены), ниже — без срока, по очерёдности. Неразобранные задачи — во вкладке «Бэклог».</p><div class="board b3">${PRIO.map(p => {
+    html = `<p class="lead">Главный экран на каждый день. <b>Сейчас</b> — только задачи в работе. <b>Далее</b> — срок в пределах месяца (горящие — сверху, подсвечены). <b>Потом</b> — срок дальше месяца или без срока. Колонка определяется сама по статусу и сроку; внутри — по сроку, при равном сроке и без срока — по MoSCoW (Must выше). Бэклог и входящие — во вкладке «Бэклог».</p><div class="board b3">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort(byHorizon);
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
         <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
@@ -606,7 +613,7 @@ function openTask(id){
   const edit = `https://github.com/${repo}/edit/main/${encodeURI(t.path)}`;
   const meta = [
     ['Статус', `<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`],
-    ['Горизонт', `<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])}${ord(t)<999?' · #'+ord(t):''}</span>`],
+    ['Горизонт', `<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])}</span> <span class="hint-s">считается по статусу и сроку</span>`],
     ['MoSCoW', t.moscow && MCOLOR[t.moscow] ? `<span class="pill ms" style="--mc:${MCOLOR[t.moscow]}" title="${esc(L.moscow[t.moscow][1])}">${esc(L.moscow[t.moscow][0])}</span>` : '—'],
     ['Срок', t.deadline ? `${esc(fmtD(t.deadline))}${dl && !isClosed(t) ? ` <span class="pill dl ${dl.cls}">${esc(dl.n>S.data.config.soon_days?'через '+dl.n+' дн.':dl.txt)}</span>`:''}` : '—'],
     ['Проект', t.project && S.data.projects[t.project] ? `<a href="${esc(S.data.projects[t.project].url)}" target="_blank" rel="noopener">${esc(S.data.projects[t.project].name)} ↗</a>` : '—'],
@@ -681,6 +688,7 @@ $('#fSystem').addEventListener('change', e => { S.system = e.target.value; rende
   try {
     const r = await fetch('data.json', {cache:'no-store'});
     S.data = await r.json();
+    S.data.tasks.forEach(syncHorizon);
   } catch(e){
     $('#view').innerHTML = `<div class="empty">Не удалось загрузить data.json</div>`; return;
   }
@@ -798,12 +806,12 @@ function toggleCheck(text, idx, on){
 }
 function taskFromText(text, path){
   const m = fmMap(text), t = {};
-  ['id','title','status','priority','order','moscow','impact','type','project','system','initiator','created','deadline','estimate','bitrix','closed']
+  ['id','title','status','priority','moscow','impact','type','project','system','initiator','created','deadline','estimate','bitrix','closed']
     .forEach(k => { let v = m[k] || ''; if(ALIAS[k]) v = ALIAS[k][v.toLowerCase()] || v.toLowerCase(); t[k] = v; });
   t.tags = (m.tags || '').replace(/^\[|\]$/g,'').split(',').map(x => x.trim()).filter(Boolean);
   t.body = bodyOf(text).trim(); t.path = path;
   if(!S.data.labels.status[t.status]) t.status = 'inbox';
-  if(!S.data.labels.priority[t.priority]) t.priority = 'next';
+  syncHorizon(t);
   return t;
 }
 const TR = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'};
@@ -940,9 +948,8 @@ function decorate(t){
 }
 function planPanel(){
   const L = S.data.labels, t = taskFromText(S.edit.text, S.edit.path);
-  $('#actPanel').innerHTML = `<div class="panel"><label class="hint-s">Запланировать: когда возьмусь и к какому сроку</label>
-    <div class="form"><div class="fld"><label for="pl_h">Горизонт</label><select class="inp" id="pl_h">${opt(L.priority, t.priority === 'later' ? 'later' : (t.priority || 'next'), (k,v)=>`${v[0]} — ${v[1]}`)}</select></div>
-    <div class="fld"><label for="pl_d">Срок (необязательно)</label><input class="inp" type="date" id="pl_d" value="${esc(t.deadline||'')}"></div>
+  $('#actPanel').innerHTML = `<div class="panel"><label class="hint-s">Запланировать задачу</label>
+    <div class="form"><div class="fld full"><label for="pl_d">Срок — от него зависит колонка: до месяца → «Далее», дальше или без срока → «Потом»</label><input class="inp" type="date" id="pl_d" value="${esc(t.deadline||'')}"></div>
     <div class="fld full"><label for="pTxt">Комментарий в журнал (необязательно)</label><input class="inp" id="pTxt"></div></div>
     <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-plan">Запланировать</button></div></div>`;
 }
@@ -967,17 +974,17 @@ function ruleCheck(status, priority, deadline){
 async function setStatus(status, note, extra={}){
   const L = S.data.labels;
   const cur0 = taskFromText(S.edit.text, S.edit.path);
-  if(status === 'in-progress') extra = {priority:'now', ...extra};
-  const err = ruleCheck(status, extra.priority || cur0.priority, extra.deadline !== undefined ? extra.deadline : cur0.deadline);
+  const err = ruleCheck(status, '', extra.deadline !== undefined ? extra.deadline : cur0.deadline);
   if(err){ toast(err, true); return; }
   const ok = await run(() => commit(tx => {
     const cur = taskFromText(tx, S.edit.path);
     let n = fmSet(tx, 'status', status);
     const more = [];
-    if(extra.priority && extra.priority !== cur.priority){ n = fmSet(n, 'priority', extra.priority); more.push(`горизонт: ${(L.priority[cur.priority]||['—'])[0]} → ${L.priority[extra.priority][0]}`); }
+
     if(extra.deadline !== undefined && extra.deadline !== (cur.deadline||'')){ n = fmSet(n, 'deadline', extra.deadline); more.push(`срок: ${cur.deadline ? cur.deadline.split('-').reverse().join('.') : '—'} → ${extra.deadline ? extra.deadline.split('-').reverse().join('.') : '—'}`); }
     if(status === 'done' || status === 'canceled'){ if(!cur.closed) n = fmSet(n, 'closed', todayISO()); }
     else if(cur.closed) n = fmSet(n, 'closed', '');
+    n = fmSet(n, 'priority', horizonOf({status, deadline: extra.deadline !== undefined ? extra.deadline : cur.deadline}));
     return journalAdd(n, `статус: ${L.status[cur.status]} → ${L.status[status]}${more.length ? '; ' + more.join('; ') : ''}${note ? '. ' + note : ''}`);
   }, `${S.edit.id}: ${STATUS_MSG[status] || status} (дашборд)`),
   status === 'done' || status === 'canceled' ? 'Сохранено. Задача уедет в архив после пересборки (~1 минута)' : undefined);
@@ -992,7 +999,7 @@ $('#drawer').addEventListener('click', e => {
   if(a === 'reopen') return setStatus('in-progress');
   if(a === 'tobacklog') return setStatus('backlog');
   if(a === 'plan') return planPanel();
-  if(a === 'p-plan') return setStatus('todo', ($('#pTxt').value||'').trim(), {priority: $('#pl_h').value, deadline: $('#pl_d').value});
+  if(a === 'p-plan') return setStatus('todo', ($('#pTxt').value||'').trim(), {deadline: $('#pl_d').value});
   if(a === 'wait' || a === 'done' || a === 'cancel') return panel(a);
   if(a === 'pclose') return $('#actPanel').innerHTML = '';
   if(a.startsWith('p-')){ const note = $('#pTxt').value.trim(); return setStatus({'p-wait':'waiting','p-done':'done','p-cancel':'canceled'}[a], note); }
@@ -1018,9 +1025,8 @@ function formFields(t, isNew){
   return [
     f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
     f('status', 'Статус', sel('status', statuses, t.status)),
-    f('priority', 'Горизонт — когда возьмусь <span class="hint-s">(для бэклога и входящих не важен)</span>', sel('priority', L.priority, t.priority, (k,v)=>`${v[0]} — ${v[1]}`)),
-    f('order', 'Очерёдность в горизонте', inp('order', t.order, 'type="number" min="1" placeholder="пусто — без номера"')),
-    f('deadline', 'Срок', inp('deadline', t.deadline, 'type="date"')),
+
+    f('deadline', 'Срок <span class="hint-s">— задаёт колонку на «Горизонте»</span>', inp('deadline', t.deadline, 'type="date"')),
     f('moscow', 'MoSCoW — влияние на бизнес', sel('moscow', L.moscow, t.moscow, (k,v)=>`${v[0]} — ${v[1]}`, 'Не оценено')),
     f('project', 'Проект', sel('project', Object.fromEntries(Object.entries(P).map(([k,v])=>[k,v.name])), t.project, undefined, 'Без проекта')),
     f('impact', 'Чем задача важна для системы и бизнеса (одна фраза)', inp('impact', t.impact), true),
@@ -1036,7 +1042,7 @@ function formFields(t, isNew){
 function readFields(){
   const v = k => ($('#f_' + k) ? $('#f_' + k).value : '').trim();
   const tags = v('tags').split(',').map(x => x.trim()).filter(Boolean);
-  return {title:v('title'), status:v('status'), priority:v('priority'), order:v('order'), deadline:v('deadline'), moscow:v('moscow'),
+  return {title:v('title'), status:v('status'), priority: horizonOf({status:v('status'), deadline:v('deadline')}), deadline:v('deadline'), moscow:v('moscow'),
     project:v('project'), impact:v('impact'), type:v('type'), system:v('system'), initiator:v('initiator'), estimate:v('estimate'),
     bitrix:v('bitrix'), tags: `[${tags.join(', ')}]`};
 }
@@ -1070,7 +1076,6 @@ function openEdit(){
 async function saveEdit(){
   const E = S.edit, before = taskFromText(E.text, E.path), F = readFields(), L = S.data.labels;
   if(!F.title){ toast('Название не может быть пустым', true); return; }
-  if(F.status === 'in-progress' && F.priority !== 'now'){ F.priority = 'now'; $('#f_priority').value = 'now'; toast('Задача в работе — горизонт выставлен «Сейчас»'); }
   const rErr = ruleCheck(F.status, F.priority, F.deadline); if(rErr){ toast(rErr, true); return; }
   const secVals = [...$('#dBody').querySelectorAll('textarea[data-sec]')].map(x => [x.dataset.sec, x.value]);
   const origSecs = Object.fromEntries(secVals.map(([n]) => [n, secGet(E.text, n)]));
@@ -1079,7 +1084,7 @@ async function saveEdit(){
     status: v => L.status[v] || v || '—', priority: v => (L.priority[v]||[v])[0] || '—', moscow: v => (L.moscow[v]||[v])[0] || 'не оценено',
     deadline: v => v ? v.split('-').reverse().join('.') : '—', order: v => v ? '#' + v : '—',
   };
-  const names = {status:'статус', priority:'горизонт', moscow:'MoSCoW', deadline:'срок', order:'очерёдность'};
+  const names = {status:'статус', moscow:'MoSCoW', deadline:'срок'};
   const changes = Object.keys(names).filter(k => (before[k]||'') !== (F[k]||'')).map(k => `${names[k]}: ${lbl[k](before[k])} → ${lbl[k](F[k])}`);
   const ok = await run(() => commit(tx => {
     const cur = taskFromText(tx, E.path); let n = tx;
@@ -1115,7 +1120,6 @@ function openCreate(){
 }
 async function saveNew(){
   const F = readFields(); if(!F.title){ toast('Заполните название', true); $('#f_title').focus(); return; }
-  if(F.status === 'in-progress') F.priority = 'now';
   const rErr = ruleCheck(F.status, F.priority, F.deadline); if(rErr){ toast(rErr, true); return; }
   const v = id => ($('#' + id).value || '').trim();
   const lines = s => s.split('\n').map(x => x.trim()).filter(Boolean);

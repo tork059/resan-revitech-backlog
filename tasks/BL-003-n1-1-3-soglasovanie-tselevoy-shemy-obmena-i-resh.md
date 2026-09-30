@@ -2,8 +2,7 @@
 id: BL-003
 title: Н1·1.3 Согласование целевой схемы обмена и решения по канцтоварам
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт: now — сейчас | next — далее | later — потом
-order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Н1: автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть
 type: consult        # analysis | dev | consult | research | support

@@ -2,8 +2,7 @@
 id: BL-001
 title: Н1·1.1 Обследование текущей схемы выгрузки УТ → БП
 status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: now        # горизонт: now — сейчас | next — далее | later — потом
-order: 6             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Первый шаг к автоматическому обмену УТ → БП; без него не убрать ручную выгрузку и дубли, но учёт пока ведётся вручную
 type: analysis       # analysis | dev | consult | research | support

@@ -2,8 +2,7 @@
 id: BL-019
 title: Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 3             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч
 type: analysis       # analysis | dev | consult | research | support

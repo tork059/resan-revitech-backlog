@@ -2,8 +2,7 @@
 id: BL-014
 title: К1-0 · Замер ожиданий на управляемых блокировках (базовая линия)
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 4             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Базовая линия блокировок: без неё эффект всей оптимизации нечем подтвердить; сама нагрузку не снижает
 type: analysis       # analysis | dev | consult | research | support

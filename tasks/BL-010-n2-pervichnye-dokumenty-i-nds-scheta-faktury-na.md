@@ -2,8 +2,7 @@
 id: BL-010
 title: Н2 · Первичные документы и НДС: счета-фактуры на аванс, адреса ОП
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт: now — сейчас | next — далее | later — потом
-order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Юридический риск: нарушение ст. 168 НК РФ (счета-фактуры на аванс) и неверный адрес грузоотправителя в документах и Диадоке — штрафы и претензии
 type: analysis       # analysis | dev | consult | research | support

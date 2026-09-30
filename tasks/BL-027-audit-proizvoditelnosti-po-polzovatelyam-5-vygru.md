@@ -2,8 +2,7 @@
 id: BL-027
 title: Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)
 status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: now        # горизонт: now — сейчас | next — далее | later — потом
-order: 2             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Картина нагрузки по пользователям и основание для решений; это диагностика — сама нагрузку не снижает
 type: analysis       # analysis | dev | consult | research | support

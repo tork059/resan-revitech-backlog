@@ -2,8 +2,7 @@
 id: BL-025
 title: К3-2 · Сверить часы жалоб пользователей с картой суток
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 12            # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Покажет, связаны ли зависания у пользователей с расписанием заданий — куда направлять усилия
 type: analysis       # analysis | dev | consult | research | support

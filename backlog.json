@@ -6,6 +6,7 @@
   "timezone_offset_hours": 5,
   "hot_days": 3,
   "soon_days": 7,
+  "next_days": 30,
   "projects": {
     "buh": {
       "name": "Автоматизация бухгалтерии",

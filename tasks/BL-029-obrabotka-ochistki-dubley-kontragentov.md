@@ -2,8 +2,7 @@
 id: BL-029
 title: Обработка очистки дублей контрагентов
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 2             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки
 type: dev            # analysis | dev | consult | research | support

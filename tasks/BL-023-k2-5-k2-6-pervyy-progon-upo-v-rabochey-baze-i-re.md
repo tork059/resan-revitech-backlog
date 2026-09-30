@@ -2,8 +2,7 @@
 id: BL-023
 title: К2-5, К2-6 · Первый прогон УПО в рабочей базе и регламент
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт: now — сейчас | next — далее | later — потом
-order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Уменьшение объёма базы и регламент обслуживания; эффект не измерен и может оказаться небольшим
 type: support        # analysis | dev | consult | research | support

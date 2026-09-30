@@ -2,8 +2,7 @@
 id: BL-030
 title: Обработка удаления помеченных на удаление объектов с проверкой ссылок
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 11            # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Инструмент для безопасного удаления помеченных; эффект зависит от замера З-2
 type: dev            # analysis | dev | consult | research | support

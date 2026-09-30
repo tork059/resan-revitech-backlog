@@ -2,8 +2,7 @@
 id: BL-028
 title: Открыть дневное время для выгрузки склада
 status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: now        # горизонт: now — сейчас | next — далее | later — потом
-order: 5             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Ежедневная операция склада днём невозможна: 1С зависает — простой склада и торможение у всех пользователей
 type: dev            # analysis | dev | consult | research | support

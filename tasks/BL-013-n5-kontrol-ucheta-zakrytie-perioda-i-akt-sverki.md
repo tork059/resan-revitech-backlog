@@ -2,8 +2,7 @@
 id: BL-013
 title: Н5 · Контроль учёта: закрытие периода и акт сверки
 status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт: now — сейчас | next — далее | later — потом
-order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Защищает закрытый период от изменений и устраняет завышение сумм в акте сверки — риск ошибочных расчётов с контрагентами
 type: analysis       # analysis | dev | consult | research | support

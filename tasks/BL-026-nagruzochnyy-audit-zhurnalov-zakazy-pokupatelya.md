@@ -2,8 +2,7 @@
 id: BL-026
 title: Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт: now — сейчас | next — далее | later — потом
-order: 1             # очерёдность внутри горизонта: 1 — первая, можно пусто
+priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Основной источник дневной нагрузки: ключевые журналы продаж, с которыми весь день работают менеджеры
 type: analysis       # analysis | dev | consult | research | support

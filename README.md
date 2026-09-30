@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
+![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 30.09.2026 · не редактируйте этот файл вручную</sub>
 
@@ -37,20 +37,20 @@
 
 <sub>Сейчас — эта неделя, Далее — ближайший месяц, Потом — когда-нибудь. Внутри группы — по очерёдности (`order`), затем по сроку.</sub>
 
-### 🔴 Сейчас — эта неделя, в фокусе · 3
+### 🔴 Сейчас — эта неделя, в фокусе · 2
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | 12.10 · через 12 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 | `BL-032` | [Создать тестовую базу — полный слепок рабочей УТ, закреплённый за нами](tasks/BL-032-sozdat-testovuyu-bazu-polnyy-slepok-rabochey-ut.md) | — | 🟥 Must | Оптимизация УТ | 1С:УТ, СУБД |
 | `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | 05.10 · 🟡 через 5 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 
-### 🟠 Далее — ближайший месяц · 10
+### 🟠 Далее — ближайший месяц · 11
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
 | `BL-026` | [Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)](tasks/BL-026-nagruzochnyy-audit-zhurnalov-zakazy-pokupatelya.md) | 12.10 · через 12 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ · trade_blinan |
 | `BL-029` | [Обработка очистки дублей контрагентов](tasks/BL-029-obrabotka-ochistki-dubley-kontragentov.md) | 12.10 · через 12 дн. | 🟧 Should | — | 1С:УТ |
+| `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | 19.10 · через 19 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 | `BL-014` | [К1-0 · Замер ожиданий на управляемых блокировках (базовая линия)](tasks/BL-014-k1-0-zamer-ozhidaniy-na-upravlyaemyh-blokirovkah.md) | — | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-015` | [К1 · Быстрые правки расписаний: К1-3, К1-4, К1-6](tasks/BL-015-k1-bystrye-pravki-raspisaniy-k1-3-k1-4-k1-6.md) | — | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-017` | [К1-7, К1-8 · Закрыть «зомби»-задания и задать ограничение длительности](tasks/BL-017-k1-7-k1-8-zakryt-zombi-zadaniya-i-zadat-ogranich.md) | — | 🟥 Must | Оптимизация УТ | 1С:УТ |
@@ -90,10 +90,10 @@
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
 | `BL-031` | [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) | Самый большой вклад в дневную нагрузку (≈2 ч/сут в рабочем окне) — прямая причина зависаний у пользователей | 🔴 Сейчас |
-| `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч | 🔴 Сейчас |
 | `BL-032` | [Создать тестовую базу — полный слепок рабочей УТ, закреплённый за нами](tasks/BL-032-sozdat-testovuyu-bazu-polnyy-slepok-rabochey-ut.md) | Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы | 🔴 Сейчас |
 | `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | Ежедневная операция склада днём невозможна: 1С зависает — простой склада и торможение у всех пользователей | 🔴 Сейчас |
 | `BL-026` | [Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)](tasks/BL-026-nagruzochnyy-audit-zhurnalov-zakazy-pokupatelya.md) | Основной источник дневной нагрузки: ключевые журналы продаж, с которыми весь день работают менеджеры | 🟠 Далее |
+| `BL-019` | [Разбор регламентных заданий resan_goods_full и актуализация resan_goods_change](tasks/BL-019-k1-10-resanopt-goods-full-na-inkrementalnuyu-vyg.md) | Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч | 🟠 Далее |
 | `BL-017` | [К1-7, К1-8 · Закрыть «зомби»-задания и задать ограничение длительности](tasks/BL-017-k1-7-k1-8-zakryt-zombi-zadaniya-i-zadat-ogranich.md) | Риск стабильности: отключённые задания уже запускались днём (20,4 ч одним прогоном), таймаутов нет — повтор кладёт рабочее окно | 🟠 Далее |
 | `BL-010` | [Н2 · Первичные документы и НДС: счета-фактуры на аванс, адреса ОП](tasks/BL-010-n2-pervichnye-dokumenty-i-nds-scheta-faktury-na.md) | Юридический риск: нарушение ст. 168 НК РФ (счета-фактуры на аванс) и неверный адрес грузоотправителя в документах и Диадоке — штрафы и претензии | ⚪ Потом |
 

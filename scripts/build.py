@@ -397,8 +397,9 @@ def render_readme(tasks: list[dict]) -> str:
             pct = round(100 * done / total) if total else 0
             bar = "▰" * round(pct / 10) + "▱" * (10 - round(pct / 10))
             near = f"`{nxt[0]['id']}` {deadline_cell(nxt[0])}" if nxt else "—"
-            L.append(f"| **{esc(pr['name'])}** | `{bar}` {done}/{total} | {len(act)} | "
-                     f"{near} | [открыть ↗]({pr['url']}) |")
+            st = {"paused": " · на паузе", "done": " · завершён"}.get(pr.get("status", ""), "")
+            page = f"[открыть ↗]({pr['url']})" if pr.get("url") else "—"
+            L.append(f"| **{esc(pr['name'])}**{st} | `{bar}` {done}/{total} | {len(act)} | {near} | {page} |")
         L += [""]
 
     L += ["## 🎯 В работе", ""]
@@ -498,7 +499,21 @@ def write_data(tasks: list[dict]) -> None:
     (SITE / ".nojekyll").write_text("")
 
 
+def sync_issue_form() -> None:
+    """Список проектов в форме «＋ Новая задача» берётся из backlog.json."""
+    p = ROOT / ".github" / "ISSUE_TEMPLATE" / "task.yml"
+    if not p.exists():
+        return
+    s = p.read_text(encoding="utf-8")
+    opts = "".join(f"        - {json.dumps(pr['name'], ensure_ascii=False)}\n" for pr in PROJECTS.values())
+    new = re.sub(r"(    id: project\n    attributes:\n      label: Проект\n      options:\n        - Без проекта\n)(?:        - .*\n)*",
+                 lambda m: m.group(1) + opts, s)
+    if new != s:
+        p.write_text(new, encoding="utf-8")
+
+
 def build() -> None:
+    sync_issue_form()
     TASKS.mkdir(exist_ok=True)
     ARCHIVE.mkdir(exist_ok=True)
     tasks = load_tasks()
@@ -573,7 +588,7 @@ def from_issue(event_path: str) -> None:
     mos_key = next((k for k in MOSCOW if mos_raw.startswith(k)), "")
     type_raw = vals.get("type", "")
     type_key = next((k for k, name in TYPES.items() if type_raw.lower().startswith(name.lower())), "")
-    proj = next((k for k, p in PROJECTS.items() if vals.get("project", "").strip() == p["name"]), "")
+    proj = next((k for k, p in PROJECTS.items() if vals.get("project", "").strip().strip('"') == p["name"]), "")
     status = "backlog" if vals.get("status", "").lower().startswith("бэклог") else "inbox"
     body = vals.get("body", "")
     body = f"## Суть\n{body}\n\n## Что сделать\n- [ ] \n\n## Критерии готовности\n- \n\n## Материалы\n- Создано из [issue #{issue['number']}]({issue['html_url']})"

@@ -1,7 +1,7 @@
 ---
 id: BL-029
 title: Обработка очистки дублей контрагентов
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+status: todo         # inbox | backlog | in-progress | waiting | done | canceled
 priority: next       # горизонт: now — сейчас | next — далее | later — потом
 order: 2             # очерёдность внутри горизонта: 1 — первая, можно пусто
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
@@ -41,3 +41,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-09-28 — задача заведена
 - 2026-09-28 — новая схема приоритетов: горизонт «Далее» (#2); MoSCoW — Should
+- 2026-09-30 — статус: Бэклог → Запланирована (новая модель статусов: бэклог — только для неразобранных задач)

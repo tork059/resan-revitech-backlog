@@ -1,7 +1,7 @@
 ---
 id: BL-000
 title: Короткое название задачи
-status: inbox        # inbox | backlog | in-progress | waiting | done | canceled
+status: inbox        # inbox | backlog | todo | in-progress | waiting | done | canceled
 priority: next       # горизонт: now — сейчас | next — далее | later — потом
 order:               # очерёдность внутри горизонта: 1 — первая, можно пусто
 moscow:              # влияние на систему и бизнес: must | should | could | wont

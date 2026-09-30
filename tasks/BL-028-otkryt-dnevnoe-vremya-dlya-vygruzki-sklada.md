@@ -1,7 +1,7 @@
 ---
 id: BL-028
 title: Открыть дневное время для выгрузки склада
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+status: todo         # inbox | backlog | in-progress | waiting | done | canceled
 priority: now        # горизонт: now — сейчас | next — далее | later — потом
 order: 5             # очерёдность внутри горизонта: 1 — первая, можно пусто
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
@@ -39,3 +39,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-09-28 — задача заведена
 - 2026-09-28 — новая схема приоритетов: горизонт «Сейчас» (#5); MoSCoW — Must
+- 2026-09-30 — статус: Бэклог → Запланирована (новая модель статусов: бэклог — только для неразобранных задач)

@@ -1,7 +1,7 @@
 ---
 id: BL-026
 title: Нагрузочный аудит журналов «Заказы покупателя» и «Реализация» (trade_blinan)
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+status: todo         # inbox | backlog | in-progress | waiting | done | canceled
 priority: next       # горизонт: now — сейчас | next — далее | later — потом
 order: 1             # очерёдность внутри горизонта: 1 — первая, можно пусто
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
@@ -39,3 +39,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-09-28 — задача заведена
 - 2026-09-28 — новая схема приоритетов: горизонт «Далее» (#1); MoSCoW — Must
+- 2026-09-30 — статус: Бэклог → Запланирована (новая модель статусов: бэклог — только для неразобранных задач)

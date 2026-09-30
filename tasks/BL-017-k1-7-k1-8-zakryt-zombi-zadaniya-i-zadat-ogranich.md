@@ -1,7 +1,7 @@
 ---
 id: BL-017
 title: К1-7, К1-8 · Закрыть «зомби»-задания и задать ограничение длительности
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+status: todo         # inbox | backlog | in-progress | waiting | done | canceled
 priority: next       # горизонт: now — сейчас | next — далее | later — потом
 order: 6             # очерёдность внутри горизонта: 1 — первая, можно пусто
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
@@ -40,3 +40,4 @@ closed:              # заполняется автоматически при 
 - 2026-09-28 — задача заведена
 - 2026-09-28 — resan_goods_change вынесен в BL-019 (актуализация задания)
 - 2026-09-28 — новая схема приоритетов: горизонт «Далее» (#6); MoSCoW — Must
+- 2026-09-30 — статус: Бэклог → Запланирована (новая модель статусов: бэклог — только для неразобранных задач)

@@ -31,6 +31,7 @@ CONFIG = json.loads((ROOT / "backlog.json").read_text(encoding="utf-8"))
 STATUSES = {
     "inbox": ("Входящие", "📥"),
     "backlog": ("Бэклог", "🗂"),
+    "todo": ("Запланирована", "📅"),
     "in-progress": ("В работе", "🎯"),
     "waiting": ("Ожидание", "⏳"),
     "done": ("Готово", "✅"),
@@ -65,8 +66,9 @@ FIELDS = ["id", "title", "status", "priority", "order", "moscow", "impact", "typ
 # Русские синонимы — чтобы при ручной правке можно было писать по-русски.
 ALIASES = {
     "status": {"входящие": "inbox", "бэклог": "backlog", "в работе": "in-progress",
+               "запланирована": "todo", "запланировано": "todo", "planned": "todo",
                "ожидание": "waiting", "готово": "done", "отменено": "canceled",
-               "todo": "backlog", "wip": "in-progress"},
+               "wip": "in-progress"},
     "priority": {"сейчас": "now", "далее": "next", "потом": "later",
                  # старые значения MoSCoW в поле priority
                  "must": "now", "should": "next", "could": "later", "wont": "later", "won't": "later"},
@@ -77,6 +79,7 @@ ALIASES = {
 }
 
 WARNINGS: list[str] = []
+RULES: list[str] = []     # нарушения логики статусов и сроков
 
 
 # ───────────────────────── даты ─────────────────────────
@@ -145,6 +148,11 @@ def validate(t: dict) -> None:
     if t.get("moscow") and t["moscow"] not in MOSCOW:
         WARNINGS.append(f"{where} — неизвестная оценка MoSCoW `{t['moscow']}` (must / should / could / wont)")
         t["moscow"] = ""
+    if t["status"] in ("backlog", "inbox") and (n := days_left(t)) is not None and n <= CONFIG["hot_days"]:
+        RULES.append(f"`{t.get('id')}` — горящий срок ({deadline_cell(t)}), а задача в статусе «{STATUSES[t['status']][0]}»: "
+                     "запланируйте её, возьмите в работу или перенесите срок")
+    if t["status"] == "in-progress" and t.get("priority") != "now":
+        RULES.append(f"`{t.get('id')}` — задача в работе, но горизонт «{PRIORITIES[t['priority']][0]}»: для задач в работе горизонт — «Сейчас»")
     if t.get("order") and not str(t["order"]).isdigit():
         WARNINGS.append(f"{where} — `order` должен быть числом (1 — первая в очереди)")
     if t.get("project") and t["project"] not in PROJECTS:
@@ -284,6 +292,12 @@ def sort_key(t: dict):
             t.get("created", ""), t.get("id", ""))
 
 
+def horizon_key(t: dict):
+    """Горизонт: задачи со сроком — по сроку, без срока — по очерёдности."""
+    n = days_left(t)
+    return (n is None, n if n is not None else 0, order_of(t), t.get("created", ""), t.get("id", ""))
+
+
 def by_deadline(t: dict):
     n = days_left(t)
     return (n is None, n if n is not None else 0, PRIO_ORDER.index(t["priority"]))
@@ -297,7 +311,12 @@ def link(t: dict, text: str | None = None) -> str:
     return f"[{esc(text or t['title'])}]({quote(rel(t['path']))})"
 
 
+PLANNED = ("todo", "in-progress", "waiting")
+
+
 def prio(t: dict) -> str:
+    if t["status"] in ("backlog", "inbox"):
+        return " ".join(reversed(STATUSES[t["status"]]))
     name, _, icon = PRIORITIES[t["priority"]]
     return f"{icon} {name}"
 
@@ -311,7 +330,7 @@ def mos(t: dict) -> str:
 
 def table(rows: list[dict], cols: list[str]) -> str:
     heads = {"id": "ID", "title": "Задача", "prio": "Горизонт", "deadline": "Срок", "moscow": "MoSCoW",
-             "impact": "Влияние на систему и бизнес",
+             "impact": "Влияние на систему и бизнес", "age": "Лежит",
              "type": "Тип", "system": "Система", "estimate": "Оценка",
              "initiator": "Инициатор", "status": "Статус", "project": "Проект"}
     out = ["| " + " | ".join(heads[c] for c in cols) + " |",
@@ -323,6 +342,7 @@ def table(rows: list[dict], cols: list[str]) -> str:
             "prio": prio(t),
             "moscow": mos(t),
             "impact": esc(t.get("impact") or "—"),
+            "age": (f"{(today() - parse_date(t['created'])).days} дн." if parse_date(t.get("created", "")) else "—"),
             "deadline": deadline_cell(t),
             "type": TYPES.get(t.get("type", ""), t.get("type", "") or "—"),
             "system": esc(t.get("system") or "—"),
@@ -357,7 +377,9 @@ def render_readme(tasks: list[dict]) -> str:
     in_work = sorted([t for t in active if t["status"] == "in-progress"], key=sort_key)
     waiting = sorted([t for t in active if t["status"] == "waiting"], key=by_deadline)
     inbox = sorted([t for t in active if t["status"] == "inbox"], key=lambda t: t.get("created", ""))
-    backlog = [t for t in active if t["status"] == "backlog"]
+    backlog = sorted([t for t in active if t["status"] == "backlog"],
+                     key=lambda t: (t.get("project", "") or "~", t.get("created", ""), t["id"]))
+    planned = [t for t in active if t["status"] == "todo"]
     month_ago = today() - dt.timedelta(days=30)
     done_30 = [t for t in closed if t["status"] == "done"
                and (d := parse_date(t.get("closed", ""))) and d >= month_ago]
@@ -378,6 +400,9 @@ def render_readme(tasks: list[dict]) -> str:
     ]), ""]
     L += [f"<sub>Сводка собрана автоматически {today().strftime('%d.%m.%Y')} · "
           "не редактируйте этот файл вручную</sub>", "", "</div>", ""]
+
+    if RULES:
+        L += ["> [!WARNING]", "> **Нарушения логики — нужно решение**", ">"] + [f"> - {r}" for r in RULES] + [""]
 
     if hot:
         L += ["> [!CAUTION]", "> **Горит — срок истёк или наступает в ближайшие "
@@ -406,11 +431,11 @@ def render_readme(tasks: list[dict]) -> str:
     L += [table(in_work, ["id", "title", "prio", "deadline", "moscow", "project"]) if in_work
           else "_Сейчас ничего не в работе — возьмите задачу из «Сейчас»._", ""]
 
-    L += ["## 🗂 Бэклог по горизонту", "",
-          "<sub>Сейчас — эта неделя, Далее — ближайший месяц, Потом — когда-нибудь. "
-          "Внутри группы — по очерёдности (`order`), затем по сроку.</sub>", ""]
+    L += ["## 📅 Запланировано по горизонту", "",
+          "<sub>Сейчас — эта неделя, Далее — ближайший месяц, Потом — позже. "
+          "Внутри группы — по сроку (ближайшие сверху), без срока — по очерёдности (`order`).</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
-        rows = sorted([t for t in backlog if t["priority"] == key], key=sort_key)
+        rows = sorted([t for t in planned if t["priority"] == key], key=horizon_key)
         head = f"### {icon} {name} — {hint} · {len(rows)}"
         body = table(rows, ["id", "title", "deadline", "moscow", "project", "system"]) if rows else "_Пусто_"
         if key == "later":
@@ -438,8 +463,15 @@ def render_readme(tasks: list[dict]) -> str:
     L += [table(waiting, ["id", "title", "prio", "deadline", "project"]) if waiting else "_Пусто_", ""]
 
     L += [f"## 📥 Входящие · {len(inbox)}", "",
-          "<sub>Ещё не разобраны: нужно уточнить суть, приоритет и срок, затем перевести в `backlog`.</sub>", ""]
-    L += [table(inbox, ["id", "title", "prio", "deadline", "initiator"]) if inbox else "_Всё разобрано_ ✨", ""]
+          "<sub>Новые, ещё не разобранные задачи: запланировать, взять в работу, поставить на ожидание или отложить в бэклог.</sub>", ""]
+    L += [table(inbox, ["id", "title", "deadline", "project", "initiator"]) if inbox else "_Всё разобрано_ ✨", ""]
+
+    L += [f"## 🗂 Бэклог · {len(backlog)}", "",
+          "<sub>Хранилище задач, по которым пока не ясны сроки и очередь. На горизонт не попадают, "
+          "пока их не запланируют.</sub>", ""]
+    L += ([f"<details><summary><b>Показать бэклог · {len(backlog)}</b></summary>", "",
+           table(backlog, ["id", "title", "project", "moscow", "age", "deadline"]), "", "</details>", ""]
+          if backlog else ["_Пусто_", ""])
 
     if WARNINGS:
         L += ["---", "", "<details><summary>⚠️ Замечания к оформлению задач · "
@@ -490,6 +522,7 @@ def write_data(tasks: list[dict]) -> None:
                    "moscow": {k: [v[0], v[1]] for k, v in MOSCOW.items()},
                    "type": TYPES},
         "warnings": WARNINGS,
+        "rules": RULES,
         "tasks": [{**{k: t.get(k, "") for k in FIELDS}, "path": rel(t["path"]), "body": t["body"]}
                   for t in sorted(tasks, key=sort_key)],
     }
@@ -522,7 +555,9 @@ def build() -> None:
     (ARCHIVE / "README.md").write_text(render_archive(tasks), encoding="utf-8")
     write_data(tasks)
     active = sum(t["status"] not in CLOSED for t in tasks)
-    print(f"Готово: активных {active}, в архиве {len(tasks) - active}, замечаний {len(WARNINGS)}")
+    print(f"Готово: активных {active}, в архиве {len(tasks) - active}, замечаний {len(WARNINGS)}, нарушений {len(RULES)}")
+    for r in RULES:
+        print("  ⛔", r)
     for w in WARNINGS:
         print("  ⚠", w)
 
@@ -533,6 +568,7 @@ def create_task(title: str, priority="next", type_="", system="", initiator="", 
                 moscow="", impact="", order="") -> Path:
     tasks = load_tasks()
     WARNINGS.clear()
+    RULES.clear()
     tid = next_id(tasks)
     d = parse_date(deadline)
     values = {
@@ -589,7 +625,8 @@ def from_issue(event_path: str) -> None:
     type_raw = vals.get("type", "")
     type_key = next((k for k, name in TYPES.items() if type_raw.lower().startswith(name.lower())), "")
     proj = next((k for k, p in PROJECTS.items() if vals.get("project", "").strip().strip('"') == p["name"]), "")
-    status = "backlog" if vals.get("status", "").lower().startswith("бэклог") else "inbox"
+    st_raw = vals.get("status", "").lower()
+    status = "backlog" if st_raw.startswith("бэклог") else "todo" if st_raw.startswith("запланир") else "inbox"
     body = vals.get("body", "")
     body = f"## Суть\n{body}\n\n## Что сделать\n- [ ] \n\n## Критерии готовности\n- \n\n## Материалы\n- Создано из [issue #{issue['number']}]({issue['html_url']})"
     path = create_task(

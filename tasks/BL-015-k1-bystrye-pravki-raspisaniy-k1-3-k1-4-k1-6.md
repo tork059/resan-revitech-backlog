@@ -1,7 +1,7 @@
 ---
 id: BL-015
 title: К1 · Быстрые правки расписаний: К1-3, К1-4, К1-6
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+status: todo         # inbox | backlog | in-progress | waiting | done | canceled
 priority: next       # горизонт: now — сейчас | next — далее | later — потом
 order: 5             # очерёдность внутри горизонта: 1 — первая, можно пусто
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
@@ -44,3 +44,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-09-28 — задача заведена
 - 2026-09-28 — новая схема приоритетов: горизонт «Далее» (#5); MoSCoW — Should
+- 2026-09-30 — статус: Бэклог → Запланирована (новая модель статусов: бэклог — только для неразобранных задач)

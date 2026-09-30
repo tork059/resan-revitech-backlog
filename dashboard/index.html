@@ -90,6 +90,30 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .grid .card{background:var(--surface)}
 .card.hot{border-color:rgba(247,118,142,.55);box-shadow:inset 0 0 0 1px rgba(247,118,142,.18)}
 .card.hot::after{content:"горит";position:absolute;right:12px;bottom:10px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--must);opacity:.8}
+/* реестр бэклога */
+.reg{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.reg-h,.reg-r{display:grid;grid-template-columns:74px minmax(0,1fr) 150px 82px 92px 110px;gap:12px;align-items:center;padding:10px 16px}
+.reg-h{font-size:11.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.reg-r{border-top:1px solid var(--border);cursor:pointer}
+.reg-r:first-of-type{border-top:0}
+.reg-r:hover{background:var(--surface-2)}
+.reg-r .t{font-weight:500;line-height:1.4}
+.reg-r .i{color:var(--faint);font-size:12px;margin-top:2px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reg-r .m{color:var(--muted);font-size:12.5px}
+.reg-r .old{color:var(--should)}
+.reg-g{padding:9px 16px;font-size:12px;font-weight:600;color:var(--muted);background:var(--bg);border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.reg-g:first-child{border-top:0}
+.reg-g .cnt{color:var(--faint);font-weight:500}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:3px;gap:2px}
+.seg button{border:0;background:none;color:var(--muted);padding:5px 10px;border-radius:6px;cursor:pointer;font-size:12.5px}
+.seg button.on{background:var(--surface-3);color:var(--text)}
+.sec-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.sec-bar h2{margin:0}
+.inbox-list .row{grid-template-columns:80px 1fr auto}
+.callout.rules{border-color:rgba(224,175,104,.45);background:var(--warn-bg)}
+.callout.rules b{color:var(--should)}
+.callout.rules ul{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}
+.callout.rules a{cursor:pointer}
 .board.bl{grid-template-columns:minmax(0,1fr) minmax(0,2.2fr)}
 .col .sub-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:14px 4px 8px}
 .col .sub-h:first-of-type{margin-top:2px}
@@ -115,6 +139,8 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .pill.st{background:var(--accent-soft);color:var(--accent)}
 .pill.st.waiting{background:rgba(187,154,247,.12);color:#bb9af7}
 .pill.st.inbox{background:var(--surface-3);color:var(--muted)}
+.pill.st.todo{background:rgba(125,207,255,.10);color:#8fd3f5}
+.pill.st.backlog{background:rgba(224,175,104,.10);color:var(--should)}
 .pill.st.done{background:rgba(158,206,106,.12);color:var(--ok)}
 .pill.st.canceled{background:var(--surface-3);color:var(--faint)}
 
@@ -238,6 +264,9 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
   .kpi .v{font-size:20px}
   .kpi .l{font-size:11.5px;line-height:1.3}
   .board,.board.b3,.board.bl{grid-template-columns:1fr}
+  .reg-h{display:none}
+  .reg-r{grid-template-columns:62px minmax(0,1fr);row-gap:4px}
+  .reg-r>.m{grid-column:2}
   .grid,.grid2{grid-template-columns:1fr}
   .filters{margin-left:0;width:100%}
   .search{flex:1 1 100%;width:auto;min-width:0}
@@ -318,6 +347,20 @@ function dlInfo(t){
   return {n, txt, cls};
 }
 const isClosed = t => t.status === 'done' || t.status === 'canceled';
+const PLANNED = ['todo','in-progress','waiting'];
+const isPlanned = t => PLANNED.includes(t.status);
+const ageDays = t => { const d = parseD(t.created); return d ? Math.round((todayLocal() - d)/864e5) : null; };
+function ruleIssues(tasks){
+  const out = [], L = S.data.labels, hot = S.data.config.hot_days;
+  tasks.filter(t=>!isClosed(t)).forEach(t => {
+    const n = daysLeft(t);
+    if((t.status==='backlog'||t.status==='inbox') && n!==null && n<=hot)
+      out.push([t.id, `горящий срок (${dlInfo(t).txt}), а задача в статусе «${L.status[t.status]}» — запланируйте, возьмите в работу или перенесите срок`]);
+    if(t.status==='in-progress' && t.priority!=='now')
+      out.push([t.id, `задача в работе, но горизонт «${L.priority[t.priority][0]}» — у задач в работе горизонт «Сейчас»`]);
+  });
+  return out;
+}
 const isHot = t => !isClosed(t) && t.status !== 'inbox' && daysLeft(t) !== null && daysLeft(t) <= S.data.config.hot_days;
 const ord = t => /^\d+$/.test(String(t.order||'')) ? +t.order : 999;
 function byPrio(a,b){
@@ -353,9 +396,9 @@ function card(t, opts={}){
   if(opts.status) meta.push(`<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`);
   if(opts.impact){
     return `<div class="card" style="--pc:${MCOLOR[t.moscow]||'var(--wont)'}" data-id="${esc(t.id)}" tabindex="0">
-      <div class="c-top"><span class="id">${esc(t.id)}</span><span class="pill p" style="--pc:${PCOLOR[t.priority]}">${esc(L.priority[t.priority][0])}</span></div>
+      <div class="c-top"><span class="id">${esc(t.id)}</span>${isPlanned(t)?`<span class="pill p" style="--pc:${PCOLOR[t.priority]}">${esc(L.priority[t.priority][0])}</span>`:`<span class="pill st ${t.status}" style="margin-left:auto">${esc(L.status[t.status])}</span>`}</div>
       <div class="c-title">${esc(t.title)}</div>
-      ${t.impact && t.priority!=='later'?`<div class="c-impact">${esc(t.impact)}</div>`:''}
+      ${t.impact && isPlanned(t) && t.priority!=='later'?`<div class="c-impact">${esc(t.impact)}</div>`:''}
       ${t.project && !S.project ? `<div class="c-meta"><span class="pill pr">${esc((S.data.projects[t.project]||{}).short||t.project)}</span></div>`:''}
     </div>`;
   }
@@ -403,34 +446,27 @@ function render(){
     const n = k==='archive' ? closed.length
       : k==='backlog' ? active.filter(t=>t.status==='backlog'||t.status==='inbox').length
       : k==='projects' ? Object.keys(S.data.projects||{}).length
-      : k==='prio' ? active.filter(t=>t.status!=='inbox').length : active.length;
+      : k==='prio' ? active.filter(isPlanned).length : active.length;
     return `<button class="tab ${S.tab===k?'on':''}" data-tab="${k}">${l}${n!==null?`<span class="n">${n}</span>`:''}</button>`;
   }).join('');
 
-  $('#alerts').innerHTML = (S.data.warnings||[]).length ? `<div class="callout warn"><b>Замечания к оформлению задач</b>
-    <ul>${S.data.warnings.map(w=>`<li>${esc(w.replace(/`/g,''))}</li>`).join('')}</ul></div>` : '';
+  const rules = ruleIssues(all);
+  $('#alerts').innerHTML = (rules.length ? `<div class="callout rules"><b>Нарушения логики — нужно решение</b>
+    <ul>${rules.map(([id,msg])=>`<li><a data-id="${esc(id)}">${esc(id)}</a> — ${esc(msg)}</li>`).join('')}</ul></div>` : '')
+    + ((S.data.warnings||[]).length ? `<div class="callout warn"><b>Замечания к оформлению задач</b>
+    <ul>${S.data.warnings.map(w=>`<li>${esc(w.replace(/`/g,''))}</li>`).join('')}</ul></div>` : '');
 
   let html = '';
   if(S.tab === 'prio'){
-    const pool = active.filter(t=>t.status!=='inbox');
-    html = `<p class="lead">Главный экран: что в работе и что следующее. В каждой колонке сверху — задачи с ближайшим сроком (горящие подсвечены), ниже — без срока, по очерёдности.</p><div class="board b3">${PRIO.map(p => {
+    const pool = active.filter(isPlanned);
+    html = `<p class="lead">Главный экран: запланированные задачи, задачи в работе и на ожидании. В каждой колонке сверху — задачи с ближайшим сроком (горящие подсвечены), ниже — без срока, по очерёдности. Неразобранные задачи — во вкладке «Бэклог».</p><div class="board b3">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort(byHorizon);
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
         <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
     }).join('')}</div>`;
   }
   else if(S.tab === 'backlog'){
-    const inbox = active.filter(t=>t.status==='inbox').sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id));
-    const bl = active.filter(t=>t.status==='backlog');
-    html = `<p class="lead">Пул задач, которые ещё не взяты в работу. «Входящие» — новые, ещё не разобранные: из карточки их можно отправить в бэклог, в работу или на ожидание.</p>
-      <div class="board bl">
-        <div class="col"><div class="col-h"><span class="dot" style="background:var(--faint)"></span>${L.status.inbox}<span class="hint">· не разобраны</span><span class="cnt">${inbox.length}</span></div>${stack(inbox)}</div>
-        <div class="col"><div class="col-h"><span class="dot" style="background:var(--should)"></span>${L.status.backlog}<span class="hint">· ждут своей очереди</span><span class="cnt">${bl.length}</span></div>
-          ${bl.length ? PRIO.map(p => { const arr = bl.filter(t=>t.priority===p).sort(byHorizon); return arr.length ?
-            `<div class="sub-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]} <span class="cnt">${arr.length}</span></div><div class="grid2">${arr.map(t=>card(t,{noPrio:true})).join('')}</div>` : ''; }).join('')
-            : '<div class="empty">Пусто</div>'}
-        </div>
-      </div>`;
+    html = backlogView(active);
   }
   else if(S.tab === 'projects'){
     html = projectsView();
@@ -476,8 +512,9 @@ function projectStats(k){
 }
 function projectsView(){
   const P = S.data.projects || {}, keys = Object.keys(P), L = S.data.labels;
-  if(!S.projSel || (S.projSel !== '-' && !P[S.projSel])) S.projSel = keys[0] || '-';
   const authed = typeof GH !== 'undefined' && GH.token;
+  if(!S.projSel || !P[S.projSel]) S.projSel = keys[0];
+  if(!S.projSel) return `<div class="empty">Проектов пока нет${authed ? ' — создайте первый кнопкой ниже' : ''}</div>` + (authed ? `<div class="projects"><button class="proj add" data-pnew="1" type="button">＋ Новый проект</button></div>` : '');
   const cardP = (k, name, url, desc, st) => {
     const x = projectStats(k), dl = x.nxt && dlInfo(x.nxt);
     return `<div class="proj ${S.projSel===k?'on':''}" data-proj="${esc(k)}">
@@ -488,14 +525,13 @@ function projectsView(){
       <div class="proj-m"><span>${x.done} из ${x.total} готово · ${x.pct}%</span><span>активных ${x.act.length}</span>
       ${x.nxt?`<span>ближайший срок: ${esc(x.nxt.id)} · ${esc(dl.n>S.data.config.soon_days?fmtD(x.nxt.deadline):dl.txt)}</span>`:''}</div></div>`;
   };
-  const noProj = projectStats('-');
   let html = `<p class="lead">Какие задачи к какому проекту относятся и что в проекте движется. Выберите проект — ниже его задачи по горизонту. Фильтр проекта в панели сверху на эту вкладку не влияет.</p>
     <div class="projects">${keys.map(k => cardP(k, P[k].name, P[k].url, P[k].description, P[k].status)).join('')}
-    ${noProj.mine.length ? cardP('-', 'Без проекта', '', 'Задачи, не привязанные к проекту', '') : ''}
     ${authed ? `<button class="proj add" data-pnew="1" type="button">＋ Новый проект</button>` : ''}</div>`;
   const k = S.projSel, pr = P[k] || {name:'Без проекта'};
   const ids = new Set(filtered(true).map(t=>t.id));
-  const x = projectStats(k), act = x.act.filter(t=>ids.has(t.id)), closed = x.mine.filter(t=>isClosed(t) && ids.has(t.id));
+  const x = projectStats(k), act = x.act.filter(t=>ids.has(t.id) && isPlanned(t)), closed = x.mine.filter(t=>isClosed(t) && ids.has(t.id));
+  const parked = x.act.filter(t=>ids.has(t.id) && !isPlanned(t)).sort((a,b)=>(a.created||'').localeCompare(b.created||''));
   html += `<div class="p-head"><h2>${esc(pr.name)}</h2>${pr.url?`<a href="${esc(pr.url)}" target="_blank" rel="noopener">страница проекта ↗</a>`:''}
     ${pr.repo?`<a href="${esc(pr.repo)}" target="_blank" rel="noopener">репозиторий ↗</a>`:''}${pr.description?`<div class="desc">${esc(pr.description)}</div>`:''}</div>
     <div class="board b3">${PRIO.map(p => {
@@ -503,9 +539,49 @@ function projectsView(){
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
         <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
     }).join('')}</div>`;
+  if(parked.length) html += `<div style="height:22px"></div>` + section('Бэклог и входящие проекта — не запланированы', 'var(--should)', parked,
+    `<div class="list">${parked.map(t=>row(t)).join('')}</div>`);
   if(closed.length) html += `<div style="height:22px"></div>` + section('Закрыто в проекте', 'var(--ok)', closed,
     `<div class="list">${closed.sort((a,b)=>(b.closed||'').localeCompare(a.closed||'')).map(t=>row(t,true)).join('')}</div>`);
   return html;
+}
+
+const BL_SORT = {project:'По проекту', age:'Давно лежат', moscow:'По MoSCoW'};
+function backlogView(active){
+  const L = S.data.labels, P = S.data.projects || {};
+  S.blSort = S.blSort || 'project';
+  const inbox = active.filter(t=>t.status==='inbox').sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id));
+  const bl = active.filter(t=>t.status==='backlog');
+  const pname = t => t.project && P[t.project] ? (P[t.project].short || P[t.project].name) : 'Без проекта';
+  const regRow = t => {
+    const a = ageDays(t), dl = dlInfo(t);
+    return `<div class="reg-r" data-id="${esc(t.id)}"><span class="id">${esc(t.id)}</span>
+      <div><div class="t">${esc(t.title)}</div>${t.impact?`<div class="i">${esc(t.impact)}</div>`:''}</div>
+      <span class="m">${esc(pname(t))}</span>
+      <span class="m">${t.moscow && MCOLOR[t.moscow] ? `<span class="pill ms" style="--mc:${MCOLOR[t.moscow]}">${esc(L.moscow[t.moscow][0])}</span>` : '—'}</span>
+      <span class="m ${a!==null && a>=30?'old':''}">${a===null?'—':a===0?'сегодня':a+' дн.'}</span>
+      <span class="m">${dl ? `<span class="pill dl ${dl.cls}">⏱ ${esc(dl.n>S.data.config.soon_days?fmtD(t.deadline):dl.txt)}</span>` : '—'}</span></div>`;
+  };
+  let body = '';
+  if(!bl.length) body = `<div class="empty">Бэклог пуст</div>`;
+  else if(S.blSort === 'project'){
+    const groups = {};
+    bl.forEach(t => (groups[pname(t)] = groups[pname(t)] || []).push(t));
+    body = Object.entries(groups).sort((a,b)=> a[0]==='Без проекта' ? 1 : b[0]==='Без проекта' ? -1 : a[0].localeCompare(b[0],'ru'))
+      .map(([g, arr]) => `<div class="reg-g">${esc(g)} <span class="cnt">${arr.length}</span></div>` +
+        arr.sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id)).map(regRow).join('')).join('');
+  } else if(S.blSort === 'age'){
+    body = bl.slice().sort((a,b)=>(a.created||'').localeCompare(b.created||'') || a.id.localeCompare(b.id)).map(regRow).join('');
+  } else {
+    body = MOS.concat(['']).map(m => { const arr = bl.filter(t => m ? t.moscow===m : !MCOLOR[t.moscow]); return arr.length ?
+      `<div class="reg-g">${m ? esc(L.moscow[m][0]+' — '+L.moscow[m][1]) : 'Без оценки'} <span class="cnt">${arr.length}</span></div>` + arr.map(regRow).join('') : ''; }).join('');
+  }
+  return `<p class="lead">Хранилище задач, по которым пока не ясны ни сроки, ни очередь. Здесь нет горизонта — задача попадает на «Горизонт», только когда её запланируют. Сверху — новые «Входящие», их нужно разобрать.</p>
+    <section class="section inbox-list"><h2><span class="dot" style="background:var(--accent)"></span>Входящие — разобрать <span class="cnt">${inbox.length}</span></h2>
+      ${inbox.length ? `<div class="list">${inbox.map(t=>row(t)).join('')}</div>` : `<div class="empty" style="text-align:left;padding:4px 2px">Всё разобрано ✨ Новые задачи появятся здесь.</div>`}</section>
+    <section class="section"><div class="sec-bar"><h2 style="margin:0"><span class="dot" style="background:var(--should)"></span>Бэклог — хранилище <span class="cnt">${bl.length}</span></h2>
+      <div class="seg">${Object.entries(BL_SORT).map(([k,l])=>`<button data-blsort="${k}" class="${S.blSort===k?'on':''}">${l}</button>`).join('')}</div></div>
+      <div class="reg"><div class="reg-h"><span>ID</span><span>Задача</span><span>Проект</span><span>MoSCoW</span><span>Лежит</span><span>Срок</span></div>${body}</div></section>`;
 }
 
 function row(t, archived){
@@ -516,7 +592,7 @@ function row(t, archived){
     meta.push(`<span class="pill">закрыта ${esc(fmtD(t.closed))}</span>`);
   } else {
     meta.push(`<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`);
-    meta.push(`<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])}</span>`);
+    if(isPlanned(t)) meta.push(`<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])}</span>`);
     if(dl) meta.push(`<span class="pill dl ${dl.cls}">⏱ ${esc(dl.n>S.data.config.soon_days? fmtD(t.deadline)+' · через '+dl.n+' дн.' : dl.txt)}</span>`);
   }
   return `<div class="row" data-id="${esc(t.id)}"><span class="id">${esc(t.id)}</span><span class="c-title">${esc(t.title)}</span><span class="r-meta">${meta.join('')}</span></div>`;
@@ -578,6 +654,8 @@ function fillFilters(){
 document.addEventListener('click', e => {
   const tab = e.target.closest('[data-tab]');
   if(tab){ S.tab = tab.dataset.tab; try{localStorage.setItem('bl-tab',S.tab)}catch(_){}; render(); return; }
+  const bs = e.target.closest('[data-blsort]');
+  if(bs){ S.blSort = bs.dataset.blsort; render(); return; }
   if(e.target.closest('[data-pedit],[data-pnew]')) return;   // обрабатывается в режиме редактирования
   const pj = e.target.closest('[data-proj]');
   if(pj && !e.target.closest('a')){ S.projSel = pj.dataset.proj; render(); return; }
@@ -848,15 +926,24 @@ function decorate(t){
   const ed = act.querySelector('a[href*="/edit/"]'); if(ed) ed.remove();
   const closed = t.status === 'done' || t.status === 'canceled';
   const q = [];
+  if(!closed && t.status !== 'todo') q.push(['plan', t.status === 'in-progress' || t.status === 'waiting' ? '📅 Вернуть в план' : '📅 Запланировать','']);
   if(!closed && t.status !== 'in-progress') q.push(['start','▶ В работу','']);
-  if(!closed && t.status !== 'backlog') q.push(['tobacklog','🗂 В бэклог','']);
   if(!closed && t.status !== 'waiting') q.push(['wait','⏳ Ожидание','']);
+  if(!closed && t.status !== 'backlog') q.push(['tobacklog','🗂 В бэклог','']);
   if(!closed) q.push(['done','✓ Готово','ok'], ['cancel','✕ Отменить','danger']);
   if(closed) q.push(['reopen','↺ Вернуть в работу','']);
   act.insertAdjacentHTML('afterbegin', `<button class="btn primary" data-act="edit">✎ Изменить</button>` +
     q.map(([k,l,c]) => `<button class="btn sm ${c}" data-act="${k}">${l}</button>`).join(''));
   act.insertAdjacentHTML('afterend', `<div id="actPanel"></div>`);
   if(!closed) $('#dBody').querySelectorAll('input[type=checkbox]').forEach((c, i) => { c.disabled = false; c.dataset.ci = i; });
+}
+function planPanel(){
+  const L = S.data.labels, t = taskFromText(S.edit.text, S.edit.path);
+  $('#actPanel').innerHTML = `<div class="panel"><label class="hint-s">Запланировать: когда возьмусь и к какому сроку</label>
+    <div class="form"><div class="fld"><label for="pl_h">Горизонт</label><select class="inp" id="pl_h">${opt(L.priority, t.priority === 'later' ? 'later' : (t.priority || 'next'), (k,v)=>`${v[0]} — ${v[1]}`)}</select></div>
+    <div class="fld"><label for="pl_d">Срок (необязательно)</label><input class="inp" type="date" id="pl_d" value="${esc(t.deadline||'')}"></div>
+    <div class="fld full"><label for="pTxt">Комментарий в журнал (необязательно)</label><input class="inp" id="pTxt"></div></div>
+    <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-plan">Запланировать</button></div></div>`;
 }
 function panel(kind){
   const cfg = {
@@ -869,15 +956,28 @@ function panel(kind){
     <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-${kind}">${cfg[1]}</button></div></div>`;
   $('#pTxt').focus();
 }
-const STATUS_MSG = {'in-progress':'взята в работу', waiting:'на ожидании', done:'выполнена', canceled:'отменена', backlog:'в бэклог'};
-async function setStatus(status, note){
+const STATUS_MSG = {'in-progress':'взята в работу', waiting:'на ожидании', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
+function ruleCheck(status, priority, deadline){
+  const hot = S.data.config.hot_days, d = parseD(deadline), n = d ? Math.round((d - todayLocal())/864e5) : null;
+  if((status === 'backlog' || status === 'inbox') && n !== null && n <= hot)
+    return `У задачи горящий срок (${n < 0 ? 'просрочено' : n === 0 ? 'сегодня' : 'через ' + n + ' дн.'}) — её нельзя оставить в статусе «${S.data.labels.status[status]}». Запланируйте её, возьмите в работу или перенесите срок.`;
+  return '';
+}
+async function setStatus(status, note, extra={}){
   const L = S.data.labels;
+  const cur0 = taskFromText(S.edit.text, S.edit.path);
+  if(status === 'in-progress') extra = {priority:'now', ...extra};
+  const err = ruleCheck(status, extra.priority || cur0.priority, extra.deadline !== undefined ? extra.deadline : cur0.deadline);
+  if(err){ toast(err, true); return; }
   const ok = await run(() => commit(tx => {
     const cur = taskFromText(tx, S.edit.path);
     let n = fmSet(tx, 'status', status);
+    const more = [];
+    if(extra.priority && extra.priority !== cur.priority){ n = fmSet(n, 'priority', extra.priority); more.push(`горизонт: ${(L.priority[cur.priority]||['—'])[0]} → ${L.priority[extra.priority][0]}`); }
+    if(extra.deadline !== undefined && extra.deadline !== (cur.deadline||'')){ n = fmSet(n, 'deadline', extra.deadline); more.push(`срок: ${cur.deadline ? cur.deadline.split('-').reverse().join('.') : '—'} → ${extra.deadline ? extra.deadline.split('-').reverse().join('.') : '—'}`); }
     if(status === 'done' || status === 'canceled'){ if(!cur.closed) n = fmSet(n, 'closed', todayISO()); }
     else if(cur.closed) n = fmSet(n, 'closed', '');
-    return journalAdd(n, `статус: ${L.status[cur.status]} → ${L.status[status]}${note ? '. ' + note : ''}`);
+    return journalAdd(n, `статус: ${L.status[cur.status]} → ${L.status[status]}${more.length ? '; ' + more.join('; ') : ''}${note ? '. ' + note : ''}`);
   }, `${S.edit.id}: ${STATUS_MSG[status] || status} (дашборд)`),
   status === 'done' || status === 'canceled' ? 'Сохранено. Задача уедет в архив после пересборки (~1 минута)' : undefined);
   if(ok) openTask(S.edit.id);
@@ -890,6 +990,8 @@ $('#drawer').addEventListener('click', e => {
   if(a === 'start') return setStatus('in-progress');
   if(a === 'reopen') return setStatus('in-progress');
   if(a === 'tobacklog') return setStatus('backlog');
+  if(a === 'plan') return planPanel();
+  if(a === 'p-plan') return setStatus('todo', ($('#pTxt').value||'').trim(), {priority: $('#pl_h').value, deadline: $('#pl_d').value});
   if(a === 'wait' || a === 'done' || a === 'cancel') return panel(a);
   if(a === 'pclose') return $('#actPanel').innerHTML = '';
   if(a.startsWith('p-')){ const note = $('#pTxt').value.trim(); return setStatus({'p-wait':'waiting','p-done':'done','p-cancel':'canceled'}[a], note); }
@@ -911,11 +1013,11 @@ function formFields(t, isNew){
   const f = (k, label, html, full) => `<div class="fld${full?' full':''}"><label for="f_${k}">${label}</label>${html}</div>`;
   const inp = (k, v, attrs='') => `<input class="inp" id="f_${k}" value="${esc(v||'')}" ${attrs}>`;
   const sel = (k, obj, cur, lbl, empty) => `<select class="inp" id="f_${k}">${empty!==undefined?`<option value="">${empty}</option>`:''}${opt(obj, cur, lbl)}</select>`;
-  const statuses = isNew ? {inbox:L.status.inbox, backlog:L.status.backlog, 'in-progress':L.status['in-progress']} : L.status;
+  const statuses = isNew ? {todo:L.status.todo, 'in-progress':L.status['in-progress'], inbox:L.status.inbox, backlog:L.status.backlog} : L.status;
   return [
     f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
     f('status', 'Статус', sel('status', statuses, t.status)),
-    f('priority', 'Горизонт — когда возьмусь', sel('priority', L.priority, t.priority, (k,v)=>`${v[0]} — ${v[1]}`)),
+    f('priority', 'Горизонт — когда возьмусь <span class="hint-s">(для бэклога и входящих не важен)</span>', sel('priority', L.priority, t.priority, (k,v)=>`${v[0]} — ${v[1]}`)),
     f('order', 'Очерёдность в горизонте', inp('order', t.order, 'type="number" min="1" placeholder="пусто — без номера"')),
     f('deadline', 'Срок', inp('deadline', t.deadline, 'type="date"')),
     f('moscow', 'MoSCoW — влияние на бизнес', sel('moscow', L.moscow, t.moscow, (k,v)=>`${v[0]} — ${v[1]}`, 'Не оценено')),
@@ -967,6 +1069,8 @@ function openEdit(){
 async function saveEdit(){
   const E = S.edit, before = taskFromText(E.text, E.path), F = readFields(), L = S.data.labels;
   if(!F.title){ toast('Название не может быть пустым', true); return; }
+  if(F.status === 'in-progress' && F.priority !== 'now'){ F.priority = 'now'; $('#f_priority').value = 'now'; toast('Задача в работе — горизонт выставлен «Сейчас»'); }
+  const rErr = ruleCheck(F.status, F.priority, F.deadline); if(rErr){ toast(rErr, true); return; }
   const secVals = [...$('#dBody').querySelectorAll('textarea[data-sec]')].map(x => [x.dataset.sec, x.value]);
   const origSecs = Object.fromEntries(secVals.map(([n]) => [n, secGet(E.text, n)]));
   const jnew = ($('#f_jnew').value || '').trim();
@@ -997,7 +1101,7 @@ async function saveEdit(){
 /* ── новая задача ── */
 function openCreate(){
   S.mode = 'create'; S.newMode = true; S.dirty = false; S.openId = null; S.edit = null;
-  const inner = formFields({status:'backlog', priority:'next', project: S.tab === 'projects' && S.projSel !== '-' ? S.projSel : ''}, true) +
+  const inner = formFields({status:'todo', priority:'next', project: S.tab === 'projects' && S.projSel !== '-' ? S.projSel : ''}, true) +
     `<div class="f-sec">Описание</div>
      <div class="fld full"><label for="n_sut">Суть — что нужно получить в итоге</label><textarea class="inp" id="n_sut"></textarea></div>
      <div class="fld full"><label for="n_ctx">Контекст — откуда пришло, зачем бизнесу</label><textarea class="inp tall" id="n_ctx"></textarea></div>
@@ -1010,6 +1114,8 @@ function openCreate(){
 }
 async function saveNew(){
   const F = readFields(); if(!F.title){ toast('Заполните название', true); $('#f_title').focus(); return; }
+  if(F.status === 'in-progress') F.priority = 'now';
+  const rErr = ruleCheck(F.status, F.priority, F.deadline); if(rErr){ toast(rErr, true); return; }
   const v = id => ($('#' + id).value || '').trim();
   const lines = s => s.split('\n').map(x => x.trim()).filter(Boolean);
   let created = null;

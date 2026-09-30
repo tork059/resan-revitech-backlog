@@ -362,20 +362,20 @@ const PLANNED = ['todo','in-progress','waiting'];
 const isPlanned = t => PLANNED.includes(t.status);
 const MOS_RANK = {must:0, should:1, could:2, wont:3};
 const mosRank = t => MOS_RANK[t.moscow] ?? 4;
+// Срок первичен: задача со сроком в ближайшую неделю (или просроченная) сама считается «В работе»
+const autoStart = t => !isClosed(t) && t.status !== 'in-progress' && daysLeft(t) !== null && daysLeft(t) <= S.data.config.soon_days;
 // Горизонт считается сам: в работе → Сейчас; срок не дальше месяца → Далее; иначе (или без срока) → Потом
 function horizonOf(t){
-  if(t.status === 'in-progress') return 'now';
+  if(t.status === 'in-progress' || autoStart(t)) return 'now';
   const n = daysLeft(t);
   return n !== null && n <= (S.data.config.next_days || 30) ? 'next' : 'later';
 }
-const syncHorizon = t => { if(!isClosed(t)) t.priority = horizonOf(t); return t; };
+const syncHorizon = t => { if(!isClosed(t)){ if(autoStart(t)) t.status = 'in-progress'; t.priority = horizonOf(t); } return t; };
 const ageDays = t => { const d = parseD(t.created); return d ? Math.round((todayLocal() - d)/864e5) : null; };
 function ruleIssues(tasks){
   const out = [], L = S.data.labels, hot = S.data.config.hot_days;
   tasks.filter(t=>!isClosed(t)).forEach(t => {
     const n = daysLeft(t);
-    if((t.status==='backlog'||t.status==='inbox') && n!==null && n<=hot)
-      out.push([t.id, `горящий срок (${dlInfo(t).txt}), а задача в статусе «${L.status[t.status]}» — запланируйте, возьмите в работу или перенесите срок`]);
   });
   return out;
 }
@@ -477,7 +477,7 @@ function render(){
   let html = '';
   if(S.tab === 'prio'){
     const pool = active.filter(isPlanned);
-    html = `<p class="lead">Главный экран на каждый день. <b>Сейчас</b> — только задачи в работе. <b>Далее</b> — срок в пределах месяца (горящие — сверху, подсвечены). <b>Потом</b> — срок дальше месяца или без срока. Колонка определяется сама по статусу и сроку; внутри — по сроку, при равном сроке и без срока — по MoSCoW (Must выше). Бэклог и входящие — во вкладке «Бэклог».</p><div class="board b3">${PRIO.map(p => {
+    html = `<p class="lead"><b>Горизонт</b> показывает, когда задача будет в работе. <b>Сейчас</b> — задачи, которыми я занимаюсь в данный момент, включая все задачи со сроком в ближайшую неделю. <b>Далее</b> — задачи со сроком в пределах месяца. <b>Потом</b> — задачи со сроком позже месяца или без срока.</p><div class="board b3">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort(byHorizon);
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
         <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
@@ -965,17 +965,18 @@ function panel(kind){
   $('#pTxt').focus();
 }
 const STATUS_MSG = {'in-progress':'взята в работу', waiting:'на ожидании', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
-function ruleCheck(status, priority, deadline){
-  const hot = S.data.config.hot_days, d = parseD(deadline), n = d ? Math.round((d - todayLocal())/864e5) : null;
-  if((status === 'backlog' || status === 'inbox') && n !== null && n <= hot)
-    return `У задачи горящий срок (${n < 0 ? 'просрочено' : n === 0 ? 'сегодня' : 'через ' + n + ' дн.'}) — её нельзя оставить в статусе «${S.data.labels.status[status]}». Запланируйте её, возьмите в работу или перенесите срок.`;
-  return '';
+// Срок в ближайшую неделю → задача только «В работе»; возвращает итоговый статус
+function effStatus(status, deadline){
+  if(status === 'done' || status === 'canceled' || status === 'in-progress') return status;
+  const d = parseD(deadline), n = d ? Math.round((d - todayLocal())/864e5) : null;
+  return n !== null && n <= S.data.config.soon_days ? 'in-progress' : status;
 }
+const AUTO_MSG = 'Срок в ближайшую неделю — задача остаётся «В работе». Чтобы убрать её из «Сейчас», перенесите срок.';
 async function setStatus(status, note, extra={}){
   const L = S.data.labels;
   const cur0 = taskFromText(S.edit.text, S.edit.path);
-  const err = ruleCheck(status, '', extra.deadline !== undefined ? extra.deadline : cur0.deadline);
-  if(err){ toast(err, true); return; }
+  const eff = effStatus(status, extra.deadline !== undefined ? extra.deadline : cur0.deadline);
+  if(eff !== status){ if(cur0.status === 'in-progress'){ toast(AUTO_MSG, true); return; } toast(AUTO_MSG); status = eff; }
   const ok = await run(() => commit(tx => {
     const cur = taskFromText(tx, S.edit.path);
     let n = fmSet(tx, 'status', status);
@@ -1076,7 +1077,7 @@ function openEdit(){
 async function saveEdit(){
   const E = S.edit, before = taskFromText(E.text, E.path), F = readFields(), L = S.data.labels;
   if(!F.title){ toast('Название не может быть пустым', true); return; }
-  const rErr = ruleCheck(F.status, F.priority, F.deadline); if(rErr){ toast(rErr, true); return; }
+  { const eff = effStatus(F.status, F.deadline); if(eff !== F.status){ F.status = eff; F.priority = 'now'; toast(AUTO_MSG); } }
   const secVals = [...$('#dBody').querySelectorAll('textarea[data-sec]')].map(x => [x.dataset.sec, x.value]);
   const origSecs = Object.fromEntries(secVals.map(([n]) => [n, secGet(E.text, n)]));
   const jnew = ($('#f_jnew').value || '').trim();
@@ -1120,7 +1121,7 @@ function openCreate(){
 }
 async function saveNew(){
   const F = readFields(); if(!F.title){ toast('Заполните название', true); $('#f_title').focus(); return; }
-  const rErr = ruleCheck(F.status, F.priority, F.deadline); if(rErr){ toast(rErr, true); return; }
+  { const eff = effStatus(F.status, F.deadline); if(eff !== F.status){ F.status = eff; F.priority = 'now'; toast(AUTO_MSG); } }
   const v = id => ($('#' + id).value || '').trim();
   const lines = s => s.split('\n').map(x => x.trim()).filter(Boolean);
   let created = null;

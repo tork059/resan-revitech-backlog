@@ -40,9 +40,9 @@ STATUSES = {
 CLOSED = {"done", "canceled"}
 # Приоритет = горизонт: когда я за это возьмусь
 PRIORITIES = {
-    "now": ("Сейчас", "в работе", "🔴"),
+    "now": ("Сейчас", "в работе, срок в ближайшую неделю", "🔴"),
     "next": ("Далее", "срок в пределах месяца", "🟠"),
-    "later": ("Потом", "срок дальше месяца или без срока", "⚪"),
+    "later": ("Потом", "срок позже месяца или без срока", "⚪"),
 }
 PRIO_ORDER = list(PRIORITIES)
 # MoSCoW = влияние на систему и бизнес, не зависит от сроков и очерёдности
@@ -148,9 +148,6 @@ def validate(t: dict) -> None:
     if t.get("moscow") and t["moscow"] not in MOSCOW:
         WARNINGS.append(f"{where} — неизвестная оценка MoSCoW `{t['moscow']}` (must / should / could / wont)")
         t["moscow"] = ""
-    if t["status"] in ("backlog", "inbox") and (n := days_left(t)) is not None and n <= CONFIG["hot_days"]:
-        RULES.append(f"`{t.get('id')}` — горящий срок ({deadline_cell(t)}), а задача в статусе «{STATUSES[t['status']][0]}»: "
-                     "запланируйте её, возьмите в работу или перенесите срок")
     if t.get("project") and t["project"] not in PROJECTS:
         WARNINGS.append(f"{where} — неизвестный проект `{t['project']}` (список — в backlog.json)")
     if t.get("type") and t["type"] not in TYPES:
@@ -224,9 +221,31 @@ def horizon_of(t: dict) -> str:
     return "next" if n is not None and n <= CONFIG.get("next_days", 30) else "later"
 
 
+def journal_append(path: Path, line: str) -> None:
+    text = path.read_text(encoding="utf-8").rstrip("\n")
+    entry = f"- {today().isoformat()} — {line}"
+    if not re.search(r"^## Журнал\s*$", text, re.M):
+        text += "\n\n## Журнал"
+    path.write_text(text + "\n" + entry + "\n", encoding="utf-8")
+
+
+def auto_start(t: dict) -> None:
+    """Срок — первичен: задача со сроком в ближайшую неделю (или просроченная) сама переходит в работу."""
+    n = days_left(t)
+    if t["status"] in CLOSED or t["status"] == "in-progress" or n is None or n > CONFIG["soon_days"]:
+        return
+    was = STATUSES[t["status"]][0]
+    set_field(t["path"], "status", "in-progress")
+    t["status"] = "in-progress"
+    when = f"просрочено на {-n} дн." if n < 0 else "сегодня" if n == 0 else f"до срока {n} дн."
+    journal_append(t["path"], f"автоматически взята в работу ({when}): статус {was} → В работе")
+    print(f"▶ в работу: {t['id']} ({when})")
+
+
 def normalize(tasks: list[dict]) -> None:
-    """Горизонт — по статусу и сроку; закрытые — в архив с датой закрытия, переоткрытые — обратно в tasks/."""
+    """Автоматический старт по сроку; горизонт — по статусу и сроку; закрытые — в архив, переоткрытые — обратно."""
     for t in tasks:
+        auto_start(t)
         if t["status"] not in CLOSED:
             h = horizon_of(t)
             if t.get("priority") != h:
@@ -438,8 +457,8 @@ def render_readme(tasks: list[dict]) -> str:
           else "_Сейчас ничего не в работе — возьмите задачу из «Сейчас»._", ""]
 
     L += ["## 📅 Запланировано по горизонту", "",
-          "<sub>Горизонт считается сам: Далее — срок не дальше месяца, Потом — срок дальше месяца или без срока "
-          "(Сейчас — только задачи в работе, см. выше). Внутри группы — по сроку, при равном сроке и без срока — по MoSCoW.</sub>", ""]
+          "<sub>Сейчас — задачи в работе (в том числе все со сроком в ближайшую неделю, см. выше), "
+          "Далее — срок в пределах месяца, Потом — срок позже месяца или без срока.</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
         rows = sorted([t for t in planned if t["priority"] == key], key=horizon_key)
         head = f"### {icon} {name} — {hint} · {len(rows)}"

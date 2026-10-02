@@ -1018,7 +1018,7 @@ $('#dBody').addEventListener('change', e => {
 });
 
 /* ── форма: поля задачи ── */
-const STD_SECS = ['Суть','Контекст','Что сделать','Критерии готовности','Материалы'];
+const STD_SECS = ['Суть','Контекст','Следующий шаг','Зависит от','Что сделать','Критерии готовности','Материалы'];
 function formFields(t, isNew){
   const L = S.data.labels, P = S.data.projects || {};
   const f = (k, label, html, full) => `<div class="fld${full?' full':''}"><label for="f_${k}">${label}</label>${html}</div>`;
@@ -1112,8 +1112,10 @@ function openCreate(){
   S.mode = 'create'; S.newMode = true; S.dirty = false; S.openId = null; S.edit = null;
   const inner = formFields({status:'todo', priority:'next', project: S.tab === 'projects' && S.projSel !== '-' ? S.projSel : ''}, true) +
     `<div class="f-sec">Описание</div>
-     <div class="fld full"><label for="n_sut">Суть — что нужно получить в итоге</label><textarea class="inp" id="n_sut"></textarea></div>
+     <div class="fld full"><label for="n_sut">Суть — одна фраза: что сделать и какой результат нужен</label><textarea class="inp" id="n_sut"></textarea></div>
      <div class="fld full"><label for="n_ctx">Контекст — откуда пришло, зачем бизнесу</label><textarea class="inp tall" id="n_ctx"></textarea></div>
+     <div class="fld full"><label for="n_next">Следующий шаг — одно конкретное действие</label><input class="inp" id="n_next"></div>
+     <div class="fld full"><label for="n_dep">Зависит от — кого или чего ждёт задача</label><input class="inp" id="n_dep"></div>
      <div class="fld full"><label for="n_todo">Что сделать — каждый шаг с новой строки</label><textarea class="inp tall" id="n_todo" placeholder="Связаться с подрядчиком&#10;Запросить правила обмена"></textarea></div>
      <div class="fld full"><label for="n_done">Критерии готовности</label><textarea class="inp" id="n_done"></textarea></div>
      <div class="fld full"><label for="n_mat">Материалы — ссылки, файлы, контакты</label><textarea class="inp" id="n_mat"></textarea></div>`;
@@ -1135,7 +1137,7 @@ async function saveNew(){
     const vals = {...F, created: todayISO(), closed: ''};
     for(const [k, val] of Object.entries(vals)) head = fmSet(head, k, val);
     const secs = [
-      ['Суть', v('n_sut')], ['Контекст', v('n_ctx')],
+      ['Суть', v('n_sut')], ['Контекст', v('n_ctx')], ['Следующий шаг', v('n_next')], ['Зависит от', v('n_dep')],
       ['Что сделать', lines(v('n_todo')).map(x => x.replace(/^[-*]\s*(\[[ xX]\]\s*)?/, '')).map(x => `- [ ] ${x}`).join('\n')],
       ['Критерии готовности', lines(v('n_done')).map(x => x.startsWith('-') ? x : `- ${x}`).join('\n')],
       ['Материалы', lines(v('n_mat')).map(x => x.startsWith('-') ? x : `- ${x}`).join('\n')],

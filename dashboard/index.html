@@ -169,21 +169,26 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .warn ul{margin:6px 0 0;padding-left:18px;color:var(--muted);font-size:13px}
 
 /* drawer */
+body.locked{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .scrim{position:fixed;inset:0;background:rgba(5,7,10,.6);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
 .scrim.on{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(720px,100%);background:var(--surface);border-left:1px solid var(--border);
-  box-shadow:var(--shadow);transform:translateX(100%);transition:transform .25s ease;z-index:21;display:flex;flex-direction:column}
+  box-shadow:var(--shadow);transform:translateX(100%);transition:transform .25s ease;z-index:21;
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .drawer.on{transform:none}
 .d-head{padding:18px 22px 14px;border-bottom:1px solid var(--border)}
 .d-top{display:flex;align-items:center;gap:10px}
-.d-close{margin-left:auto;background:none;border:0;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;padding:4px 8px;border-radius:8px}
-.d-close:hover{background:var(--surface-3);color:var(--text)}
+.d-top{padding-right:44px}
+.d-close{position:fixed;top:12px;right:14px;z-index:3;width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  background:var(--surface-3);border:1px solid var(--border-2);color:var(--muted);font-size:20px;line-height:1;cursor:pointer;border-radius:50%;
+  box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.d-close:hover{background:var(--border-2);color:var(--text)}
 .d-title{font-size:19px;font-weight:600;margin:8px 0 12px;line-height:1.35}
 .d-meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 16px;font-size:13px}
 .d-meta dt{color:var(--faint);font-size:11.5px;margin-bottom:1px}
 .d-meta dd{margin:0}
 .d-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.d-body{padding:6px 22px 40px;overflow-y:auto;flex:1}
+.d-body{padding:6px 22px 64px}
 .md{line-height:1.65;font-size:14.5px}
 .md h1,.md h2,.md h3{font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:26px 0 8px;font-weight:600}
 .md p{margin:8px 0}
@@ -244,7 +249,7 @@ input[type=date].inp{color-scheme:dark}
 .panel .row-btns{display:flex;gap:8px;justify-content:flex-end}
 .journal{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:13px;max-height:160px;overflow:auto}
 .saving{position:relative}
-.saving::after{content:"Сохраняю…";position:absolute;right:22px;top:18px;font-size:12px;color:var(--accent)}
+.saving::after{content:"Сохраняю…";position:fixed;right:62px;top:22px;z-index:3;font-size:12px;color:var(--accent)}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:30;background:rgba(5,7,10,.65);backdrop-filter:blur(2px);padding:16px}
 .modal.on{display:flex}
 .m-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;max-width:560px;width:100%;max-height:90vh;overflow:auto;padding:20px 22px;box-shadow:var(--shadow)}
@@ -287,7 +292,8 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
   .row{grid-template-columns:1fr;gap:4px}
   .row .r-meta{justify-content:flex-start}
   .d-head{padding:14px 16px 12px}
-  .d-body{padding:4px 16px 40px}
+  .d-body{padding:4px 16px 64px}
+  .d-close{top:10px;right:10px}
   .head-actions{width:100%}
   .head-actions .btn{flex:1;justify-content:center}
 }
@@ -639,13 +645,25 @@ function openTask(id){
   catch(e){ body = `<pre>${esc(body)}</pre>`; }
   $('#dBody').innerHTML = body;
   $('#dBody').querySelectorAll('input[type=checkbox]').forEach(c=>c.disabled=true);
-  $('#drawer').classList.add('on'); $('#scrim').classList.add('on');
+  lockScroll(); $('#drawer').classList.add('on'); $('#scrim').classList.add('on');
   $('#drawer').setAttribute('aria-hidden','false');
   $('#dClose').onclick = closeTask;
   if(location.hash !== '#'+id) history.replaceState(null,'','#'+id);
-  $('.d-body').scrollTop = 0;
+  $('#drawer').scrollTop = 0;
+}
+function lockScroll(){
+  if(document.body.classList.contains('locked')) return;
+  S.scrollY = window.scrollY || 0;
+  document.body.style.top = `-${S.scrollY}px`;
+  document.body.classList.add('locked');
+}
+function unlockScroll(){
+  if(!document.body.classList.contains('locked')) return;
+  document.body.classList.remove('locked'); document.body.style.top = '';
+  window.scrollTo(0, S.scrollY || 0);
 }
 function closeTask(){
+  unlockScroll();
   $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on');
   $('#drawer').setAttribute('aria-hidden','true');
   history.replaceState(null,'',location.pathname + location.search);
@@ -1056,7 +1074,7 @@ function formShell(title, sub, inner, saveAct, saveLabel){
     <div class="f-actions"><button class="btn" data-act="cancel-form">Отмена</button><button class="btn primary" data-act="${saveAct}">${saveLabel}</button></div>`;
   $('#dClose').onclick = () => { S.dirty = false; S.mode = 'view'; if(S.newMode){ S.newMode = false; _closeTask(); } else openTask(S.openId); };
   $('#eForm').addEventListener('input', () => S.dirty = true);
-  $('.d-body').scrollTop = 0;
+  $('#drawer').scrollTop = 0;
 }
 
 /* ── изменение задачи ── */
@@ -1120,7 +1138,7 @@ function openCreate(){
      <div class="fld full"><label for="n_done">Критерии готовности</label><textarea class="inp" id="n_done"></textarea></div>
      <div class="fld full"><label for="n_mat">Материалы — ссылки, файлы, контакты</label><textarea class="inp" id="n_mat"></textarea></div>`;
   formShell('Новая задача', 'номер присвоится при сохранении', inner, 'save-new', 'Создать задачу');
-  $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden','false');
+  lockScroll(); $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden','false');
   setTimeout(() => $('#f_title').focus(), 60);
 }
 async function saveNew(){

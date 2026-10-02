@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 6](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-6-7aa2f7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 9](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-9-c0392b?style=flat-square) ![всего активных: 34](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-34-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
+![в работе: 6](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-6-7aa2f7?style=flat-square) ![горит: 4](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-4-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 9](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-9-c0392b?style=flat-square) ![всего активных: 34](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-34-565f89?style=flat-square) ![закрыто за 30 дн: 0](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-0-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 02.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -15,7 +15,6 @@
 > [!CAUTION]
 > **Горит — срок истёк или наступает в ближайшие 3 дн.**
 >
-> - `BL-027` [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) — 02.10 · 🔴 сегодня
 > - `BL-033` [Некорректно формируются акты сверки](tasks/BL-033-nekorrektno-formiruyutsya-akty-sverki.md) — 02.10 · 🔴 сегодня
 > - `BL-034` [Перенос из УТ в РИЛ и отражение задолженности клиентов](tasks/BL-034-perenos-iz-ut-v-ril-i-otrazhenie-zadolzhennosti.md) — 02.10 · 🔴 сегодня
 > - `BL-001` [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) — 03.10 · 🟠 завтра
@@ -26,7 +25,7 @@
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
 | **Автоматизация бухгалтерии** | `▱▱▱▱▱▱▱▱▱▱` 0/15 | 15 | `BL-033` 02.10 · 🔴 сегодня | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
-| **Оптимизация 1С:УТ** | `▱▱▱▱▱▱▱▱▱▱` 0/18 | 18 | `BL-027` 02.10 · 🔴 сегодня | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
+| **Оптимизация 1С:УТ** | `▱▱▱▱▱▱▱▱▱▱` 0/18 | 18 | `BL-028` 05.10 · 🟠 через 3 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
 
@@ -34,9 +33,9 @@
 |:--|:--|:--|:--|:--|:--|
 | `BL-033` | [Некорректно формируются акты сверки](tasks/BL-033-nekorrektno-formiruyutsya-akty-sverki.md) | 🔴 Сейчас | 02.10 · 🔴 сегодня | 🟥 Must | Бухгалтерия |
 | `BL-034` | [Перенос из УТ в РИЛ и отражение задолженности клиентов](tasks/BL-034-perenos-iz-ut-v-ril-i-otrazhenie-zadolzhennosti.md) | 🔴 Сейчас | 02.10 · 🔴 сегодня | 🟥 Must | Бухгалтерия |
-| `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | 🔴 Сейчас | 02.10 · 🔴 сегодня | 🟧 Should | Оптимизация УТ |
 | `BL-001` | [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) | 🔴 Сейчас | 03.10 · 🟠 завтра | 🟧 Should | Бухгалтерия |
 | `BL-028` | [Открыть дневное время для выгрузки склада](tasks/BL-028-otkryt-dnevnoe-vremya-dlya-vygruzki-sklada.md) | 🔴 Сейчас | 05.10 · 🟠 через 3 дн. | 🟥 Must | Оптимизация УТ |
+| `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | 🔴 Сейчас | 06.10 · 🟡 через 4 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-031` | [Выгрузка на сайт Битрикс: разбор и рефакторинг регламентного задания](tasks/BL-031-vygruzka-na-sayt-bitriks-razbor-i-refaktoring-re.md) | 🔴 Сейчас | 12.10 · через 10 дн. | 🟥 Must | Оптимизация УТ |
 
 ## 📅 Запланировано по горизонту
@@ -94,8 +93,8 @@ _Пусто_
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
-| `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | Картина нагрузки по пользователям и основание для решений; это диагностика — сама нагрузку не снижает | 🔴 Сейчас |
 | `BL-001` | [Н1·1.1 Обследование текущей схемы выгрузки УТ → БП](tasks/BL-001-n1-1-1-obsledovanie-tekuschey-shemy-vygruzki-ut.md) | Первый шаг к автоматическому обмену УТ → БП; без него не убрать ручную выгрузку и дубли, но учёт пока ведётся вручную | 🔴 Сейчас |
+| `BL-027` | [Аудит производительности по пользователям: ежедневная выгрузка ЖР (неделя 28.09–02.10)](tasks/BL-027-audit-proizvoditelnosti-po-polzovatelyam-5-vygru.md) | Картина нагрузки по пользователям и основание для решений; это диагностика — сама нагрузку не снижает | 🔴 Сейчас |
 | `BL-029` | [Обработка очистки дублей контрагентов](tasks/BL-029-obrabotka-ochistki-dubley-kontragentov.md) | Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки | 🟠 Далее |
 | `BL-002` | [Н1·1.2 Анализ файла правил обмена от Иннотеха](tasks/BL-002-n1-1-2-analiz-fayla-pravil-obmena-ot-innoteha.md) | Н1: автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-003` | [Н1·1.3 Согласование целевой схемы обмена и решения по канцтоварам](tasks/BL-003-n1-1-3-soglasovanie-tselevoy-shemy-obmena-i-resh.md) | Н1: автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |

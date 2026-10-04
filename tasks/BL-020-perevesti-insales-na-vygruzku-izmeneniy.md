@@ -1,8 +1,8 @@
 ---
 id: BL-020
 title: Перевести Insales на выгрузку изменений
-status: waiting      # inbox | backlog | in-progress | waiting | done | canceled
-priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Сайт Insales обновляется чаще без нагрузки на базу — улучшение сверх урезания дневной выгрузки
 type: dev            # analysis | dev | consult | research | support
@@ -43,3 +43,4 @@ closed:              # заполняется автоматически при 
 - 2026-09-28 — часть по Битрикс решается в «Переделать выгрузку на сайт Битрикс» (оценка нового плана обмена)
 - 2026-09-28 — новая схема приоритетов: горизонт «Далее» (#3); MoSCoW — Could
 - 2026-10-02 — задача переименована и описание переписано без кодов (было: «К1-11 · Битрикс и Insales на дельта-обмен»)
+- 2026-10-05 — автоматически взята в работу (до срока 7 дн.): статус Ожидание → В работе

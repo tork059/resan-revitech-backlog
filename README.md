@@ -39,8 +39,8 @@
 | `BL-027` | [Провести аудит нагрузки по пользователям](tasks/BL-027-provesti-audit-nagruzki-po-polzovatelyam.md) | 🔴 Сейчас | 06.10 · 🟠 завтра | 🟧 Should | Оптимизация УТ |
 | `BL-026` | [Разобрать нагрузку журналов заказов и реализаций](tasks/BL-026-razobrat-nagruzku-zhurnalov-zakazov-i-realizatsi.md) | 🔴 Сейчас | 12.10 · 🟡 через 7 дн. | 🟥 Must | Оптимизация УТ |
 | `BL-031` | [Переделать выгрузку на сайт Битрикс](tasks/BL-031-peredelat-vygruzku-na-sayt-bitriks.md) | 🔴 Сейчас | 12.10 · 🟡 через 7 дн. | 🟥 Must | Оптимизация УТ |
-| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 🔴 Сейчас | 12.10 · 🟡 через 7 дн. | 🟦 Could | Оптимизация УТ |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 26.10 · через 21 дн. | 🟧 Should | — |
+| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 🔴 Сейчас | 26.10 · через 21 дн. | 🟦 Could | Оптимизация УТ |
 
 ## 📅 Запланировано по горизонту
 

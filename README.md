@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 8](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-8-7aa2f7?style=flat-square) ![горит: 4](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-4-f7768e?style=flat-square) ![сейчас: 8](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-8-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 1](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-1-9ece6a?style=flat-square)
+![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 3](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-3-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 31](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-31-565f89?style=flat-square) ![закрыто за 30 дн: 2](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-2-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 05.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -16,7 +16,6 @@
 > **Горит — срок истёк или наступает в ближайшие 3 дн.**
 >
 > - `BL-034` [Исправить перенос задолженности клиентов УТ → РИЛ](tasks/BL-034-ispravit-perenos-zadolzhennosti-klientov-ut-ril.md) — 02.10 · 🔴 просрочено на 3 дн.
-> - `BL-001` [Обследовать текущую выгрузку УТ → БП](tasks/BL-001-obsledovat-tekuschuyu-vygruzku-ut-bp.md) — 03.10 · 🔴 просрочено на 2 дн.
 > - `BL-028` [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) — 05.10 · 🔴 сегодня
 > - `BL-027` [Провести аудит нагрузки по пользователям](tasks/BL-027-provesti-audit-nagruzki-po-polzovatelyam.md) — 06.10 · 🟠 завтра
 
@@ -24,7 +23,7 @@
 
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
-| **Автоматизация бухгалтерии** | `▰▱▱▱▱▱▱▱▱▱` 1/15 | 14 | `BL-034` 02.10 · 🔴 просрочено на 3 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
+| **Автоматизация бухгалтерии** | `▰▱▱▱▱▱▱▱▱▱` 2/15 | 13 | `BL-034` 02.10 · 🔴 просрочено на 3 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
 | **Оптимизация 1С:УТ** | `▱▱▱▱▱▱▱▱▱▱` 0/17 | 17 | `BL-028` 05.10 · 🔴 сегодня | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
@@ -32,7 +31,6 @@
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
 | `BL-034` | [Исправить перенос задолженности клиентов УТ → РИЛ](tasks/BL-034-ispravit-perenos-zadolzhennosti-klientov-ut-ril.md) | 🔴 Сейчас | 02.10 · 🔴 просрочено на 3 дн. | 🟥 Must | Бухгалтерия |
-| `BL-001` | [Обследовать текущую выгрузку УТ → БП](tasks/BL-001-obsledovat-tekuschuyu-vygruzku-ut-bp.md) | 🔴 Сейчас | 03.10 · 🔴 просрочено на 2 дн. | 🟧 Should | Бухгалтерия |
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | 🔴 Сейчас | 05.10 · 🔴 сегодня | 🟥 Must | Оптимизация УТ |
 | `BL-027` | [Провести аудит нагрузки по пользователям](tasks/BL-027-provesti-audit-nagruzki-po-polzovatelyam.md) | 🔴 Сейчас | 06.10 · 🟠 завтра | 🟧 Should | Оптимизация УТ |
 | `BL-026` | [Разобрать нагрузку журналов заказов и реализаций](tasks/BL-026-razobrat-nagruzku-zhurnalov-zakazov-i-realizatsi.md) | 🔴 Сейчас | 12.10 · 🟡 через 7 дн. | 🟥 Must | Оптимизация УТ |
@@ -87,11 +85,10 @@ _Пусто_
 
 </details>
 
-<details><summary><b>🟧 Should — важно, но есть обходной путь · 18</b></summary>
+<details><summary><b>🟧 Should — важно, но есть обходной путь · 17</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
-| `BL-001` | [Обследовать текущую выгрузку УТ → БП](tasks/BL-001-obsledovat-tekuschuyu-vygruzku-ut-bp.md) | Первый шаг к автоматическому обмену УТ → БП; без него не убрать ручную выгрузку и дубли, но учёт пока ведётся вручную | 🔴 Сейчас |
 | `BL-027` | [Провести аудит нагрузки по пользователям](tasks/BL-027-provesti-audit-nagruzki-po-polzovatelyam.md) | Картина нагрузки по пользователям и основание для решений; это диагностика — сама нагрузку не снижает | 🔴 Сейчас |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки | 🔴 Сейчас |
 | `BL-002` | [Разобрать правила обмена от Иннотеха](tasks/BL-002-razobrat-pravila-obmena-ot-innoteha.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |

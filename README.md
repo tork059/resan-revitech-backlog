@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 31](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-31-565f89?style=flat-square) ![закрыто за 30 дн: 3](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-3-9ece6a?style=flat-square)
+![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 9](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-9-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 3](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-3-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 06.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -45,10 +45,11 @@
 
 _Пусто_
 
-### 🟠 Далее — срок в пределах месяца · 1
+### 🟠 Далее — срок в пределах месяца · 2
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
+| `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | 15.10 · через 9 дн. | 🟥 Must | — | buh_resan, RIB |
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | 19.10 · через 13 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 
 <details><summary><b>⚪ Потом — срок позже месяца или без срока · 7</b></summary>
@@ -69,7 +70,7 @@ _Пусто_
 
 <sub>Оценка важности задачи для системы и бизнеса. Не зависит от сроков и очерёдности — показывает, что реально критично.</sub>
 
-<details open><summary><b>🟥 Must — критично для системы и бизнеса · 8</b></summary>
+<details open><summary><b>🟥 Must — критично для системы и бизнеса · 9</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
@@ -77,6 +78,7 @@ _Пусто_
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | Ежедневная операция склада днём невозможна: 1С зависает — простой склада и торможение у всех пользователей | 🔴 Сейчас |
 | `BL-026` | [Разобрать нагрузку журналов заказов и реализаций](tasks/BL-026-razobrat-nagruzku-zhurnalov-zakazov-i-realizatsi.md) | Основной источник дневной нагрузки: ключевые журналы продаж, с которыми весь день работают менеджеры | 🔴 Сейчас |
 | `BL-031` | [Переделать выгрузку на сайт Битрикс](tasks/BL-031-peredelat-vygruzku-na-sayt-bitriks.md) | Самый большой вклад в дневную нагрузку (≈2 ч/сут в рабочем окне) — прямая причина зависаний у пользователей | 🔴 Сейчас |
+| `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | Корректный перенос выписок банка | 🟠 Далее |
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч | 🟠 Далее |
 | `BL-010` | [Исправить счета-фактуры на аванс и адреса подразделений](tasks/BL-010-ispravit-scheta-faktury-na-avans-i-adresa-podraz.md) | Юридический риск: нарушение ст. 168 НК РФ (счета-фактуры на аванс) и неверный адрес грузоотправителя в документах и Диадоке — штрафы и претензии | 🗂 Бэклог |
 | `BL-017` | [Отключить «зомби»-задания и ограничить длительность](tasks/BL-017-otklyuchit-zombi-zadaniya-i-ogranichit-dlitelnos.md) | Риск стабильности: отключённые задания уже запускались днём (20,4 ч одним прогоном), таймаутов нет — повтор кладёт рабочее окно | ⚪ Потом |

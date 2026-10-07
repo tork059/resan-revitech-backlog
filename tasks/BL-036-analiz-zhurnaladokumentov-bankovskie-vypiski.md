@@ -1,8 +1,8 @@
 ---
 id: BL-036
 title: Анализ ЖурналаДокументов "Банковские выписки"
-status: todo         # inbox | backlog | todo | in-progress | waiting | done | canceled
-priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Корректный перенос выписок банка
 type: analysis       # analysis | dev | consult | research | support
@@ -24,3 +24,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-10-06 — задача заведена (дашборд)
+- 2026-10-08 — автоматически взята в работу (до срока 7 дн.): статус Запланирована → В работе

@@ -3,10 +3,10 @@ id: BL-039
 title: Развернуть новый терминальный сервер
 status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
 priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
-moscow:              # влияние на систему и бизнес: must | should | could | wont
+moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Потенциальное повышение производительности в 1С:УТ
 type: research       # analysis | dev | consult | research | support
-project:             # buh | ut-opt — ключ из backlog.json, можно пусто
+project: ut-opt      # buh | ut-opt — ключ из backlog.json, можно пусто
 system: RIB          # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
 initiator:           # кто поставил задачу
 created: 2026-10-08
@@ -25,3 +25,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-10-08 — задача заведена (дашборд)
+- 2026-10-08 — MoSCoW: не оценено → Should

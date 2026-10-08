@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 6](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-6-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 7](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-7-9ece6a?style=flat-square)
+![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 32](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-32-565f89?style=flat-square) ![закрыто за 30 дн: 7](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-7-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 08.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -27,7 +27,6 @@
 | `BL-039` | [Развернуть новый терминальный сервер](tasks/BL-039-razvernut-novyy-terminalnyy-server.md) | 🔴 Сейчас | 12.10 · 🟡 через 4 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | 🔴 Сейчас | 15.10 · 🟡 через 7 дн. | 🟥 Must | — |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 26.10 · через 18 дн. | 🟧 Should | — |
-| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 🔴 Сейчас | 26.10 · через 18 дн. | 🟦 Could | Оптимизация УТ |
 | `BL-040` | [Переход с толстого клиента не тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | 🔴 Сейчас | 31.10 · через 23 дн. | 🟧 Should | Оптимизация УТ |
 
 ## 📅 Запланировано по горизонту
@@ -38,13 +37,14 @@
 
 _Пусто_
 
-### 🟠 Далее — срок в пределах месяца · 3
+### 🟠 Далее — срок в пределах месяца · 4
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | 19.10 · через 11 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | 31.10 · через 23 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
 | `BL-031` | [Переделать выгрузку на сайт Битрикс](tasks/BL-031-peredelat-vygruzku-na-sayt-bitriks.md) | 31.10 · через 23 дн. | 🟥 Must | Оптимизация УТ | 1С:УТ |
+| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 31.10 · через 23 дн. | 🟦 Could | Оптимизация УТ | 1С:УТ, Insales |
 
 <details><summary><b>⚪ Потом — срок позже месяца или без срока · 7</b></summary>
 
@@ -108,7 +108,7 @@ _Пусто_
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
-| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Сайт Insales обновляется чаще без нагрузки на базу — улучшение сверх урезания дневной выгрузки | 🔴 Сейчас |
+| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Сайт Insales обновляется чаще без нагрузки на базу — улучшение сверх урезания дневной выгрузки | 🟠 Далее |
 | `BL-012` | [Автоматизировать банковские выписки и платёжки](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | 🗂 Бэклог |
 | `BL-022` | [Замерить объём базы и помеченные объекты](tasks/BL-022-zamerit-obem-bazy-i-pomechennye-obekty.md) | Покажет, даст ли удаление помеченных эффект по объёму базы; без замера удаление не начинать | ⚪ Потом |
 | `BL-023` | [Удалить помеченные объекты в рабочей базе](tasks/BL-023-udalit-pomechennye-obekty-v-rabochey-baze.md) | Уменьшение объёма базы и регламент обслуживания; эффект не измерен и может оказаться небольшим | 🗂 Бэклог |

@@ -3,7 +3,7 @@ id: BL-016
 title: Разрядить дневные выгрузки Insales и остатков
 status: waiting      # inbox | backlog | in-progress | waiting | done | canceled
 priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
-moscow: should       # влияние на систему и бизнес: must | should | could | wont
+moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: ≈1,1 ч/сут в рабочем окне (остатки, Insales); зависит от допустимой задержки данных на сайтах
 type: dev            # analysis | dev | consult | research | support
 project: ut-opt      # buh | ut-opt — ключ из backlog.json, можно пусто
@@ -46,3 +46,4 @@ closed:              # заполняется автоматически при 
 - 2026-09-28 — К1-1 (дневная серия Битрикс) вынесена в «Переделать выгрузку на сайт Битрикс» — разбор и рефакторинг выгрузки на Битрикс
 - 2026-09-28 — новая схема приоритетов: горизонт «Далее» (#9); MoSCoW — Should
 - 2026-10-02 — задача переименована и описание переписано без кодов (было: «К1 · Дневные выгрузки Insales и остатки (К1-2, К1-5)»)
+- 2026-10-14 — MoSCoW: Should → Could

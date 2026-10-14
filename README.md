@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 31](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-31-565f89?style=flat-square) ![закрыто за 30 дн: 8](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-8-9ece6a?style=flat-square)
+![в работе: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-4-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 4](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-4-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 30](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-30-565f89?style=flat-square) ![закрыто за 30 дн: 9](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-9-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 14.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -15,7 +15,6 @@
 > [!CAUTION]
 > **Горит — срок истёк или наступает в ближайшие 3 дн.**
 >
-> - `BL-039` [Развернуть новый терминальный сервер](tasks/BL-039-razvernut-novyy-terminalnyy-server.md) — 12.10 · 🔴 просрочено на 2 дн.
 > - `BL-036` [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) — 15.10 · 🟠 завтра
 
 ## 📁 Проекты
@@ -23,13 +22,12 @@
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
 | **Автоматизация бухгалтерии** | `▰▰▱▱▱▱▱▱▱▱` 3/15 | 12 | — | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
-| **Оптимизация 1С:УТ** | `▰▱▱▱▱▱▱▱▱▱` 2/19 | 17 | `BL-039` 12.10 · 🔴 просрочено на 2 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
+| **Оптимизация 1С:УТ** | `▰▰▱▱▱▱▱▱▱▱` 3/19 | 16 | `BL-019` 19.10 · 🟡 через 5 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
 
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
-| `BL-039` | [Развернуть новый терминальный сервер](tasks/BL-039-razvernut-novyy-terminalnyy-server.md) | 🔴 Сейчас | 12.10 · 🔴 просрочено на 2 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | 🔴 Сейчас | 15.10 · 🟠 завтра | 🟥 Must | — |
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | 🔴 Сейчас | 19.10 · 🟡 через 5 дн. | 🟥 Must | Оптимизация УТ |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 26.10 · через 12 дн. | 🟧 Should | — |
@@ -83,11 +81,10 @@ _Пусто_
 
 </details>
 
-<details><summary><b>🟧 Should — важно, но есть обходной путь · 18</b></summary>
+<details><summary><b>🟧 Should — важно, но есть обходной путь · 17</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
-| `BL-039` | [Развернуть новый терминальный сервер](tasks/BL-039-razvernut-novyy-terminalnyy-server.md) | Потенциальное повышение производительности в 1С:УТ | 🔴 Сейчас |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки | 🔴 Сейчас |
 | `BL-040` | [Переход с толстого клиента не тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Существенный прирост производительности в базу 1С:УТ | 🔴 Сейчас |
 | `BL-002` | [Разобрать правила обмена от Иннотеха](tasks/BL-002-razobrat-pravila-obmena-ot-innoteha.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |

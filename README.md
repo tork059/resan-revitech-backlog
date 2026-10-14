@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-4-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 4](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-4-e06c75?style=flat-square) ![Must для бизнеса: 5](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-5-c0392b?style=flat-square) ![всего активных: 28](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-28-565f89?style=flat-square) ![закрыто за 30 дн: 11](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-11-9ece6a?style=flat-square)
+![в работе: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-4-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 4](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-4-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 28](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-28-565f89?style=flat-square) ![закрыто за 30 дн: 11](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-11-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 14.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -62,26 +62,26 @@ _Пусто_
 
 <sub>Оценка важности задачи для системы и бизнеса. Не зависит от сроков и очерёдности — показывает, что реально критично.</sub>
 
-<details open><summary><b>🟥 Must — критично для системы и бизнеса · 5</b></summary>
+<details open><summary><b>🟥 Must — критично для системы и бизнеса · 6</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки | 🔴 Сейчас |
 | `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | Корректный перенос выписок банка | 🔴 Сейчас |
 | `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Существенный прирост производительности в базу 1С:УТ | ⚪ Потом |
+| `BL-003` | [Согласовать целевую схему обмена с бухгалтерией](tasks/BL-003-soglasovat-tselevuyu-shemu-obmena-s-buhgalteriey.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-010` | [Исправить счета-фактуры на аванс и адреса подразделений](tasks/BL-010-ispravit-scheta-faktury-na-avans-i-adresa-podraz.md) | Юридический риск: нарушение ст. 168 НК РФ (счета-фактуры на аванс) и неверный адрес грузоотправителя в документах и Диадоке — штрафы и претензии | 🗂 Бэклог |
 | `BL-017` | [Отключить «зомби»-задания и ограничить длительность](tasks/BL-017-otklyuchit-zombi-zadaniya-i-ogranichit-dlitelnos.md) | Риск стабильности: отключённые задания уже запускались днём (20,4 ч одним прогоном), таймаутов нет — повтор кладёт рабочее окно | ⚪ Потом |
 
 </details>
 
-<details><summary><b>🟧 Should — важно, но есть обходной путь · 17</b></summary>
+<details><summary><b>🟧 Should — важно, но есть обходной путь · 16</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы | 🔴 Сейчас |
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | Ежедневная операция склада днём невозможна: 1С зависает — простой склада и торможение у всех пользователей | 🟠 Далее |
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч | ⚪ Потом |
-| `BL-003` | [Согласовать целевую схему обмена с бухгалтерией](tasks/BL-003-soglasovat-tselevuyu-shemu-obmena-s-buhgalteriey.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-004` | [Написать ТЗ Иннотеху на доработку обмена](tasks/BL-004-napisat-tz-innotehu-na-dorabotku-obmena.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-005` | [Принять доработки обмена на копиях баз](tasks/BL-005-prinyat-dorabotki-obmena-na-kopiyah-baz.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
@@ -139,7 +139,7 @@ _Всё разобрано_ ✨
 
 | ID | Задача | Проект | MoSCoW | Лежит | Срок |
 |:--|:--|:--|:--|:--|:--|
-| `BL-003` | [Согласовать целевую схему обмена с бухгалтерией](tasks/BL-003-soglasovat-tselevuyu-shemu-obmena-s-buhgalteriey.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
+| `BL-003` | [Согласовать целевую схему обмена с бухгалтерией](tasks/BL-003-soglasovat-tselevuyu-shemu-obmena-s-buhgalteriey.md) | Бухгалтерия | 🟥 Must | 16 дн. | — |
 | `BL-004` | [Написать ТЗ Иннотеху на доработку обмена](tasks/BL-004-napisat-tz-innotehu-na-dorabotku-obmena.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
 | `BL-005` | [Принять доработки обмена на копиях баз](tasks/BL-005-prinyat-dorabotki-obmena-na-kopiyah-baz.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |

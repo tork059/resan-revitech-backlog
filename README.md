@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-4-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 4](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-4-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 27](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-27-565f89?style=flat-square) ![закрыто за 30 дн: 12](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-12-9ece6a?style=flat-square)
+![в работе: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-4-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 4](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-4-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 26](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-26-565f89?style=flat-square) ![закрыто за 30 дн: 13](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-13-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 14.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -17,7 +17,7 @@
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
 | **Автоматизация бухгалтерии** | `▰▰▰▱▱▱▱▱▱▱` 5/15 | 10 | — | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
-| **Оптимизация 1С:УТ** | `▰▰▱▱▱▱▱▱▱▱` 4/19 | 15 | `BL-020` 31.10 · через 17 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
+| **Оптимизация 1С:УТ** | `▰▰▰▱▱▱▱▱▱▱` 5/19 | 14 | `BL-020` 31.10 · через 17 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
 
@@ -43,14 +43,13 @@ _Пусто_
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | 31.10 · через 17 дн. | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 31.10 · через 17 дн. | 🟦 Could | Оптимизация УТ | 1С:УТ, Insales |
 
-<details><summary><b>⚪ Потом — срок позже месяца или без срока · 8</b></summary>
+<details><summary><b>⚪ Потом — срок позже месяца или без срока · 7</b></summary>
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
 | `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | 21.12 · через 68 дн. | 🟥 Must | Оптимизация УТ | RIB |
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | 21.12 · через 68 дн. | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-017` | [Отключить «зомби»-задания и ограничить длительность](tasks/BL-017-otklyuchit-zombi-zadaniya-i-ogranichit-dlitelnos.md) | — | 🟥 Must | Оптимизация УТ | 1С:УТ |
-| `BL-014` | [Замерить ожидания на блокировках до правок](tasks/BL-014-zamerit-ozhidaniya-na-blokirovkah-do-pravok.md) | — | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-015` | [Сдвинуть три задания из вечернего окна](tasks/BL-015-sdvinut-tri-zadaniya-iz-vechernego-okna.md) | — | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-018` | [Пересобрать расписание ночных заданий](tasks/BL-018-peresobrat-raspisanie-nochnyh-zadaniy.md) | — | 🟧 Should | Оптимизация УТ | 1С:УТ |
 | `BL-024` | [Проверить режим запуска конфигурации УТ](tasks/BL-024-proverit-rezhim-zapuska-konfiguratsii-ut.md) | — | 🟦 Could | Оптимизация УТ | 1С:УТ |
@@ -76,7 +75,7 @@ _Пусто_
 
 </details>
 
-<details><summary><b>🟧 Should — важно, но есть обходной путь · 14</b></summary>
+<details><summary><b>🟧 Should — важно, но есть обходной путь · 13</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
@@ -89,7 +88,6 @@ _Пусто_
 | `BL-007` | [Провести пилот автоматического обмена](tasks/BL-007-provesti-pilot-avtomaticheskogo-obmena.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-008` | [Запустить автообмен и отключить ручную выгрузку](tasks/BL-008-zapustit-avtoobmen-i-otklyuchit-ruchnuyu-vygruzk.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-011` | [Автоматизировать сверку ОСВ Ресана и Ревитеха](tasks/BL-011-avtomatizirovat-sverku-osv-resana-i-reviteha.md) | Снимает ручную построчную сверку ОСВ двух организаций; обходной путь — ручная сверка | 🗂 Бэклог |
-| `BL-014` | [Замерить ожидания на блокировках до правок](tasks/BL-014-zamerit-ozhidaniya-na-blokirovkah-do-pravok.md) | Базовая линия блокировок: без неё эффект всей оптимизации нечем подтвердить; сама нагрузку не снижает | ⚪ Потом |
 | `BL-015` | [Сдвинуть три задания из вечернего окна](tasks/BL-015-sdvinut-tri-zadaniya-iz-vechernego-okna.md) | ≈1,2 ч/сут машинного времени из вечернего окна при минимальном риске | ⚪ Потом |
 | `BL-016` | [Разрядить дневные выгрузки Insales и остатков](tasks/BL-016-razryadit-dnevnye-vygruzki-insales-i-ostatkov.md) | ≈1,1 ч/сут в рабочем окне (остатки, Insales); зависит от допустимой задержки данных на сайтах | ⚪ Потом |
 | `BL-018` | [Пересобрать расписание ночных заданий](tasks/BL-018-peresobrat-raspisanie-nochnyh-zadaniy.md) | Освобождает ночь под удаление помеченных и обмен с бухгалтерией; сейчас ночь загружена плотнее дня | ⚪ Потом |

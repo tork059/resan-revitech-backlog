@@ -1,8 +1,8 @@
 ---
 id: BL-023
 title: Удалить помеченные объекты в рабочей базе
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Уменьшение объёма базы и регламент обслуживания; эффект не измерен и может оказаться небольшим
 type: support        # analysis | dev | consult | research | support
@@ -46,3 +46,4 @@ closed:              # заполняется автоматически при 
 - 2026-09-28 — новая схема приоритетов: горизонт «Потом»; MoSCoW — Could
 - 2026-09-30 — остаётся в бэклоге: сроки и очередь не определены
 - 2026-10-02 — задача переименована и описание переписано без кодов (было: «К2-5, К2-6 · Первый прогон УПО в рабочей базе и регламент»)
+- 2026-10-14 — статус: Бэклог → В работе

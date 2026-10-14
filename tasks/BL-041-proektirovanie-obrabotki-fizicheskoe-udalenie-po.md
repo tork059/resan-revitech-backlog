@@ -1,8 +1,8 @@
 ---
 id: BL-041
 title: Проектирование обработки "Физическое удаление помеченных объектов"
-status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
-priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: canceled     # inbox | backlog | todo | in-progress | waiting | done | canceled
+priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Разгрузка общих объемов 1С от милионных удаленных объектов
 type: dev            # analysis | dev | consult | research | support
@@ -14,7 +14,7 @@ deadline: 2026-10-31 # ГГГГ-ММ-ДД, можно оставить пуст�
 estimate:            # оценка: 2h, 1d, 3d …
 bitrix:              # ссылка на задачу в Битрикс24, если есть
 tags: []             # [отчёты, регламенты]
-closed:              # заполняется автоматически при закрытии
+closed: 2026-10-14   # заполняется автоматически при закрытии
 ---
 
 ## Суть
@@ -25,3 +25,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-10-14 — задача заведена (дашборд)
+- 2026-10-14 — статус: В работе → Отменено. Дублированная задача

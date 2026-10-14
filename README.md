@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 26](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-26-565f89?style=flat-square) ![закрыто за 30 дн: 13](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-13-9ece6a?style=flat-square)
+![в работе: 6](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-6-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 26](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-26-565f89?style=flat-square) ![закрыто за 30 дн: 13](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-13-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 14.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -28,6 +28,7 @@
 | `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 🔴 Сейчас | 31.10 · через 17 дн. | 🟦 Could | Оптимизация УТ |
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | 🔴 Сейчас | — | 🟧 Should | Оптимизация УТ |
 | `BL-022` | [Замерить объём базы и помеченные объекты](tasks/BL-022-zamerit-obem-bazy-i-pomechennye-obekty.md) | 🔴 Сейчас | — | 🟦 Could | Оптимизация УТ |
+| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | — | 🟦 Could | Оптимизация УТ |
 
 ## 📅 Запланировано по горизонту
 
@@ -43,7 +44,7 @@ _Пусто_
 |:--|:--|:--|:--|:--|:--|
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | 31.10 · через 17 дн. | 🟧 Should | Оптимизация УТ | 1С:УТ |
 
-<details><summary><b>⚪ Потом — срок позже месяца или без срока · 7</b></summary>
+<details><summary><b>⚪ Потом — срок позже месяца или без срока · 6</b></summary>
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
@@ -53,7 +54,6 @@ _Пусто_
 | `BL-015` | [Сдвинуть три задания из вечернего окна](tasks/BL-015-sdvinut-tri-zadaniya-iz-vechernego-okna.md) | — | 🟦 Could | Оптимизация УТ | 1С:УТ |
 | `BL-018` | [Пересобрать расписание ночных заданий](tasks/BL-018-peresobrat-raspisanie-nochnyh-zadaniy.md) | — | 🟦 Could | Оптимизация УТ | 1С:УТ |
 | `BL-024` | [Проверить режим запуска конфигурации УТ](tasks/BL-024-proverit-rezhim-zapuska-konfiguratsii-ut.md) | — | 🟦 Could | Оптимизация УТ | 1С:УТ |
-| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | — | 🟦 Could | Оптимизация УТ | 1С:УТ |
 
 </details>
 
@@ -96,6 +96,7 @@ _Пусто_
 |:--|:--|:--|:--|
 | `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Сайт Insales обновляется чаще без нагрузки на базу — улучшение сверх урезания дневной выгрузки | 🔴 Сейчас |
 | `BL-022` | [Замерить объём базы и помеченные объекты](tasks/BL-022-zamerit-obem-bazy-i-pomechennye-obekty.md) | Покажет, даст ли удаление помеченных эффект по объёму базы; без замера удаление не начинать | 🔴 Сейчас |
+| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | 🔴 Сейчас |
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч | ⚪ Потом |
 | `BL-007` | [Провести пилот автоматического обмена](tasks/BL-007-provesti-pilot-avtomaticheskogo-obmena.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-012` | [Автоматизировать банковские выписки и платёжки](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | 🗂 Бэклог |
@@ -104,7 +105,6 @@ _Пусто_
 | `BL-018` | [Пересобрать расписание ночных заданий](tasks/BL-018-peresobrat-raspisanie-nochnyh-zadaniy.md) | Освобождает ночь под удаление помеченных и обмен с бухгалтерией; сейчас ночь загружена плотнее дня | ⚪ Потом |
 | `BL-023` | [Удалить помеченные объекты в рабочей базе](tasks/BL-023-udalit-pomechennye-obekty-v-rabochey-baze.md) | Уменьшение объёма базы и регламент обслуживания; эффект не измерен и может оказаться небольшим | 🗂 Бэклог |
 | `BL-024` | [Проверить режим запуска конфигурации УТ](tasks/BL-024-proverit-rezhim-zapuska-konfiguratsii-ut.md) | Решает, возможен ли вообще перевод на тонкий клиент; на работу пользователей напрямую не влияет | ⚪ Потом |
-| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | ⚪ Потом |
 
 </details>
 

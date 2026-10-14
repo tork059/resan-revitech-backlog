@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-4-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 4](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-4-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 28](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-28-565f89?style=flat-square) ![закрыто за 30 дн: 11](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-11-9ece6a?style=flat-square)
+![в работе: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-4-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 4](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-4-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 27](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-27-565f89?style=flat-square) ![закрыто за 30 дн: 12](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-12-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 14.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -16,7 +16,7 @@
 
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
-| **Автоматизация бухгалтерии** | `▰▰▰▱▱▱▱▱▱▱` 4/15 | 11 | — | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
+| **Автоматизация бухгалтерии** | `▰▰▰▱▱▱▱▱▱▱` 5/15 | 10 | — | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
 | **Оптимизация 1С:УТ** | `▰▰▱▱▱▱▱▱▱▱` 4/19 | 15 | `BL-020` 31.10 · через 17 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
@@ -75,7 +75,7 @@ _Пусто_
 
 </details>
 
-<details><summary><b>🟧 Should — важно, но есть обходной путь · 16</b></summary>
+<details><summary><b>🟧 Should — важно, но есть обходной путь · 15</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
@@ -87,7 +87,6 @@ _Пусто_
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-007` | [Провести пилот автоматического обмена](tasks/BL-007-provesti-pilot-avtomaticheskogo-obmena.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-008` | [Запустить автообмен и отключить ручную выгрузку](tasks/BL-008-zapustit-avtoobmen-i-otklyuchit-ruchnuyu-vygruzk.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
-| `BL-009` | [Получить ответы бухгалтерии и Иннотеха по обмену](tasks/BL-009-poluchit-otvety-buhgalterii-i-innoteha-po-obmenu.md) | Без ответов не двигаются следующие этапы обмена УТ → БП и не решена очерёдность остальных направлений бухгалтерии | 🗂 Бэклог |
 | `BL-011` | [Автоматизировать сверку ОСВ Ресана и Ревитеха](tasks/BL-011-avtomatizirovat-sverku-osv-resana-i-reviteha.md) | Снимает ручную построчную сверку ОСВ двух организаций; обходной путь — ручная сверка | 🗂 Бэклог |
 | `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | Закрытые отчётные периоды не меняются задним числом — достоверность учёта и отчётности | 🗂 Бэклог |
 | `BL-014` | [Замерить ожидания на блокировках до правок](tasks/BL-014-zamerit-ozhidaniya-na-blokirovkah-do-pravok.md) | Базовая линия блокировок: без неё эффект всей оптимизации нечем подтвердить; сама нагрузку не снижает | ⚪ Потом |
@@ -131,11 +130,11 @@ _Пусто_
 
 _Всё разобрано_ ✨
 
-## 🗂 Бэклог · 13
+## 🗂 Бэклог · 12
 
 <sub>Хранилище задач, по которым пока не ясны сроки и очередь. На горизонт не попадают, пока их не запланируют.</sub>
 
-<details><summary><b>Показать бэклог · 13</b></summary>
+<details><summary><b>Показать бэклог · 12</b></summary>
 
 | ID | Задача | Проект | MoSCoW | Лежит | Срок |
 |:--|:--|:--|:--|:--|:--|
@@ -145,7 +144,6 @@ _Всё разобрано_ ✨
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
 | `BL-007` | [Провести пилот автоматического обмена](tasks/BL-007-provesti-pilot-avtomaticheskogo-obmena.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
 | `BL-008` | [Запустить автообмен и отключить ручную выгрузку](tasks/BL-008-zapustit-avtoobmen-i-otklyuchit-ruchnuyu-vygruzk.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
-| `BL-009` | [Получить ответы бухгалтерии и Иннотеха по обмену](tasks/BL-009-poluchit-otvety-buhgalterii-i-innoteha-po-obmenu.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
 | `BL-010` | [Исправить счета-фактуры на аванс и адреса подразделений](tasks/BL-010-ispravit-scheta-faktury-na-avans-i-adresa-podraz.md) | Бухгалтерия | 🟥 Must | 16 дн. | — |
 | `BL-011` | [Автоматизировать сверку ОСВ Ресана и Ревитеха](tasks/BL-011-avtomatizirovat-sverku-osv-resana-i-reviteha.md) | Бухгалтерия | 🟧 Should | 16 дн. | — |
 | `BL-012` | [Автоматизировать банковские выписки и платёжки](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Бухгалтерия | 🟦 Could | 16 дн. | — |

@@ -6,11 +6,16 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 25](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-25-565f89?style=flat-square) ![закрыто за 30 дн: 14](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-14-9ece6a?style=flat-square)
+![в работе: 6](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-6-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 26](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-26-565f89?style=flat-square) ![закрыто за 30 дн: 14](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-14-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 15.10.2026 · не редактируйте этот файл вручную</sub>
 
 </div>
+
+> [!CAUTION]
+> **Горит — срок истёк или наступает в ближайшие 3 дн.**
+>
+> - `BL-042` [MCP-сервер для управления 1С](tasks/BL-042-mcp-server-dlya-upravleniya-1s.md) — 16.10 · 🟠 завтра
 
 ## 📁 Проекты
 
@@ -23,6 +28,7 @@
 
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
+| `BL-042` | [MCP-сервер для управления 1С](tasks/BL-042-mcp-server-dlya-upravleniya-1s.md) | 🔴 Сейчас | 16.10 · 🟠 завтра | 🟧 Should | — |
 | `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | 🔴 Сейчас | 31.10 · через 16 дн. | 🟥 Must | — |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | — | 🟧 Should | Оптимизация УТ |
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | 🔴 Сейчас | — | 🟧 Should | Оптимизация УТ |
@@ -73,10 +79,11 @@ _Пусто_
 
 </details>
 
-<details><summary><b>🟧 Should — важно, но есть обходной путь · 9</b></summary>
+<details><summary><b>🟧 Should — важно, но есть обходной путь · 10</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
+| `BL-042` | [MCP-сервер для управления 1С](tasks/BL-042-mcp-server-dlya-upravleniya-1s.md) | Возможность управления 1С из интерфейса AI ассистента | 🔴 Сейчас |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | 🔴 Сейчас |
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы | 🔴 Сейчас |
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | Ежедневная операция склада днём невозможна: 1С зависает — простой склада и торможение у всех пользователей | 🟠 Далее |

@@ -1,7 +1,7 @@
 ---
 id: BL-019
 title: Разобрать задания goods_full и goods_change
-status: todo         # inbox | backlog | in-progress | waiting | done | canceled
+status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
 priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч
@@ -56,3 +56,4 @@ closed:              # заполняется автоматически при 
 - 2026-10-14 — статус: В работе → Запланирована; срок: 19.10.2026 → 21.12.2026. Задача потеряла свою актуальность по итогам дополнительных аудитов нагрузки системы. Задача переносится на неопределенных срок и теперь является косметической доработкой
 - 2026-10-14 — MoSCoW: Must → Should
 - 2026-10-14 — MoSCoW: Should → Could
+- 2026-10-19 — статус: Запланирована → Бэклог

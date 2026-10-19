@@ -5,7 +5,7 @@ status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | c
 priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Корректный перенос выписок банка
-type: analysis       # analysis | dev | consult | research | support
+type: dev            # analysis | dev | consult | research | support
 project:             # buh | ut-opt — ключ из backlog.json, можно пусто
 system: buh_resan, RIB # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
 initiator: Головин А.Н. # кто поставил задачу
@@ -16,9 +16,6 @@ bitrix:              # ссылка на задачу в Битрикс24, ес�
 tags: []             # [отчёты, регламенты]
 closed:              # заполняется автоматически при закрытии
 ---
-
-
-
 ## Суть
 Проанализировать корректность переноса банковский выписок (связанная задача = "Групповое изменение реквизитов buh_resan (Горящая)"
 

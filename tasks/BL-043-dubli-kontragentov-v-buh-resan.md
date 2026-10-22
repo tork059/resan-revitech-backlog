@@ -1,8 +1,8 @@
 ---
 id: BL-043
 title: Дубли контрагентов в buh_resan
-status: todo         # inbox | backlog | todo | in-progress | waiting | done | canceled
-priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Исключение дублей позволит минимизировать искажения бухглатерской отчетности
 type: analysis       # analysis | dev | consult | research | support
@@ -27,3 +27,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-10-19 — задача заведена (дашборд)
+- 2026-10-22 — статус: Запланирована → В работе

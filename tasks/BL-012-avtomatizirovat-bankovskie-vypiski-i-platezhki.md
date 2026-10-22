@@ -1,8 +1,8 @@
 ---
 id: BL-012
 title: Автоматизировать банковские выписки и платёжки
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно
 type: dev            # analysis | dev | consult | research | support
@@ -45,3 +45,4 @@ closed:              # заполняется автоматически при 
 - 2026-09-28 — новая схема приоритетов: горизонт «Потом»; MoSCoW — Could
 - 2026-09-30 — остаётся в бэклоге: сроки и очередь не определены
 - 2026-10-02 — задача переименована и описание переписано без кодов (было: «Н4 · Банк и платежи: ДиректБанк, платёжки по заявкам, НДС в выписках»)
+- 2026-10-22 — статус: Бэклог → В работе

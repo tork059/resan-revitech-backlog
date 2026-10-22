@@ -33,7 +33,7 @@
 | `BL-044` | [Группы номенклатуры и услуг buh_resan](tasks/BL-044-gruppy-nomenklatury-i-uslug-buh-resan.md) | 🔴 Сейчас | 23.10 · 🟠 завтра | 🟥 Must | Бухгалтерия |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 31.10 · через 9 дн. | 🟥 Must | — |
 | `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | 🔴 Сейчас | 31.10 · через 9 дн. | 🟥 Must | — |
-| `BL-012` | [Автоматизировать банковские выписки и платёжки](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | 🔴 Сейчас | — | 🟧 Should | Бухгалтерия |
+| `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | 🔴 Сейчас | 31.10 · через 9 дн. | 🟧 Should | Бухгалтерия |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | — | 🟧 Should | Оптимизация УТ |
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | 🔴 Сейчас | — | 🟧 Should | Оптимизация УТ |
 
@@ -84,7 +84,7 @@ _Пусто_
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
-| `BL-012` | [Автоматизировать банковские выписки и платёжки](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | 🔴 Сейчас |
+| `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | 🔴 Сейчас |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | 🔴 Сейчас |
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы | 🔴 Сейчас |
 | `BL-028` | [Освободить дневное окно для выгрузки склада](tasks/BL-028-osvobodit-dnevnoe-okno-dlya-vygruzki-sklada.md) | Ежедневная операция склада днём невозможна: 1С зависает — простой склада и торможение у всех пользователей | 🟠 Далее |

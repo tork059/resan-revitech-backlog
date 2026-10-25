@@ -2,7 +2,7 @@
 id: BL-012
 title: SberAPI. Выписки банка и платежные поручения
 status: todo         # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно
 type: dev            # analysis | dev | consult | research | support
@@ -16,7 +16,6 @@ bitrix:              # ссылка на задачу в Битрикс24, ес�
 tags: [банк]         # [отчёты, регламенты]
 closed:              # заполняется автоматически при закрытии
 ---
-
 ## Суть
 Убрать ручной перенос банковских выписок и платёжек и заполнять НДС при загрузке выписок.
 

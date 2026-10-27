@@ -1,8 +1,8 @@
 ---
 id: BL-013
 title: Настроить запрет правки закрытого периода
-status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
-priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Закрытые отчётные периоды не меняются задним числом — достоверность учёта и отчётности
 type: analysis       # analysis | dev | consult | research | support
@@ -50,3 +50,4 @@ closed:              # заполняется автоматически при 
 - 2026-10-02 — задача переименована и описание переписано без кодов (было: «Н5 · Контроль учёта: закрытие периода и акт сверки»)
 - 2026-10-02 — тема акта сверки перенесена в «Найти причину ошибок в актах сверки»
 - 2026-10-14 — MoSCoW: Should → Must
+- 2026-10-27 — статус: Бэклог → В работе

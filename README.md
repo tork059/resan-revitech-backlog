@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 8](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-8-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 8](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-8-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 24](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-24-565f89?style=flat-square) ![закрыто за 30 дн: 19](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-19-9ece6a?style=flat-square)
+![в работе: 8](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-8-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 8](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-8-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 24](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-24-565f89?style=flat-square) ![закрыто за 30 дн: 19](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-19-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 28.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -15,7 +15,6 @@
 > [!CAUTION]
 > **Горит — срок истёк или наступает в ближайшие 3 дн.**
 >
-> - `BL-020` [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) — 31.10 · 🟠 через 3 дн.
 > - `BL-047` [Перехватить задачу "Документ "платежная ведомость" и список для загрузки ПП](tasks/BL-047-perehvatit-zadachu-dokument-platezhnaya-vedomost.md) — 31.10 · 🟠 через 3 дн.
 
 ## 📁 Проекты
@@ -23,17 +22,17 @@
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
 | **Автоматизация бухгалтерии** | `▰▰▰▱▱▱▱▱▱▱` 5/19 | 14 | `BL-047` 31.10 · 🟠 через 3 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
-| **Оптимизация 1С:УТ** | `▰▰▰▰▰▱▱▱▱▱` 8/17 | 9 | `BL-020` 31.10 · 🟠 через 3 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
+| **Оптимизация 1С:УТ** | `▰▰▰▰▰▱▱▱▱▱` 8/17 | 9 | `BL-020` 20.12 · через 53 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
 
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
-| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 🔴 Сейчас | 31.10 · 🟠 через 3 дн. | 🟦 Could | Оптимизация УТ |
 | `BL-047` | [Перехватить задачу "Документ "платежная ведомость" и список для загрузки ПП](tasks/BL-047-perehvatit-zadachu-dokument-platezhnaya-vedomost.md) | 🔴 Сейчас | 31.10 · 🟠 через 3 дн. | 🟦 Could | Бухгалтерия |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 09.11 · через 12 дн. | 🟥 Must | — |
 | `BL-044` | [Группы номенклатуры и услуг buh_resan](tasks/BL-044-gruppy-nomenklatury-i-uslug-buh-resan.md) | 🔴 Сейчас | 09.11 · через 12 дн. | 🟥 Must | Бухгалтерия |
 | `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | 🔴 Сейчас | 09.11 · через 12 дн. | 🟧 Should | Бухгалтерия |
+| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 🔴 Сейчас | 20.12 · через 53 дн. | 🟦 Could | Оптимизация УТ |
 | `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | 🔴 Сейчас | — | 🟥 Must | Бухгалтерия |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | — | 🟧 Should | Оптимизация УТ |
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | 🔴 Сейчас | — | 🟧 Should | Оптимизация УТ |
@@ -101,8 +100,8 @@ _Пусто_
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
-| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Сайт Insales обновляется чаще без нагрузки на базу — улучшение сверх урезания дневной выгрузки | 🔴 Сейчас |
 | `BL-047` | [Перехватить задачу "Документ "платежная ведомость" и список для загрузки ПП](tasks/BL-047-perehvatit-zadachu-dokument-platezhnaya-vedomost.md) | — | 🔴 Сейчас |
+| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Сайт Insales обновляется чаще без нагрузки на базу — улучшение сверх урезания дневной выгрузки | 🔴 Сейчас |
 | `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | Крупнейший потребитель ресурсов базы: 212 ч за месяц, занимает ночь; goods_change уже запускался днём по 2,5 ч | 🗂 Бэклог |
 | `BL-007` | [Провести пилот автоматического обмена](tasks/BL-007-provesti-pilot-avtomaticheskogo-obmena.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-016` | [Разрядить дневные выгрузки Insales и остатков](tasks/BL-016-razryadit-dnevnye-vygruzki-insales-i-ostatkov.md) | ≈1,1 ч/сут в рабочем окне (остатки, Insales); зависит от допустимой задержки данных на сайтах | 🗂 Бэклог |

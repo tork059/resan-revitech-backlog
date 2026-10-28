@@ -15,8 +15,8 @@
 > [!CAUTION]
 > **Горит — срок истёк или наступает в ближайшие 3 дн.**
 >
+> - `BL-029` [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) — 09.10 · 🔴 просрочено на 19 дн.
 > - `BL-020` [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) — 31.10 · 🟠 через 3 дн.
-> - `BL-029` [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) — 31.10 · 🟠 через 3 дн.
 > - `BL-036` [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) — 31.10 · 🟠 через 3 дн.
 > - `BL-043` [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) — 31.10 · 🟠 через 3 дн.
 > - `BL-047` [Перехватить задачу "Документ "платежная ведомость" и список для загрузки ПП](tasks/BL-047-perehvatit-zadachu-dokument-platezhnaya-vedomost.md) — 31.10 · 🟠 через 3 дн.
@@ -32,7 +32,7 @@
 
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
-| `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 31.10 · 🟠 через 3 дн. | 🟥 Must | — |
+| `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 09.10 · 🔴 просрочено на 19 дн. | 🟥 Must | — |
 | `BL-036` | [Анализ ЖурналаДокументов "Банковские выписки](tasks/BL-036-analiz-zhurnaladokumentov-bankovskie-vypiski.md) | 🔴 Сейчас | 31.10 · 🟠 через 3 дн. | 🟥 Must | — |
 | `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | 🔴 Сейчас | 31.10 · 🟠 через 3 дн. | 🟧 Should | Бухгалтерия |
 | `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | 🔴 Сейчас | 31.10 · 🟠 через 3 дн. | 🟦 Could | Оптимизация УТ |

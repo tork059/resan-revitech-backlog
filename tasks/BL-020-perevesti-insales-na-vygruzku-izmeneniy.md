@@ -1,8 +1,8 @@
 ---
 id: BL-020
 title: Перевести Insales на выгрузку изменений
-status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: could        # влияние на систему и бизнес: must | should | could | wont
 impact: Сайт Insales обновляется чаще без нагрузки на базу — улучшение сверх урезания дневной выгрузки
 type: dev            # analysis | dev | consult | research | support
@@ -51,3 +51,4 @@ closed:              # заполняется автоматически при 
 - 2026-10-14 — статус: В работе → Бэклог
 - 2026-10-24 — автоматически взята в работу (до срока 7 дн.): статус Бэклог → В работе
 - 2026-10-28 — срок: 31.10.2026 → 20.12.2026
+- 2026-10-28 — статус: В работе → Бэклог

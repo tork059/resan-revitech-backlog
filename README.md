@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 5](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-5-c0392b?style=flat-square) ![всего активных: 20](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-20-565f89?style=flat-square) ![закрыто за 30 дн: 23](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-23-9ece6a?style=flat-square)
+![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 21](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-21-565f89?style=flat-square) ![закрыто за 30 дн: 23](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-23-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 29.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -21,7 +21,7 @@
 
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
-| **Автоматизация бухгалтерии** | `▰▰▰▰▰▱▱▱▱▱` 9/19 | 10 | `BL-047` 31.10 · 🟠 через 2 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
+| **Автоматизация бухгалтерии** | `▰▰▰▰▱▱▱▱▱▱` 9/20 | 11 | `BL-047` 31.10 · 🟠 через 2 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
 | **Оптимизация 1С:УТ** | `▰▰▰▰▰▱▱▱▱▱` 8/17 | 9 | `BL-030` 09.11 · через 11 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
@@ -51,11 +51,12 @@ _Пусто_
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | 16.11 · через 18 дн. | 🟧 Should | Бухгалтерия | 1С:УТ |
 | `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | 25.11 · через 27 дн. | 🟧 Should | Бухгалтерия | buh_resan, RIB |
 
-<details><summary><b>⚪ Потом — срок позже месяца или без срока · 1</b></summary>
+<details><summary><b>⚪ Потом — срок позже месяца или без срока · 2</b></summary>
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
 | `BL-010` | [Исправить счета-фактуры на аванс и адреса подразделений](tasks/BL-010-ispravit-scheta-faktury-na-avans-i-adresa-podraz.md) | — | 🟥 Must | Бухгалтерия | 1С:УТ, Диадок |
+| `BL-050` | [КорректировкаДолга. Транзакции под отчет](tasks/BL-050-korrektirovkadolga-tranzaktsii-pod-otchet.md) | — | 🟥 Must | Бухгалтерия | 1С:УТ, 1С:БП |
 
 </details>
 
@@ -63,7 +64,7 @@ _Пусто_
 
 <sub>Оценка важности задачи для системы и бизнеса. Не зависит от сроков и очерёдности — показывает, что реально критично.</sub>
 
-<details open><summary><b>🟥 Must — критично для системы и бизнеса · 5</b></summary>
+<details open><summary><b>🟥 Must — критично для системы и бизнеса · 6</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
@@ -72,6 +73,7 @@ _Пусто_
 | `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Существенный прирост производительности в базу 1С:УТ | 🗂 Бэклог |
 | `BL-010` | [Исправить счета-фактуры на аванс и адреса подразделений](tasks/BL-010-ispravit-scheta-faktury-na-avans-i-adresa-podraz.md) | Юридический риск: нарушение ст. 168 НК РФ (счета-фактуры на аванс) и неверный адрес грузоотправителя в документах и Диадоке — штрафы и претензии | ⚪ Потом |
 | `BL-017` | [Отключить «зомби»-задания и ограничить длительность](tasks/BL-017-otklyuchit-zombi-zadaniya-i-ogranichit-dlitelnos.md) | Риск стабильности: отключённые задания уже запускались днём (20,4 ч одним прогоном), таймаутов нет — повтор кладёт рабочее окно | 🗂 Бэклог |
+| `BL-050` | [КорректировкаДолга. Транзакции под отчет](tasks/BL-050-korrektirovkadolga-tranzaktsii-pod-otchet.md) | Исключение дублей операций и лишних создаваемых документов в транзакциях компании | ⚪ Потом |
 
 </details>
 

@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 23](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-23-565f89?style=flat-square) ![закрыто за 30 дн: 21](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-21-9ece6a?style=flat-square)
+![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 22](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-22-565f89?style=flat-square) ![закрыто за 30 дн: 22](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-22-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 29.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -21,7 +21,7 @@
 
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
-| **Автоматизация бухгалтерии** | `▰▰▰▰▱▱▱▱▱▱` 7/20 | 13 | `BL-047` 31.10 · 🟠 через 2 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
+| **Автоматизация бухгалтерии** | `▰▰▰▰▱▱▱▱▱▱` 8/20 | 12 | `BL-047` 31.10 · 🟠 через 2 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
 | **Оптимизация 1С:УТ** | `▰▰▰▰▰▱▱▱▱▱` 8/17 | 9 | `BL-030` 09.11 · через 11 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
@@ -76,7 +76,7 @@ _Пусто_
 
 </details>
 
-<details><summary><b>🟧 Should — важно, но есть обходной путь · 11</b></summary>
+<details><summary><b>🟧 Should — важно, но есть обходной путь · 10</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
@@ -86,7 +86,6 @@ _Пусто_
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы | 🔴 Сейчас |
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | Приведение выгрузки в стандартный и правильный вид | 🟠 Далее |
 | `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | Альтернатива SberAPI. Необходимо автоматизировать процесс согласования и исполнения заявок на расходование средств | 🟠 Далее |
-| `BL-004` | [Написать ТЗ Иннотеху на доработку обмена](tasks/BL-004-napisat-tz-innotehu-na-dorabotku-obmena.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-008` | [Запустить автообмен и отключить ручную выгрузку](tasks/BL-008-zapustit-avtoobmen-i-otklyuchit-ruchnuyu-vygruzk.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | ⚪ Потом |
@@ -127,16 +126,15 @@ _Пусто_
 
 _Всё разобрано_ ✨
 
-## 🗂 Бэклог · 12
+## 🗂 Бэклог · 11
 
 <sub>Хранилище задач, по которым пока не ясны сроки и очередь. На горизонт не попадают, пока их не запланируют.</sub>
 
-<details><summary><b>Показать бэклог · 12</b></summary>
+<details><summary><b>Показать бэклог · 11</b></summary>
 
 | ID | Задача | Проект | MoSCoW | Лежит | Срок |
 |:--|:--|:--|:--|:--|:--|
 | `BL-003` | [Согласовать целевую схему обмена с бухгалтерией](tasks/BL-003-soglasovat-tselevuyu-shemu-obmena-s-buhgalteriey.md) | Бухгалтерия | 🟥 Must | 31 дн. | — |
-| `BL-004` | [Написать ТЗ Иннотеху на доработку обмена](tasks/BL-004-napisat-tz-innotehu-na-dorabotku-obmena.md) | Бухгалтерия | 🟧 Should | 31 дн. | — |
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Бухгалтерия | 🟧 Should | 31 дн. | — |
 | `BL-007` | [Провести пилот автоматического обмена](tasks/BL-007-provesti-pilot-avtomaticheskogo-obmena.md) | Бухгалтерия | 🟦 Could | 31 дн. | — |
 | `BL-008` | [Запустить автообмен и отключить ручную выгрузку](tasks/BL-008-zapustit-avtoobmen-i-otklyuchit-ruchnuyu-vygruzk.md) | Бухгалтерия | 🟧 Should | 31 дн. | — |

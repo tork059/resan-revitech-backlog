@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 6](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-6-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 6](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-6-c0392b?style=flat-square) ![всего активных: 21](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-21-565f89?style=flat-square) ![закрыто за 30 дн: 21](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-21-9ece6a?style=flat-square)
+![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 1](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-1-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 22](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-22-565f89?style=flat-square) ![закрыто за 30 дн: 21](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-21-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 29.10.2026 · не редактируйте этот файл вручную</sub>
 
@@ -21,7 +21,7 @@
 
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
-| **Автоматизация бухгалтерии** | `▰▰▰▰▱▱▱▱▱▱` 7/18 | 11 | `BL-047` 31.10 · 🟠 через 2 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
+| **Автоматизация бухгалтерии** | `▰▰▰▰▱▱▱▱▱▱` 7/19 | 12 | `BL-047` 31.10 · 🟠 через 2 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
 | **Оптимизация 1С:УТ** | `▰▰▰▰▰▱▱▱▱▱` 8/17 | 9 | `BL-030` 09.11 · через 11 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
@@ -29,6 +29,7 @@
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
 | `BL-047` | [Перехватить задачу "Документ "платежная ведомость" и список для загрузки ПП](tasks/BL-047-perehvatit-zadachu-dokument-platezhnaya-vedomost.md) | 🔴 Сейчас | 31.10 · 🟠 через 2 дн. | 🟦 Could | Бухгалтерия |
+| `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | 🔴 Сейчас | 06.11 · через 8 дн. | 🟥 Must | Бухгалтерия |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 09.11 · через 11 дн. | 🟥 Must | — |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | 09.11 · через 11 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | 🔴 Сейчас | 09.11 · через 11 дн. | 🟧 Should | Бухгалтерия |
@@ -62,10 +63,11 @@ _Пусто_
 
 <sub>Оценка важности задачи для системы и бизнеса. Не зависит от сроков и очерёдности — показывает, что реально критично.</sub>
 
-<details open><summary><b>🟥 Must — критично для системы и бизнеса · 6</b></summary>
+<details open><summary><b>🟥 Must — критично для системы и бизнеса · 7</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
+| `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | Закрытые отчётные периоды не меняются задним числом — достоверность учёта и отчётности | 🔴 Сейчас |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки | 🔴 Сейчас |
 | `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | Закрытые отчётные периоды не меняются задним числом — достоверность учёта и отчётности | 🔴 Сейчас |
 | `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Существенный прирост производительности в базу 1С:УТ | 🗂 Бэклог |
@@ -142,5 +144,13 @@ _Всё разобрано_ ✨
 | `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Оптимизация УТ | 🟦 Could | 31 дн. | 20.12 · через 52 дн. |
 | `BL-021` | [Разобрать ошибки Диадока и бесхозные задания](tasks/BL-021-razobrat-oshibki-diadoka-i-beshoznye-zadaniya.md) | Оптимизация УТ | 🟧 Should | 31 дн. | — |
 | `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Оптимизация УТ | 🟥 Must | 21 дн. | 21.12 · через 53 дн. |
+
+</details>
+
+---
+
+<details><summary>⚠️ Замечания к оформлению задач · 1</summary>
+
+- Повторяется ID `BL-013`: `tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md` и `archive/2026/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md`
 
 </details>

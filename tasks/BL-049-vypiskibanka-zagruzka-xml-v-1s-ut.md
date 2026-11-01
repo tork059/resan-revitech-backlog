@@ -1,8 +1,8 @@
 ---
 id: BL-049
 title: ВыпискиБанка. Загрузка xml в 1С:УТ
-status: todo         # inbox | backlog | todo | in-progress | waiting | done | canceled
-priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
+priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Приведение выгрузки в стандартный и правильный вид
 type: dev            # analysis | dev | consult | research | support
@@ -24,3 +24,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-10-29 — задача заведена (дашборд)
+- 2026-11-01 — статус: Запланирована → В работе

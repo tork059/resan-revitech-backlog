@@ -1,8 +1,8 @@
 ---
 id: BL-032
 title: Создать отдельную тестовую копию базы УТ
-status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: backlog      # inbox | backlog | in-progress | waiting | done | canceled
+priority: later      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы
 type: support        # analysis | dev | consult | research | support
@@ -52,3 +52,4 @@ closed:              # заполняется автоматически при 
 - 2026-10-02 — задача переименована и описание переписано без кодов (было: «Создать тестовую базу — полный слепок рабочей УТ, закреплённый за нами»)
 - 2026-10-14 — статус: Ожидание → В работе
 - 2026-10-14 — MoSCoW: Must → Should
+- 2026-11-03 — статус: В работе → Бэклог

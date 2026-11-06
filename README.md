@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 6](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-6-7aa2f7?style=flat-square) ![горит: 4](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-4-f7768e?style=flat-square) ![сейчас: 6](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-6-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 22](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-22-565f89?style=flat-square) ![закрыто за 30 дн: 20](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-20-9ece6a?style=flat-square)
+![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 4](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-4-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 7](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-7-c0392b?style=flat-square) ![всего активных: 23](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-23-565f89?style=flat-square) ![закрыто за 30 дн: 20](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-20-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 06.11.2026 · не редактируйте этот файл вручную</sub>
 
@@ -35,6 +35,7 @@
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 09.11 · 🟠 через 3 дн. | 🟥 Must | — |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | 09.11 · 🟠 через 3 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | 🔴 Сейчас | 09.11 · 🟠 через 3 дн. | 🟧 Should | Бухгалтерия |
+| `BL-053` | [Составить вопросы на интервью со Сбером](tasks/BL-053-sostavit-voprosy-na-intervyu-so-sberom.md) | 🔴 Сейчас | 11.11 · 🟡 через 5 дн. | — | — |
 | `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 🔴 Сейчас | 13.11 · 🟡 через 7 дн. | 🟥 Must | — |
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | 🔴 Сейчас | 16.11 · через 10 дн. | 🟧 Should | Бухгалтерия |
 
@@ -114,7 +115,7 @@ _Пусто_
 
 </details>
 
-<sub>Без оценки MoSCoW: BL-052</sub>
+<sub>Без оценки MoSCoW: BL-052, BL-053</sub>
 
 ## ⏳ Ожидание · 2
 

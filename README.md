@@ -34,10 +34,10 @@
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | 09.11 · 🔴 сегодня | 🟧 Should | Оптимизация УТ |
 | `BL-053` | [Составить вопросы на интервью со Сбером](tasks/BL-053-sostavit-voprosy-na-intervyu-so-sberom.md) | 🔴 Сейчас | 11.11 · 🟠 через 2 дн. | — | — |
 | `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 🔴 Сейчас | 13.11 · 🟡 через 4 дн. | 🟥 Must | — |
-| `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | 🔴 Сейчас | 13.11 · 🟡 через 4 дн. | 🟥 Must | Бухгалтерия |
 | `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | 🔴 Сейчас | 13.11 · 🟡 через 4 дн. | 🟧 Should | Бухгалтерия |
 | `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | 🔴 Сейчас | 13.11 · 🟡 через 4 дн. | 🟧 Should | Бухгалтерия |
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | 🔴 Сейчас | 16.11 · 🟡 через 7 дн. | 🟧 Should | Бухгалтерия |
+| `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | 🔴 Сейчас | 20.11 · через 11 дн. | 🟥 Must | Бухгалтерия |
 
 ## 📅 Запланировано по горизонту
 

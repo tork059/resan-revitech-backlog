@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 23](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-23-565f89?style=flat-square) ![закрыто за 30 дн: 18](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-18-9ece6a?style=flat-square)
+![в работе: 8](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-8-7aa2f7?style=flat-square) ![горит: 6](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-6-f7768e?style=flat-square) ![сейчас: 8](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-8-e06c75?style=flat-square) ![Must для бизнеса: 9](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-9-c0392b?style=flat-square) ![всего активных: 24](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-24-565f89?style=flat-square) ![закрыто за 30 дн: 18](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-18-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 12.11.2026 · не редактируйте этот файл вручную</sub>
 
@@ -20,6 +20,7 @@
 > - `BL-043` [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) — 13.11 · 🟠 завтра
 > - `BL-051` [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) — 13.11 · 🟠 завтра
 > - `BL-054` [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) — 13.11 · 🟠 завтра
+> - `BL-056` [ОтчетПродаж в ТС Санмикс](tasks/BL-056-otchetprodazh-v-ts-sanmiks.md) — 13.11 · 🟠 завтра
 
 ## 📁 Проекты
 
@@ -35,6 +36,7 @@
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 🔴 Сейчас | 09.11 · 🔴 просрочено на 3 дн. | 🟥 Must | — |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | 09.11 · 🔴 просрочено на 3 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 🔴 Сейчас | 13.11 · 🟠 завтра | 🟥 Must | — |
+| `BL-056` | [ОтчетПродаж в ТС Санмикс](tasks/BL-056-otchetprodazh-v-ts-sanmiks.md) | 🔴 Сейчас | 13.11 · 🟠 завтра | 🟥 Must | — |
 | `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | 🔴 Сейчас | 13.11 · 🟠 завтра | 🟧 Should | Бухгалтерия |
 | `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | 🔴 Сейчас | 13.11 · 🟠 завтра | 🟧 Should | Бухгалтерия |
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | 🔴 Сейчас | 16.11 · 🟡 через 4 дн. | 🟧 Should | Бухгалтерия |
@@ -68,12 +70,13 @@ _Пусто_
 
 <sub>Оценка важности задачи для системы и бизнеса. Не зависит от сроков и очерёдности — показывает, что реально критично.</sub>
 
-<details open><summary><b>🟥 Must — критично для системы и бизнеса · 8</b></summary>
+<details open><summary><b>🟥 Must — критично для системы и бизнеса · 9</b></summary>
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки | 🔴 Сейчас |
 | `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | Исключение дублей после обработки УТ и БП | 🔴 Сейчас |
+| `BL-056` | [ОтчетПродаж в ТС Санмикс](tasks/BL-056-otchetprodazh-v-ts-sanmiks.md) | Отчет необходим юристам для подтверждения операций в разрезе контрагента и будет использоваться, как доказательство в судебном производстве | 🔴 Сейчас |
 | `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | Групповое изменение реквизитов и автоматизация определения последующий поступлений исключат ручной труд бухгалтерии по множеству операций | 🔴 Сейчас |
 | `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | Закрытые отчётные периоды не меняются задним числом — достоверность учёта и отчётности | 🟠 Далее |
 | `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Существенный прирост производительности в базу 1С:УТ | 🗂 Бэклог |

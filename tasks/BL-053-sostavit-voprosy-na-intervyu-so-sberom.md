@@ -1,8 +1,8 @@
 ---
 id: BL-053
 title: Составить вопросы на интервью со Сбером
-status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
-priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: done         # inbox | backlog | todo | in-progress | waiting | done | canceled
+priority: next       # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow:              # влияние на систему и бизнес: must | should | could | wont
 impact:              # одной фразой: чем задача важна для системы и бизнеса
 type:                # analysis | dev | consult | research | support
@@ -14,7 +14,7 @@ deadline: 2026-11-11 # ГГГГ-ММ-ДД, можно оставить пуст�
 estimate:            # оценка: 2h, 1d, 3d …
 bitrix:              # ссылка на задачу в Битрикс24, если есть
 tags: []             # [отчёты, регламенты]
-closed:              # заполняется автоматически при закрытии
+closed: 2026-11-12   # заполняется автоматически при закрытии
 ---
 
 ## Суть
@@ -22,3 +22,4 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-11-06 — задача заведена (дашборд)
+- 2026-11-12 — статус: В работе → Готово. Закрыто

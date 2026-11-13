@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 8](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-8-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 8](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-8-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 23](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-23-565f89?style=flat-square) ![закрыто за 30 дн: 19](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-19-9ece6a?style=flat-square)
+![в работе: 7](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-7-7aa2f7?style=flat-square) ![горит: 2](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-2-f7768e?style=flat-square) ![сейчас: 7](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-7-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 23](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-23-565f89?style=flat-square) ![закрыто за 30 дн: 19](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-19-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 13.11.2026 · не редактируйте этот файл вручную</sub>
 
@@ -36,7 +36,6 @@
 | `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | 🔴 Сейчас | 20.11 · 🟡 через 7 дн. | 🟥 Must | Бухгалтерия |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 🔴 Сейчас | 20.11 · 🟡 через 7 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | 🔴 Сейчас | 20.11 · 🟡 через 7 дн. | 🟧 Should | Бухгалтерия |
-| `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | 🔴 Сейчас | — | 🟧 Should | Бухгалтерия |
 
 ## 📅 Запланировано по горизонту
 
@@ -88,13 +87,13 @@ _Пусто_
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | Приведение выгрузки в стандартный и правильный вид | 🔴 Сейчас |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | 🔴 Сейчас |
 | `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | Изменения сокращающие ручной труд бухгалтерии | 🔴 Сейчас |
-| `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | Исключение дублей позволит минимизировать искажения бухглатерской отчетности | 🔴 Сейчас |
 | `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | Альтернатива SberAPI. Необходимо автоматизировать процесс согласования и исполнения заявок на расходование средств | 🟠 Далее |
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-008` | [Запустить автообмен и отключить ручную выгрузку](tasks/BL-008-zapustit-avtoobmen-i-otklyuchit-ruchnuyu-vygruzk.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | ⚪ Потом |
 | `BL-021` | [Разобрать ошибки Диадока и бесхозные задания](tasks/BL-021-razobrat-oshibki-diadoka-i-beshoznye-zadaniya.md) | Ошибки задания Диадока затрагивают ЭДО; мёртвые и бесхозные задания — риск неконтролируемых запусков | 🗂 Бэклог |
 | `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | Без своей копии базы любые изменения (обмены, УПО, расписания) проверяются на рабочей — риск остановки работы | 🗂 Бэклог |
+| `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | Исключение дублей позволит минимизировать искажения бухглатерской отчетности | ⚪ Потом |
 
 </details>
 
@@ -116,13 +115,14 @@ _Пусто_
 
 </details>
 
-## ⏳ Ожидание · 1
+## ⏳ Ожидание · 2
 
 <sub>Ждём ответа, данных или решения от других.</sub>
 
 | ID | Задача | Горизонт | Срок | Проект |
 |:--|:--|:--|:--|:--|
 | `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | ⚪ Потом | — | Бухгалтерия |
+| `BL-043` | [Дубли контрагентов в buh_resan](tasks/BL-043-dubli-kontragentov-v-buh-resan.md) | ⚪ Потом | — | Бухгалтерия |
 
 ## 📥 Входящие · 0
 

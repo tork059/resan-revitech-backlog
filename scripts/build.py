@@ -33,6 +33,7 @@ STATUSES = {
     "backlog": ("Бэклог", "🗂"),
     "todo": ("Запланирована", "📅"),
     "in-progress": ("В работе", "🎯"),
+    "in-development": ("В разработке", "🛠"),
     "waiting": ("Ожидание", "⏳"),
     "done": ("Готово", "✅"),
     "canceled": ("Отменено", "🚫"),
@@ -41,6 +42,7 @@ CLOSED = {"done", "canceled"}
 # Приоритет = горизонт: когда я за это возьмусь
 PRIORITIES = {
     "now": ("Сейчас", "в работе, срок в ближайшую неделю", "🔴"),
+    "development": ("В разработке", "передано разработчикам", "🟣"),
     "next": ("Далее", "срок в пределах месяца", "🟠"),
     "later": ("Потом", "срок позже месяца или без срока", "⚪"),
 }
@@ -68,8 +70,8 @@ ALIASES = {
     "status": {"входящие": "inbox", "бэклог": "backlog", "в работе": "in-progress",
                "запланирована": "todo", "запланировано": "todo", "planned": "todo",
                "ожидание": "waiting", "готово": "done", "отменено": "canceled",
-               "wip": "in-progress"},
-    "priority": {"сейчас": "now", "далее": "next", "потом": "later",
+               "wip": "in-progress", "в разработке": "in-development"},
+    "priority": {"сейчас": "now", "в разработке": "development", "далее": "next", "потом": "later",
                  # старые значения MoSCoW в поле priority
                  "must": "now", "should": "next", "could": "later", "wont": "later", "won't": "later"},
     "moscow": {"won't": "wont", "обязательно": "must", "важно": "should",
@@ -143,7 +145,7 @@ def validate(t: dict) -> None:
         t["status"] = "inbox"
     if t.get("priority") not in PRIORITIES:
         if t.get("priority"):
-            WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}` (now / next / later), считаю «Далее»")
+            WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}` (now / development / next / later), считаю «Далее»")
         t["priority"] = "next"
     if t.get("moscow") and t["moscow"] not in MOSCOW:
         WARNINGS.append(f"{where} — неизвестная оценка MoSCoW `{t['moscow']}` (must / should / could / wont)")
@@ -214,7 +216,9 @@ def move(path: Path, dest_dir: Path) -> Path:
 
 
 def horizon_of(t: dict) -> str:
-    """Горизонт вычисляется: в работе → Сейчас; срок не дальше месяца → Далее; иначе (или без срока) → Потом."""
+    """Передано разработчикам → В разработке; в работе → Сейчас; остальные — по сроку."""
+    if t["status"] == "in-development":
+        return "development"
     if t["status"] == "in-progress":
         return "now"
     n = days_left(t)
@@ -232,7 +236,7 @@ def journal_append(path: Path, line: str) -> None:
 def auto_start(t: dict) -> None:
     """Срок — первичен: задача со сроком в ближайшую неделю (или просроченная) сама переходит в работу."""
     n = days_left(t)
-    if t["status"] in CLOSED or t["status"] == "in-progress" or n is None or n > CONFIG["soon_days"]:
+    if t["status"] in CLOSED or t["status"] in ("in-progress", "in-development") or n is None or n > CONFIG["soon_days"]:
         return
     was = STATUSES[t["status"]][0]
     set_field(t["path"], "status", "in-progress")
@@ -336,7 +340,7 @@ def link(t: dict, text: str | None = None) -> str:
     return f"[{esc(text or t['title'])}]({quote(rel(t['path']))})"
 
 
-PLANNED = ("todo", "in-progress", "waiting")
+PLANNED = ("todo", "in-progress", "in-development", "waiting")
 
 
 def prio(t: dict) -> str:
@@ -400,6 +404,7 @@ def render_readme(tasks: list[dict]) -> str:
     hot = sorted([t for t in active if t["status"] != "inbox" and (n := days_left(t)) is not None
                   and n <= CONFIG["hot_days"]], key=by_deadline)
     in_work = sorted([t for t in active if t["status"] == "in-progress"], key=horizon_key)
+    in_development = sorted([t for t in active if t["status"] == "in-development"], key=horizon_key)
     waiting = sorted([t for t in active if t["status"] == "waiting"], key=by_deadline)
     inbox = sorted([t for t in active if t["status"] == "inbox"], key=lambda t: t.get("created", ""))
     backlog = sorted([t for t in active if t["status"] == "backlog"],
@@ -417,6 +422,7 @@ def render_readme(tasks: list[dict]) -> str:
           f"[＋ Новая задача](https://github.com/{repo}/issues/new?template=task.yml)", ""]
     L += [" ".join([
         badge("в работе", len(in_work), "7aa2f7"),
+        badge("в разработке", len(in_development), "bb9af7"),
         badge("горит", len(hot), "f7768e" if hot else "414868"),
         badge("сейчас", sum(t["priority"] == "now" for t in active), "e06c75"),
         badge("Must для бизнеса", sum(t.get("moscow") == "must" for t in active), "c0392b"),
@@ -456,10 +462,16 @@ def render_readme(tasks: list[dict]) -> str:
     L += [table(in_work, ["id", "title", "prio", "deadline", "moscow", "project"]) if in_work
           else "_Сейчас ничего не в работе — возьмите задачу из «Сейчас»._", ""]
 
+    L += ["## 🛠 В разработке", "",
+          table(in_development, ["id", "title", "deadline", "moscow", "project"]) if in_development
+          else "_Нет задач, переданных разработчикам._", ""]
+
     L += ["## 📅 Запланировано по горизонту", "",
           "<sub>Сейчас — задачи в работе (в том числе все со сроком в ближайшую неделю, см. выше), "
           "Далее — срок в пределах месяца, Потом — срок позже месяца или без срока.</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
+        if key == "development":
+            continue  # задачи разработчиков уже показаны отдельным разделом выше
         rows = sorted([t for t in planned if t["priority"] == key], key=horizon_key)
         head = f"### {icon} {name} — {hint} · {len(rows)}"
         body = table(rows, ["id", "title", "deadline", "moscow", "project", "system"]) if rows else "_Пусто_"
@@ -622,7 +634,7 @@ def create_task(title: str, priority="next", type_="", system="", initiator="", 
 
 
 ISSUE_FIELDS = {
-    "название": "title", "суть и контекст": "body", "приоритет": "priority", "тип": "type",
+    "название": "title", "описание": "body", "суть и контекст": "body", "приоритет": "priority", "тип": "type",
     "система": "system", "инициатор": "initiator", "срок": "deadline", "оценка": "estimate",
     "ссылка на битрикс": "bitrix", "статус": "status", "проект": "project",
     "moscow — влияние на бизнес": "moscow", "горизонт": "priority",
@@ -651,9 +663,10 @@ def from_issue(event_path: str) -> None:
     type_key = next((k for k, name in TYPES.items() if type_raw.lower().startswith(name.lower())), "")
     proj = next((k for k, p in PROJECTS.items() if vals.get("project", "").strip().strip('"') == p["name"]), "")
     st_raw = vals.get("status", "").lower()
-    status = "backlog" if st_raw.startswith("бэклог") else "todo" if st_raw.startswith("запланир") else "inbox"
+    status = ("in-development" if st_raw.startswith("в разработке") else
+              "backlog" if st_raw.startswith("бэклог") else "todo" if st_raw.startswith("запланир") else "inbox")
     body = vals.get("body", "")
-    body = f"## Суть\n{body}\n\n## Что сделать\n- [ ] \n\n## Критерии готовности\n- \n\n## Материалы\n- Создано из [issue #{issue['number']}]({issue['html_url']})"
+    body = f"## Описание\n{body}\n\n## Материалы\n- Создано из [issue #{issue['number']}]({issue['html_url']})"
     path = create_task(
         title=vals.get("title") or issue["title"].removeprefix("[Задача]").strip(),
         priority=prio_key, type_=type_key,
@@ -690,3 +703,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     sys.exit(main())
+

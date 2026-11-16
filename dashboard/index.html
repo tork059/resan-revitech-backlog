@@ -76,9 +76,9 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start}
 .col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;min-height:120px}
-.col-h{display:flex;align-items:center;gap:8px;padding:2px 4px 12px;font-weight:600;font-size:13px}
-.col-h .hint{color:var(--faint);font-weight:400}
-.col-h .cnt{margin-left:auto;color:var(--faint);font-weight:500;font-variant-numeric:tabular-nums}
+.col-h{display:grid;grid-template-columns:8px minmax(0,1fr) auto;align-items:center;gap:4px 8px;padding:2px 4px 12px;font-weight:600;font-size:13px}
+.col-h .hint{grid-column:2/-1;color:var(--faint);font-weight:400;font-size:11.5px;line-height:1.4}
+.col-h .cnt{grid-column:3;grid-row:1;color:var(--faint);font-weight:500;font-variant-numeric:tabular-nums}
 .stack{display:flex;flex-direction:column;gap:8px}
 .empty{color:var(--faint);font-size:13px;padding:14px 6px;text-align:center}
 
@@ -149,6 +149,7 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .pill.dl.soon{background:var(--warn-bg);color:var(--should)}
 .pill.st{background:var(--accent-soft);color:var(--accent)}
 .pill.st.waiting{background:rgba(187,154,247,.12);color:#bb9af7}
+.pill.st.in-development{background:rgba(187,154,247,.12);color:#bb9af7}
 .pill.st.inbox{background:var(--surface-3);color:var(--muted)}
 .pill.st.todo{background:rgba(125,207,255,.10);color:#8fd3f5}
 .pill.st.backlog{background:rgba(224,175,104,.10);color:var(--should)}
@@ -340,10 +341,9 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const PCOLOR = {now:'var(--must)', next:'var(--should)', later:'var(--wont)'};
-const PRIO = ['now','next','later'];
+const PCOLOR = {now:'var(--must)', development:'#bb9af7', next:'var(--should)', later:'var(--wont)'};
+const PRIO = ['now','development','next','later'];
 const MCOLOR = {must:'#f7768e', should:'#e0af68', could:'#7dcfff', wont:'#6b7394'};
-const MOS = ['must','should','could','wont'];
 const S = {data:null, tab:'prio', q:'', type:'', system:'', project:''};
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -366,14 +366,15 @@ function dlInfo(t){
   return {n, txt, cls};
 }
 const isClosed = t => t.status === 'done' || t.status === 'canceled';
-const PLANNED = ['todo','in-progress','waiting'];
+const PLANNED = ['todo','in-progress','in-development','waiting'];
 const isPlanned = t => PLANNED.includes(t.status);
 const MOS_RANK = {must:0, should:1, could:2, wont:3};
 const mosRank = t => MOS_RANK[t.moscow] ?? 4;
 // Срок первичен: задача со сроком в ближайшую неделю (или просроченная) сама считается «В работе»
-const autoStart = t => !isClosed(t) && t.status !== 'in-progress' && daysLeft(t) !== null && daysLeft(t) <= S.data.config.soon_days;
+const autoStart = t => !isClosed(t) && !['in-progress','in-development'].includes(t.status) && daysLeft(t) !== null && daysLeft(t) <= S.data.config.soon_days;
 // Горизонт считается сам: в работе → Сейчас; срок не дальше месяца → Далее; иначе (или без срока) → Потом
 function horizonOf(t){
+  if(t.status === 'in-development') return 'development';
   if(t.status === 'in-progress' || autoStart(t)) return 'now';
   const n = daysLeft(t);
   return n !== null && n <= (S.data.config.next_days || 30) ? 'next' : 'later';
@@ -446,9 +447,9 @@ function section(title, color, arr, html){
 }
 
 const TABS = [
-  ['prio','Горизонт'], ['backlog','Бэклог'], ['projects','Проекты'], ['moscow','MoSCoW'], ['archive','Архив']
+  ['prio','Горизонт'], ['backlog','Бэклог'], ['projects','Проекты'], ['archive','Архив']
 ];
-const TAB_MIGRATE = {focus:'prio', status:'backlog', time:'prio'};
+const TAB_MIGRATE = {focus:'prio', status:'backlog', time:'prio', moscow:'prio'};
 
 function render(){
   const all = S.data.tasks, L = S.data.labels;
@@ -464,7 +465,7 @@ function render(){
     ['work','В работе', A.filter(t=>t.status==='in-progress').length, 'prio'],
     ['hot','Горит', A.filter(isHot).length, 'prio'],
     ['','В бэклоге и входящих', A.filter(t=>t.status==='backlog'||t.status==='inbox').length, 'backlog'],
-    ['','Must для бизнеса', A.filter(t=>t.moscow==='must').length, 'moscow'],
+    ['','В разработке', A.filter(t=>t.status==='in-development').length, 'prio'],
     ['done','Закрыто за 30 дн.', done30, 'archive'],
   ].map(([c,l,v,tab])=>`<div class="kpi ${c}" data-tab="${tab}"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
 
@@ -485,10 +486,10 @@ function render(){
   let html = '';
   if(S.tab === 'prio'){
     const pool = active.filter(isPlanned);
-    html = `<p class="lead"><b>Горизонт</b> показывает, когда задача будет в работе. <b>Сейчас</b> — задачи, которыми я занимаюсь в данный момент, включая все задачи со сроком в ближайшую неделю. <b>Далее</b> — задачи со сроком в пределах месяца. <b>Потом</b> — задачи со сроком позже месяца или без срока.</p><div class="board b3">${PRIO.map(p => {
+    html = `<p class="lead"><b>Сейчас</b> — задачи, которыми я занимаюсь, включая задачи со сроком в ближайшую неделю. <b>В разработке</b> — задачи, переданные разработчикам; они остаются здесь независимо от срока. <b>Далее</b> — срок в пределах месяца. <b>Потом</b> — срок позже месяца или без срока.</p><div class="board">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort(byHorizon);
-      return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span>${L.priority[p][0]}
-        <span class="hint">· ${L.priority[p][1]}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
+      return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span><span>${esc(L.priority[p][0])}</span>
+        <span class="hint">${esc(L.priority[p][1])}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
     }).join('')}</div>`;
   }
   else if(S.tab === 'backlog'){
@@ -496,16 +497,6 @@ function render(){
   }
   else if(S.tab === 'projects'){
     html = projectsView();
-  }
-  else if(S.tab === 'moscow'){
-    html = `<p class="lead">MoSCoW — влияние задачи на систему и бизнес. Не зависит от сроков и очерёдности: показывает, что реально критично. Бейдж на карточке — горизонт; задачи «Потом» показаны кратко — полное описание по клику.</p>
-      <div class="board">${MOS.map(m => {
-      const arr = active.filter(t=>t.moscow===m).sort(byPrio);
-      return `<div class="col"><div class="col-h"><span class="dot" style="background:${MCOLOR[m]}"></span>${L.moscow[m][0]}
-        <span class="cnt">${arr.length}</span></div><div class="hint" style="color:var(--faint);font-size:12px;margin:-6px 4px 10px">${esc(L.moscow[m][1])}</div>${stack(arr,{impact:true})}</div>`;
-    }).join('')}</div>`;
-    const un = active.filter(t=>!MCOLOR[t.moscow]);
-    if(un.length) html += `<div style="height:22px"></div>` + section('Без оценки MoSCoW', 'var(--faint)', un, `<div class="grid">${un.map(t=>card(t)).join('')}</div>`);
   }
   else if(S.tab === 'archive'){
     const arr = closed.slice().sort((a,b)=>(b.closed||'').localeCompare(a.closed||''));
@@ -537,7 +528,7 @@ function projectsView(){
       <div class="proj-m"><span>${x.done} из ${x.total} готово · ${x.pct}%</span><span>активных ${x.act.length}</span>
       ${x.nxt?`<span>ближайший срок: ${esc(x.nxt.id)} · ${esc(dl.n>S.data.config.soon_days?fmtD(x.nxt.deadline):dl.txt)}</span>`:''}</div></div>`;
   };
-  let html = `<p class="lead">Проекты и их задачи. Выберите проект — ниже все его задачи по состоянию: в работе, запланировано, ожидание, бэклог, сделано.</p>
+  let html = `<p class="lead">Проекты и их задачи. Выберите проект — ниже все его задачи по состоянию: в работе, в разработке, запланировано, ожидание, бэклог, сделано.</p>
     <div class="projects">${keys.map(k => cardP(k, P[k].name, P[k].url, P[k].description, P[k].status)).join('')}
     ${authed ? `<button class="proj add" data-pnew="1" type="button">＋ Новый проект</button>` : ''}</div>`;
   const k = S.projSel, pr = P[k];
@@ -548,6 +539,7 @@ function projectsView(){
   const x = projectStats(k);
   const groups = [
     ['В работе', 'var(--accent)', t => t.status === 'in-progress', byHorizon],
+    ['В разработке', '#bb9af7', t => t.status === 'in-development', byHorizon],
     ['Запланировано', '#8fd3f5', t => t.status === 'todo', byHorizon],
     ['Ожидание', '#bb9af7', t => t.status === 'waiting', byHorizon],
     ['Бэклог и входящие', 'var(--should)', t => t.status === 'backlog' || t.status === 'inbox', byHorizon],
@@ -765,8 +757,8 @@ const errText = e => e.status === 401 ? 'токен не принят GitHub (и
 /* ── файл задачи: шапка и разделы ── */
 const FM = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
 const ALIAS = {
-  status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','ожидание':'waiting','готово':'done','отменено':'canceled'},
-  priority: {'сейчас':'now','далее':'next','потом':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
+  status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','в разработке':'in-development','ожидание':'waiting','готово':'done','отменено':'canceled'},
+  priority: {'сейчас':'now','в разработке':'development','далее':'next','потом':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
   moscow: {"won't":'wont'},
   type: {'аналитика':'analysis','разработка':'dev','консультация':'consult','исследование':'research','поддержка':'support'},
 };
@@ -933,7 +925,7 @@ async function run(fn, okMsg){
 /* ── просмотр задачи: быстрые действия и чек-лист ── */
 const _openTask = openTask, _closeTask = closeTask;
 openTask = function(id){
-  S.mode = 'view'; S.openId = id;
+  S.mode = 'view'; S.openId = id; S.edit = null;
   _openTask(id);
   if(!GH.token) return;
   const t = S.data.tasks.find(x => x.id === id); if(!t) return;
@@ -955,8 +947,9 @@ function decorate(t){
   const ed = act.querySelector('a[href*="/edit/"]'); if(ed) ed.remove();
   const closed = t.status === 'done' || t.status === 'canceled';
   const q = [];
-  if(!closed && t.status !== 'todo') q.push(['plan', t.status === 'in-progress' || t.status === 'waiting' ? '📅 Вернуть в план' : '📅 Запланировать','']);
+  if(!closed && t.status !== 'todo') q.push(['plan', ['in-progress','in-development','waiting'].includes(t.status) ? '📅 Вернуть в план' : '📅 Запланировать','']);
   if(!closed && t.status !== 'in-progress') q.push(['start','▶ В работу','']);
+  if(!closed && t.status !== 'in-development') q.push(['develop','В разработку','']);
   if(!closed && t.status !== 'waiting') q.push(['wait','⏳ Ожидание','']);
   if(!closed && t.status !== 'backlog') q.push(['tobacklog','🗂 В бэклог','']);
   if(!closed) q.push(['done','✓ Готово','ok'], ['cancel','✕ Отменить','danger']);
@@ -984,10 +977,10 @@ function panel(kind){
     <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-${kind}">${cfg[1]}</button></div></div>`;
   $('#pTxt').focus();
 }
-const STATUS_MSG = {'in-progress':'взята в работу', waiting:'на ожидании', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
+const STATUS_MSG = {'in-progress':'взята в работу', 'in-development':'передана в разработку', waiting:'на ожидании', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
 // Срок в ближайшую неделю → задача только «В работе»; возвращает итоговый статус
 function effStatus(status, deadline){
-  if(status === 'done' || status === 'canceled' || status === 'in-progress') return status;
+  if(['done','canceled','in-progress','in-development'].includes(status)) return status;
   const d = parseD(deadline), n = d ? Math.round((d - todayLocal())/864e5) : null;
   return n !== null && n <= S.data.config.soon_days ? 'in-progress' : status;
 }
@@ -1017,6 +1010,7 @@ $('#drawer').addEventListener('click', e => {
   if(!S.edit && !['pclose','cancel-form','save-new'].includes(a)){ toast('Загружаю актуальную версию задачи — повторите через секунду'); return; }
   if(a === 'edit') return openEdit();
   if(a === 'start') return setStatus('in-progress');
+  if(a === 'develop') return setStatus('in-development');
   if(a === 'reopen') return setStatus('in-progress');
   if(a === 'tobacklog') return setStatus('backlog');
   if(a === 'plan') return planPanel();
@@ -1042,7 +1036,7 @@ function formFields(t, isNew){
   const f = (k, label, html, full) => `<div class="fld${full?' full':''}"><label for="f_${k}">${label}</label>${html}</div>`;
   const inp = (k, v, attrs='') => `<input class="inp" id="f_${k}" value="${esc(v||'')}" ${attrs}>`;
   const sel = (k, obj, cur, lbl, empty) => `<select class="inp" id="f_${k}">${empty!==undefined?`<option value="">${empty}</option>`:''}${opt(obj, cur, lbl)}</select>`;
-  const statuses = isNew ? {todo:L.status.todo, 'in-progress':L.status['in-progress'], inbox:L.status.inbox, backlog:L.status.backlog} : L.status;
+  const statuses = isNew ? {todo:L.status.todo, 'in-progress':L.status['in-progress'], 'in-development':L.status['in-development'], inbox:L.status.inbox, backlog:L.status.backlog} : L.status;
   return [
     f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
     f('status', 'Статус', sel('status', statuses, t.status)),
@@ -1054,18 +1048,19 @@ function formFields(t, isNew){
     f('type', 'Тип', sel('type', L.type, t.type, undefined, '—')),
     f('system', 'Система', inp('system', t.system, 'placeholder="1С:УТ, 1С:БП, Битрикс24…" list="dlSystems"')),
     f('initiator', 'Инициатор', inp('initiator', t.initiator, 'placeholder="Кто поставил задачу"')),
-    f('estimate', 'Оценка', inp('estimate', t.estimate, 'placeholder="2h, 1d, 3d"')),
+    isNew ? '' : f('estimate', 'Оценка', inp('estimate', t.estimate, 'placeholder="2h, 1d, 3d"')),
     f('bitrix', 'Ссылка на Битрикс', inp('bitrix', t.bitrix, 'placeholder="https://…"')),
-    f('tags', 'Теги через запятую', inp('tags', (t.tags||[]).join(', '))),
+    isNew ? '' : f('tags', 'Теги через запятую', inp('tags', (t.tags||[]).join(', '))),
     `<datalist id="dlSystems">${[...new Set(S.data.tasks.map(x=>x.system).filter(Boolean))].map(s=>`<option value="${esc(s)}">`).join('')}</datalist>`,
   ].join('');
 }
 function readFields(){
   const v = k => ($('#f_' + k) ? $('#f_' + k).value : '').trim();
-  const tags = v('tags').split(',').map(x => x.trim()).filter(Boolean);
-  return {title:v('title'), status:v('status'), priority: horizonOf({status:v('status'), deadline:v('deadline')}), deadline:v('deadline'), moscow:v('moscow'),
-    project:v('project'), impact:v('impact'), type:v('type'), system:v('system'), initiator:v('initiator'), estimate:v('estimate'),
-    bitrix:v('bitrix'), tags: `[${tags.join(', ')}]`};
+  const fields = {title:v('title'), status:v('status'), priority: horizonOf({status:v('status'), deadline:v('deadline')}), deadline:v('deadline'), moscow:v('moscow'),
+    project:v('project'), impact:v('impact'), type:v('type'), system:v('system'), initiator:v('initiator'), bitrix:v('bitrix')};
+  if($('#f_estimate')) fields.estimate = v('estimate');
+  if($('#f_tags')) fields.tags = `[${v('tags').split(',').map(x => x.trim()).filter(Boolean).join(', ')}]`;
+  return fields;
 }
 function formShell(title, sub, inner, saveAct, saveLabel){
   $('#dHead').innerHTML = `<div class="d-top"><span class="id">${esc(sub)}</span><button class="d-close" id="dClose" aria-label="Закрыть">×</button></div>
@@ -1082,12 +1077,13 @@ function openEdit(){
   const E = S.edit, t = taskFromText(E.text, E.path);
   S.mode = 'edit'; S.dirty = false;
   const secs = secParse(bodyOf(E.text)).secs;
-  const names = [...STD_SECS, ...secs.map(s => s.name).filter(n => !STD_SECS.includes(n) && n !== 'Журнал')];
+  const standard = secs.some(s => s.name === 'Описание') ? ['Описание','Материалы'] : STD_SECS;
+  const names = [...standard, ...secs.map(s => s.name).filter(n => !standard.includes(n) && n !== 'Журнал')];
   const journal = (secs.find(s => s.name === 'Журнал') || {content:''}).content.split('\n').filter(Boolean);
   const inner = formFields(t, false) +
     `<div class="f-sec">Описание</div>` +
     names.map((n, i) => `<div class="fld full"><label for="s_${i}">${esc(n)}${n==='Что сделать'?' <span class="hint-s">— строки вида «- [ ] шаг»</span>':''}</label>
-      <textarea class="inp${['Контекст','Что сделать'].includes(n)?' tall':''}" id="s_${i}" data-sec="${esc(n)}">${esc(secGet(E.text, n))}</textarea></div>`).join('') +
+      <textarea class="inp${['Описание','Контекст','Что сделать'].includes(n)?' tall':''}" id="s_${i}" data-sec="${esc(n)}">${esc(secGet(E.text, n))}</textarea></div>`).join('') +
     `<div class="f-sec">Журнал</div>
      <div class="fld full"><ul class="journal">${journal.map(l => `<li>${esc(l.replace(/^- /,''))}</li>`).join('') || '<li>пусто</li>'}</ul></div>
      <div class="fld full"><label for="f_jnew">Новая запись в журнал (дата подставится сама)</label><input class="inp" id="f_jnew" placeholder="Например: согласовали с Эврисофт созвон на среду"></div>
@@ -1129,13 +1125,7 @@ async function saveEdit(){
 function openCreate(){
   S.mode = 'create'; S.newMode = true; S.dirty = false; S.openId = null; S.edit = null;
   const inner = formFields({status:'todo', priority:'next', project: S.tab === 'projects' && S.projSel !== '-' ? S.projSel : ''}, true) +
-    `<div class="f-sec">Описание</div>
-     <div class="fld full"><label for="n_sut">Суть — одна фраза: что сделать и какой результат нужен</label><textarea class="inp" id="n_sut"></textarea></div>
-     <div class="fld full"><label for="n_ctx">Контекст — откуда пришло, зачем бизнесу</label><textarea class="inp tall" id="n_ctx"></textarea></div>
-     <div class="fld full"><label for="n_next">Следующий шаг — одно конкретное действие</label><input class="inp" id="n_next"></div>
-     <div class="fld full"><label for="n_dep">Зависит от — кого или чего ждёт задача</label><input class="inp" id="n_dep"></div>
-     <div class="fld full"><label for="n_todo">Что сделать — каждый шаг с новой строки</label><textarea class="inp tall" id="n_todo" placeholder="Связаться с подрядчиком&#10;Запросить правила обмена"></textarea></div>
-     <div class="fld full"><label for="n_done">Критерии готовности</label><textarea class="inp" id="n_done"></textarea></div>
+    `<div class="fld full"><label for="n_description">Описание</label><textarea class="inp tall" id="n_description" placeholder="Что нужно сделать, зачем это бизнесу и что уже известно"></textarea></div>
      <div class="fld full"><label for="n_mat">Материалы — ссылки, файлы, контакты</label><textarea class="inp" id="n_mat"></textarea></div>`;
   formShell('Новая задача', 'номер присвоится при сохранении', inner, 'save-new', 'Создать задачу');
   lockScroll(); $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden','false');
@@ -1155,11 +1145,9 @@ async function saveNew(){
     const vals = {...F, created: todayISO(), closed: ''};
     for(const [k, val] of Object.entries(vals)) head = fmSet(head, k, val);
     const secs = [
-      ['Суть', v('n_sut')], ['Контекст', v('n_ctx')], ['Следующий шаг', v('n_next')], ['Зависит от', v('n_dep')],
-      ['Что сделать', lines(v('n_todo')).map(x => x.replace(/^[-*]\s*(\[[ xX]\]\s*)?/, '')).map(x => `- [ ] ${x}`).join('\n')],
-      ['Критерии готовности', lines(v('n_done')).map(x => x.startsWith('-') ? x : `- ${x}`).join('\n')],
+      ['Описание', v('n_description')],
       ['Материалы', lines(v('n_mat')).map(x => x.startsWith('-') ? x : `- ${x}`).join('\n')],
-    ].filter(([, c]) => c).map(([name, content]) => ({name, content}));
+    ].filter(([name, c]) => name === 'Описание' || c).map(([name, content]) => ({name, content}));
     secs.push({name:'Журнал', content:`- ${todayISO()} — задача заведена (дашборд)`});
     for(let attempt = 0; attempt < 5; attempt++, num++){
       const id = `${pref}-${String(num).padStart(3,'0')}`;
@@ -1235,3 +1223,4 @@ GH.load(); setAuthUI();
 </script>
 </body>
 </html>
+

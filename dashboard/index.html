@@ -447,7 +447,7 @@ function section(title, color, arr, html){
 }
 
 const TABS = [
-  ['prio','Горизонт'], ['backlog','Бэклог'], ['projects','Проекты'], ['archive','Архив']
+  ['prio','Спринт'], ['backlog','Бэклог'], ['projects','Проекты'], ['archive','Архив']
 ];
 const TAB_MIGRATE = {focus:'prio', status:'backlog', time:'prio', moscow:'prio'};
 
@@ -585,7 +585,7 @@ function backlogView(active){
         <b>${esc(P[k].name)}</b><span class="cnt">${arr.length} ${arr.length%10===1&&arr.length%100!==11?'задача':[2,3,4].includes(arr.length%10)&&![12,13,14].includes(arr.length%100)?'задачи':'задач'}</span>
         ${must?`<span class="pill ms" style="--mc:${MCOLOR.must}">Must · ${must}</span>`:''}</div>` + (open ? arr.map(t=>regRow(t, true)).join('') : '');
   }).join('') + loose.map(t=>regRow(t, false)).join('');
-  return `<p class="lead">Хранилище задач, по которым пока не ясны ни сроки, ни очередь. Задача попадает на «Горизонт», когда её запланируют. Сверху — новые «Входящие», их нужно разобрать.</p>
+  return `<p class="lead">Хранилище задач, по которым пока не ясны ни сроки, ни очередь. Задача попадает в «Спринт», когда её запланируют. Сверху — новые «Входящие», их нужно разобрать.</p>
     <section class="section inbox-list"><h2><span class="dot" style="background:var(--accent)"></span>Входящие — разобрать <span class="cnt">${inbox.length}</span></h2>
       ${inbox.length ? `<div class="list">${inbox.map(t=>row(t)).join('')}</div>` : `<div class="empty" style="text-align:left;padding:4px 2px">Всё разобрано ✨ Новые задачи появятся здесь.</div>`}</section>
     <section class="section"><h2><span class="dot" style="background:var(--should)"></span>Бэклог — хранилище <span class="cnt">${bl.length}</span></h2>
@@ -949,7 +949,7 @@ function decorate(t){
   const q = [];
   if(!closed && t.status !== 'todo') q.push(['plan', ['in-progress','in-development','waiting'].includes(t.status) ? '📅 Вернуть в план' : '📅 Запланировать','']);
   if(!closed && t.status !== 'in-progress') q.push(['start','▶ В работу','']);
-  if(!closed && t.status !== 'in-development') q.push(['develop','В разработку','']);
+  if(!closed && t.status !== 'in-development') q.push(['develop','⚙️ В разработку','']);
   if(!closed && t.status !== 'waiting') q.push(['wait','⏳ Ожидание','']);
   if(!closed && t.status !== 'backlog') q.push(['tobacklog','🗂 В бэклог','']);
   if(!closed) q.push(['done','✓ Готово','ok'], ['cancel','✕ Отменить','danger']);
@@ -1041,7 +1041,7 @@ function formFields(t, isNew){
     f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
     f('status', 'Статус', sel('status', statuses, t.status)),
 
-    f('deadline', 'Срок <span class="hint-s">— задаёт колонку на «Горизонте»</span>', inp('deadline', t.deadline, 'type="date"')),
+    f('deadline', 'Срок <span class="hint-s">— задаёт колонку в «Спринте»</span>', inp('deadline', t.deadline, 'type="date"')),
     f('moscow', 'MoSCoW — влияние на бизнес', sel('moscow', L.moscow, t.moscow, (k,v)=>`${v[0]} — ${v[1]}`, 'Не оценено')),
     f('project', 'Проект', sel('project', Object.fromEntries(Object.entries(P).map(([k,v])=>[k,v.name])), t.project, undefined, 'Без проекта')),
     f('impact', 'Чем задача важна для системы и бизнеса (одна фраза)', inp('impact', t.impact), true),

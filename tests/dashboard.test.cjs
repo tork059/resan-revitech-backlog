@@ -36,7 +36,7 @@ function fixture() {
   run(`S.data = {tasks:[], projects:{}, config:{hot_days:3,soon_days:7,next_days:30},
     labels:{status:{inbox:'Входящие',backlog:'Бэклог',todo:'Запланирована',
       'in-progress':'В работе','in-development':'В разработке',done:'Готово',canceled:'Отменено'},
-      priority:{now:['Сейчас',''],development:['В разработке',''],next:['Далее',''],later:['Потом','']},
+      priority:{now:['В работе','делаю сейчас'],development:['В разработке',''],next:['Запланировано','Выполнение в рамках месяца'],later:['Отложено','Запланировано в рамках более месяца']},
       moscow:{must:['Must',''],should:['Should','']},type:{analysis:'Аналитика'}}, repo:'test/test'};
     openTask = id => { S.lastOpened = id; };
     GH.putFile = async (path, text) => { S.written = text; return 'saved-sha'; };`);
@@ -97,7 +97,7 @@ test('return to plan keeps chosen column and records column, deadline, and comme
   await run(`setStatus('todo', 'Вернемся позже', {priority:'later',deadline:'2001-01-01'})`);
   assert.equal(run(`taskFromText(S.written, 'tasks/test.md').status`), 'todo');
   assert.equal(run(`taskFromText(S.written, 'tasks/test.md').priority`), 'later');
-  assert.match(run('S.written'), /колонка: В разработке → Потом/);
+  assert.match(run('S.written'), /колонка: В разработке → Отложено/);
   assert.match(run('S.written'), /срок: 01.01.2000 → 01.01.2001/);
   assert.match(run('S.written'), /Вернемся позже/);
   await run(`setStatus('todo', '', {priority:'next',deadline:''})`);
@@ -162,4 +162,5 @@ test('new task has one description and saves it without removed fields or legacy
     assert.ok(!text.includes(removed), removed);
   }
 });
+
 

@@ -121,7 +121,7 @@ class DevelopmentWorkflowTests(unittest.TestCase):
     def test_issue_preserves_explicit_later_column_with_overdue_deadline(self):
         event = {'issue': {'number': 901, 'title': '[Задача] План',
                           'html_url': 'https://example.test/issue/901',
-                          'body': '### Статус\nЗапланирована\n\n### Колонка плана\nПотом\n\n### Срок\n01.10.2026'}}
+                          'body': '### Статус\nЗапланирована\n\n### Колонка плана\nОтложено\n\n### Срок\n01.10.2026'}}
         path = Path(self.tmp.name) / 'event.json'
         path.write_text(json.dumps(event))
         with patch.object(build, 'create_task') as create:
@@ -133,4 +133,5 @@ class DevelopmentWorkflowTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
 

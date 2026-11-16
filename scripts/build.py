@@ -40,10 +40,10 @@ STATUSES = {
 CLOSED = {"done", "canceled"}
 # Колонка спринта выбирается пользователем, независимо от дедлайна.
 PRIORITIES = {
-    "now": ("Сейчас", "делаю сейчас", "🔴"),
+    "now": ("В работе", "делаю сейчас", "🔴"),
     "development": ("В разработке", "передано разработчикам", "🟣"),
-    "next": ("Далее", "запланировано следующим", "🟠"),
-    "later": ("Потом", "отложено", "⚪"),
+    "next": ("Запланировано", "Выполнение в рамках месяца", "🟠"),
+    "later": ("Отложено", "Запланировано в рамках более месяца", "⚪"),
 }
 PRIO_ORDER = list(PRIORITIES)
 # MoSCoW = влияние на систему и бизнес, не зависит от сроков и очерёдности
@@ -70,7 +70,8 @@ ALIASES = {
                "запланирована": "todo", "запланировано": "todo", "planned": "todo",
                "waiting": "todo", "ожидание": "todo", "готово": "done", "отменено": "canceled",
                "wip": "in-progress", "в разработке": "in-development"},
-    "priority": {"сейчас": "now", "в разработке": "development", "далее": "next", "потом": "later",
+    "priority": {"сейчас": "now", "в работе": "now", "в разработке": "development", "далее": "next", "потом": "later",
+                 "запланировано": "next", "отложено": "later",
                  # старые значения MoSCoW в поле priority
                  "must": "now", "should": "next", "could": "later", "wont": "later", "won't": "later"},
     "moscow": {"won't": "wont", "обязательно": "must", "важно": "should",
@@ -145,7 +146,7 @@ def validate(t: dict) -> None:
         t["status"] = "inbox"
     if t.get("priority") not in PRIORITIES:
         if t.get("priority"):
-            WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}` (now / development / next / later), считаю «Далее»")
+            WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}` (now / development / next / later), считаю «Запланировано»")
         t["priority"] = "next"
     if t.get("moscow") and t["moscow"] not in MOSCOW:
         WARNINGS.append(f"{where} — неизвестная оценка MoSCoW `{t['moscow']}` (must / should / could / wont)")
@@ -449,14 +450,14 @@ def render_readme(tasks: list[dict]) -> str:
 
     L += ["## 🎯 В работе", ""]
     L += [table(in_work, ["id", "title", "prio", "deadline", "moscow", "project"]) if in_work
-          else "_Сейчас ничего не в работе — возьмите задачу из «Сейчас»._", ""]
+          else "_Нет задач в работе. Чтобы начать задачу, нажмите «В работу»._", ""]
 
     L += ["## 🛠 В разработке", "",
           table(in_development, ["id", "title", "deadline", "moscow", "project"]) if in_development
           else "_Нет задач, переданных разработчикам._", ""]
 
     L += ["## 📅 Запланировано по колонкам", "",
-          "<sub>Колонки выбираются вручную: Далее — запланировано следующим, Потом — отложено. "
+          "<sub>Колонки выбираются вручную: Запланировано — выполнение в рамках месяца, Отложено — запланировано в рамках более месяца. "
           "Дедлайн не меняет колонку задачи.</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
         if key == "development":
@@ -640,8 +641,8 @@ def from_issue(event_path: str) -> None:
         if key and value and value != "_No response_":
             vals[key] = value
     pick = lambda v, table: next((k for k in table if v and v.lower().startswith(k)), "")
-    prio_raw = vals.get("priority", "Далее").lower()
-    prio_key = next((k for k, v in PRIORITIES.items() if prio_raw.startswith(v[0].lower())), "next")
+    prio_raw = vals.get("priority", "Запланировано").lower()
+    prio_key = ALIASES["priority"].get(prio_raw, next((k for k, v in PRIORITIES.items() if prio_raw.startswith(v[0].lower())), "next"))
     mos_raw = vals.get("moscow", "").lower().replace("won't", "wont")
     mos_key = next((k for k in MOSCOW if mos_raw.startswith(k)), "")
     type_raw = vals.get("type", "")
@@ -688,5 +689,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 

@@ -71,8 +71,8 @@ body:
       label: Колонка плана
       description: Для запланированных задач. Дедлайн не меняет выбранную колонку.
       options:
-        - Далее
-        - Потом
+        - Запланировано
+        - Отложено
       default: 0
   - type: input
     id: initiator
@@ -89,5 +89,6 @@ body:
     attributes:
       label: Ссылка на Битрикс
       placeholder: Необязательно
+
 
 

@@ -484,7 +484,7 @@ function render(){
   let html = '';
   if(S.tab === 'prio'){
     const pool = active.filter(isPlanned);
-    html = `<p class="lead"><b>Сейчас</b> — задачи, которыми я занимаюсь. <b>В разработке</b> — переданы разработчикам. <b>Далее</b> — запланированы следующими. <b>Потом</b> — отложены. Колонки выбираются вручную: дедлайн не перемещает задачи.</p><div class="board">${PRIO.map(p => {
+    html = `<p class="lead"><b>В работе</b> — задачи, которыми я занимаюсь. <b>В разработке</b> — переданы разработчикам. <b>Запланировано</b> — выполнение в рамках месяца. <b>Отложено</b> — запланировано в рамках более месяца. Колонки выбираются вручную: дедлайн не перемещает задачи.</p><div class="board">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort(byHorizon);
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span><span>${esc(L.priority[p][0])}</span>
         <span class="hint">${esc(L.priority[p][1])}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
@@ -755,7 +755,7 @@ const errText = e => e.status === 401 ? 'токен не принят GitHub (и
 const FM = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
 const ALIAS = {
   status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','в разработке':'in-development','waiting':'todo','ожидание':'todo','готово':'done','отменено':'canceled'},
-  priority: {'сейчас':'now','в разработке':'development','далее':'next','потом':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
+  priority: {'сейчас':'now','в работе':'now','в разработке':'development','далее':'next','потом':'later','запланировано':'next','отложено':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
   moscow: {"won't":'wont'},
   type: {'аналитика':'analysis','разработка':'dev','консультация':'consult','исследование':'research','поддержка':'support'},
 };
@@ -958,7 +958,7 @@ function decorate(t){
 function planPanel(){
   const L = S.data.labels, t = taskFromText(S.edit.text, S.edit.path);
   $('#actPanel').innerHTML = `<div class="panel"><label class="hint-s">Запланировать задачу</label>
-    <div class="form"><div class="fld full"><label for="pl_column">Колонка</label><select class="inp" id="pl_column">${opt({next:'Далее',later:'Потом'}, ['next','later'].includes(t.priority) ? t.priority : 'next')}</select></div>
+    <div class="form"><div class="fld full"><label for="pl_column">Колонка</label><select class="inp" id="pl_column">${opt({next:L.priority.next[0],later:L.priority.later[0]}, ['next','later'].includes(t.priority) ? t.priority : 'next')}</select></div>
     <div class="fld full"><label for="pl_d">Срок</label><input class="inp" type="date" id="pl_d" value="${esc(t.deadline||'')}"></div>
     <div class="fld full"><label for="pTxt">Комментарий в журнал (необязательно)</label><input class="inp" id="pTxt"></div></div>
     <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-plan">Запланировать</button></div></div>`;
@@ -1028,7 +1028,7 @@ function formFields(t, isNew){
   return [
     f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
     f('status', 'Статус', sel('status', statuses, t.status)),
-    f('priority', 'Колонка плана', sel('priority', {next:'Далее',later:'Потом'}, ['next','later'].includes(t.priority) ? t.priority : 'next')),
+    f('priority', 'Колонка плана', sel('priority', {next:L.priority.next[0],later:L.priority.later[0]}, ['next','later'].includes(t.priority) ? t.priority : 'next')),
     f('deadline', 'Срок', inp('deadline', t.deadline, 'type="date"')),
     f('moscow', 'MoSCoW — влияние на бизнес', sel('moscow', L.moscow, t.moscow, (k,v)=>`${v[0]} — ${v[1]}`, 'Не оценено')),
     f('project', 'Проект', sel('project', Object.fromEntries(Object.entries(P).map(([k,v])=>[k,v.name])), t.project, undefined, 'Без проекта')),
@@ -1215,5 +1215,6 @@ GH.load(); setAuthUI();
 </script>
 </body>
 </html>
+
 
 

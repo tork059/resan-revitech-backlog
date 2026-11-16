@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 1](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-1-7aa2f7?style=flat-square) ![в разработке: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-5-bb9af7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 1](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-1-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 23](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-23-565f89?style=flat-square) ![закрыто за 30 дн: 15](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-15-9ece6a?style=flat-square)
+![в работе: 2](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-2-7aa2f7?style=flat-square) ![в разработке: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-5-bb9af7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 2](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-2-e06c75?style=flat-square) ![Must для бизнеса: 8](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-8-c0392b?style=flat-square) ![всего активных: 23](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-23-565f89?style=flat-square) ![закрыто за 30 дн: 15](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-15-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 16.11.2026 · не редактируйте этот файл вручную</sub>
 
@@ -24,6 +24,7 @@
 | ID | Задача | Горизонт | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
 | `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 🔴 Сейчас | 20.11 · 🟡 через 4 дн. | 🟥 Must | — |
+| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | 🔴 Сейчас | 25.11 · через 9 дн. | 🟧 Should | Бухгалтерия |
 
 ## 🛠 В разработке
 
@@ -43,11 +44,9 @@
 
 _Пусто_
 
-### 🟠 Далее — срок в пределах месяца · 1
+### 🟠 Далее — срок в пределах месяца · 0
 
-| ID | Задача | Срок | MoSCoW | Проект | Система |
-|:--|:--|:--|:--|:--|:--|
-| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | 25.11 · через 9 дн. | 🟧 Should | Бухгалтерия | buh_resan, RIB |
+_Пусто_
 
 <details><summary><b>⚪ Потом — срок позже месяца или без срока · 4</b></summary>
 
@@ -83,10 +82,10 @@ _Пусто_
 
 | ID | Задача | Влияние на систему и бизнес | Горизонт |
 |:--|:--|:--|:--|
+| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | Альтернатива SberAPI. Необходимо автоматизировать процесс согласования и исполнения заявок на расходование средств | 🔴 Сейчас |
 | `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | 🟣 В разработке |
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | Приведение выгрузки в стандартный и правильный вид | 🟣 В разработке |
 | `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | Изменения сокращающие ручной труд бухгалтерии | 🟣 В разработке |
-| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | Альтернатива SberAPI. Необходимо автоматизировать процесс согласования и исполнения заявок на расходование средств | 🟠 Далее |
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-008` | [Запустить автообмен и отключить ручную выгрузку](tasks/BL-008-zapustit-avtoobmen-i-otklyuchit-ruchnuyu-vygruzk.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | ⚪ Потом |

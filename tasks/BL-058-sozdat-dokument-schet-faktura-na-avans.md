@@ -1,6 +1,6 @@
 ---
 id: BL-058
-title: Создать документ "Счет-фактура на аванс"
+title: Создать документ \Счет-фактура на аванс\
 status: in-progress  # inbox | backlog | todo | in-progress | in-development | done | canceled
 priority: now        # колонка выбирается вручную: now | development | next | later; дедлайн не влияет
 moscow: must         # влияние на систему и бизнес: must | should | could | wont

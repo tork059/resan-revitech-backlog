@@ -1085,6 +1085,7 @@ function openEdit(){
 }
 async function saveEdit(){
   const E = S.edit, before = taskFromText(E.text, E.path), F = readFields(), L = S.data.labels;
+  if(isClosed(F)) F.priority = before.priority;
   if(!F.title){ toast('Название не может быть пустым', true); return; }
   const secVals = [...$('#dBody').querySelectorAll('textarea[data-sec]')].map(x => [x.dataset.sec, x.value]);
   const origSecs = Object.fromEntries(secVals.map(([n]) => [n, secGet(E.text, n)]));

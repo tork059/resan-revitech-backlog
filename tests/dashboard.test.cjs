@@ -127,6 +127,17 @@ test('horizon renders four columns and no navigation points to the removed tab',
   assert.equal(run(`TAB_MIGRATE.moscow`), 'prio');
 });
 
+test('editing an archived task preserves its last column and closing date', async () => {
+  const {run, element} = fixture();
+  run(String.raw`S.edit = {id:'BL-900',path:'archive/2026/test.md',sha:'old',text:'---\nid: BL-900\ntitle: Тест\nstatus: done\npriority: development\nclosed: 2026-11-01\n---\n## Описание\nИсходное описание\n'};`);
+  const values = {f_title:'Тест после правки',f_status:'done',f_priority:'next',f_deadline:'',
+    f_moscow:'',f_project:'',f_impact:'',f_type:'',f_system:'',f_initiator:'',f_bitrix:'',f_jnew:''};
+  for(const [id,value] of Object.entries(values)) element(id).value=value;
+  await run('saveEdit()');
+  assert.equal(run(`taskFromText(S.written, 'archive/2026/test.md').priority`), 'development');
+  assert.equal(run(`taskFromText(S.written, 'archive/2026/test.md').closed`), '2026-11-01');
+});
+
 test('new task has one description and saves it without removed fields or legacy sections', async () => {
   const {run, element} = fixture();
   run(`formShell = (title,sub,inner) => { S.formHtml = inner; }; openCreate();`);

@@ -1,8 +1,8 @@
 ---
 id: BL-054
 title: buh_resan. Подотчетные транзакции
-status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
-priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-development # inbox | backlog | todo | in-progress | waiting | done | canceled
+priority: development # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Изменения сокращающие ручной труд бухгалтерии
 type: dev            # analysis | dev | consult | research | support
@@ -27,3 +27,4 @@ closed:              # заполняется автоматически при 
 ## Журнал
 - 2026-11-06 — задача заведена (дашборд)
 - 2026-11-13 — срок: 13.11.2026 → 20.11.2026
+- 2026-11-16 — статус: В работе → В разработке

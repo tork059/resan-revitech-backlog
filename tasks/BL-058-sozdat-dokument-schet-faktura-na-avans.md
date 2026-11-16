@@ -5,7 +5,7 @@ status: in-progress  # inbox | backlog | todo | in-progress | in-development | d
 priority: now        # колонка выбирается вручную: now | development | next | later; дедлайн не влияет
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Удовлетворение требований ФНС
-type:                # analysis | dev | consult | research | support
+type: analysis       # analysis | dev | consult | research | support
 project: buh         # buh | ut-opt — ключ из backlog.json, можно пусто
 system: 1С:УТ        # 1С:УТ, 1С:БП, Битрикс24, сайт, отчётность …
 initiator:           # кто поставил задачу

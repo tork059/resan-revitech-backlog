@@ -27,10 +27,10 @@ class DevelopmentWorkflowTests(unittest.TestCase):
         build.TASKS.mkdir()
         build.WARNINGS.clear()
 
-    def task(self, status='in-development', deadline='2026-11-10'):
+    def task(self, status='in-development', deadline='2026-11-10', priority='next'):
         p = build.TASKS / 'BL-900-test.md'
         text = ('---\nid: BL-900\ntitle: Проверка\nstatus: ' + status +
-                '\npriority: now\ncreated: 2026-11-01\ndeadline: ' + deadline +
+                '\npriority: ' + priority + '\ncreated: 2026-11-01\ndeadline: ' + deadline +
                 '\nmoscow: should\n---\n\n## Описание\nСуществующие данные\n\n'
                 '## Журнал\n- 2026-11-01 — создана\n')
         p.write_text(text)
@@ -47,11 +47,35 @@ class DevelopmentWorkflowTests(unittest.TestCase):
                 self.assertIn('Существующие данные', loaded['body'])
                 self.assertNotIn('автоматически взята', loaded['body'])
 
-    def test_other_due_tasks_still_start_automatically(self):
-        task = self.task(status='todo', deadline='2026-11-20')
-        build.normalize([task])
-        self.assertEqual(task['status'], 'in-progress')
-        self.assertEqual(task['priority'], 'now')
+    def test_planned_tasks_keep_manual_column_despite_deadlines_and_daily_builds(self):
+        for priority in ('next', 'later'):
+            for deadline in ('2026-10-01', '2026-11-16', '2026-11-20', '2027-12-01', ''):
+                with self.subTest(priority=priority, deadline=deadline):
+                    task = self.task(status='todo', deadline=deadline, priority=priority)
+                    original = task['path'].read_text()
+                    build.normalize([task])
+                    with patch.object(build, 'today', return_value=dt.date(2028, 1, 1)):
+                        task = build.parse_task(task['path'])
+                        build.normalize([task])
+                    self.assertEqual(task['status'], 'todo')
+                    self.assertEqual(task['priority'], priority)
+                    self.assertEqual(task['path'].read_text(), original)
+
+    def test_waiting_migrates_once_without_changing_column_deadline_or_description(self):
+        for priority in ('next', 'later'):
+            task = self.task(status='waiting', deadline='2026-11-10', priority=priority)
+            self.assertEqual(task['status'], 'todo')
+            build.normalize([task])
+            first = task['path'].read_text()
+            self.assertIn('статус: Ожидание → Запланирована', first)
+            task = build.parse_task(task['path'])
+            build.normalize([task])
+            self.assertEqual(task['path'].read_text(), first)
+            self.assertEqual(task['priority'], priority)
+            self.assertEqual(task['deadline'], '2026-11-10')
+            self.assertIn('Существующие данные', task['body'])
+        self.assertNotIn('waiting', build.STATUSES)
+        self.assertNotIn('waiting', build.PLANNED)
 
     def test_development_can_be_completed_archived_and_reopened(self):
         task = self.task()
@@ -94,6 +118,19 @@ class DevelopmentWorkflowTests(unittest.TestCase):
                     for removed in ('## Что сделать', '## Критерии готовности', '## Суть'):
                         self.assertNotIn(removed, body)
 
+    def test_issue_preserves_explicit_later_column_with_overdue_deadline(self):
+        event = {'issue': {'number': 901, 'title': '[Задача] План',
+                          'html_url': 'https://example.test/issue/901',
+                          'body': '### Статус\nЗапланирована\n\n### Колонка плана\nПотом\n\n### Срок\n01.10.2026'}}
+        path = Path(self.tmp.name) / 'event.json'
+        path.write_text(json.dumps(event))
+        with patch.object(build, 'create_task') as create:
+            create.return_value = build.TASKS / 'BL-901-test.md'
+            build.from_issue(str(path))
+            self.assertEqual(create.call_args.kwargs['status'], 'todo')
+            self.assertEqual(create.call_args.kwargs['priority'], 'later')
+
 
 if __name__ == '__main__':
     unittest.main()
+

@@ -148,7 +148,6 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .pill.dl.hot{background:var(--hot-bg);color:var(--must)}
 .pill.dl.soon{background:var(--warn-bg);color:var(--should)}
 .pill.st{background:var(--accent-soft);color:var(--accent)}
-.pill.st.waiting{background:rgba(187,154,247,.12);color:#bb9af7}
 .pill.st.in-development{background:rgba(187,154,247,.12);color:#bb9af7}
 .pill.st.inbox{background:var(--surface-3);color:var(--muted)}
 .pill.st.todo{background:rgba(125,207,255,.10);color:#8fd3f5}
@@ -232,6 +231,7 @@ body.locked{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .authed #authBtn{color:var(--ok);border-color:rgba(158,206,106,.35)}
 .form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
 .fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.fld[hidden]{display:none}
 .fld.full{grid-column:1/-1}
 .fld>label{font-size:11.5px;color:var(--faint)}
 .fld .req{color:var(--must)}
@@ -366,20 +366,18 @@ function dlInfo(t){
   return {n, txt, cls};
 }
 const isClosed = t => t.status === 'done' || t.status === 'canceled';
-const PLANNED = ['todo','in-progress','in-development','waiting'];
+const PLANNED = ['todo','in-progress','in-development'];
 const isPlanned = t => PLANNED.includes(t.status);
 const MOS_RANK = {must:0, should:1, could:2, wont:3};
 const mosRank = t => MOS_RANK[t.moscow] ?? 4;
-// Срок первичен: задача со сроком в ближайшую неделю (или просроченная) сама считается «В работе»
-const autoStart = t => !isClosed(t) && !['in-progress','in-development'].includes(t.status) && daysLeft(t) !== null && daysLeft(t) <= S.data.config.soon_days;
-// Горизонт считается сам: в работе → Сейчас; срок не дальше месяца → Далее; иначе (или без срока) → Потом
+// Колонка задаётся пользователем; дедлайн не меняет колонку или статус.
 function horizonOf(t){
+  if(isClosed(t)) return PRIO.includes(t.priority) ? t.priority : 'next';
   if(t.status === 'in-development') return 'development';
-  if(t.status === 'in-progress' || autoStart(t)) return 'now';
-  const n = daysLeft(t);
-  return n !== null && n <= (S.data.config.next_days || 30) ? 'next' : 'later';
+  if(t.status === 'in-progress') return 'now';
+  return ['next','later'].includes(t.priority) ? t.priority : 'next';
 }
-const syncHorizon = t => { if(!isClosed(t)){ if(autoStart(t)) t.status = 'in-progress'; t.priority = horizonOf(t); } return t; };
+const syncHorizon = t => { if(t.status === 'waiting') t.status = 'todo'; if(!isClosed(t)) t.priority = horizonOf(t); return t; };
 const ageDays = t => { const d = parseD(t.created); return d ? Math.round((todayLocal() - d)/864e5) : null; };
 function ruleIssues(tasks){
   const out = [], L = S.data.labels, hot = S.data.config.hot_days;
@@ -486,7 +484,7 @@ function render(){
   let html = '';
   if(S.tab === 'prio'){
     const pool = active.filter(isPlanned);
-    html = `<p class="lead"><b>Сейчас</b> — задачи, которыми я занимаюсь, включая задачи со сроком в ближайшую неделю. <b>В разработке</b> — задачи, переданные разработчикам; они остаются здесь независимо от срока. <b>Далее</b> — срок в пределах месяца. <b>Потом</b> — срок позже месяца или без срока.</p><div class="board">${PRIO.map(p => {
+    html = `<p class="lead"><b>Сейчас</b> — задачи, которыми я занимаюсь. <b>В разработке</b> — переданы разработчикам. <b>Далее</b> — запланированы следующими. <b>Потом</b> — отложены. Колонки выбираются вручную: дедлайн не перемещает задачи.</p><div class="board">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort(byHorizon);
       return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span><span>${esc(L.priority[p][0])}</span>
         <span class="hint">${esc(L.priority[p][1])}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
@@ -528,7 +526,7 @@ function projectsView(){
       <div class="proj-m"><span>${x.done} из ${x.total} готово · ${x.pct}%</span><span>активных ${x.act.length}</span>
       ${x.nxt?`<span>ближайший срок: ${esc(x.nxt.id)} · ${esc(dl.n>S.data.config.soon_days?fmtD(x.nxt.deadline):dl.txt)}</span>`:''}</div></div>`;
   };
-  let html = `<p class="lead">Проекты и их задачи. Выберите проект — ниже все его задачи по состоянию: в работе, в разработке, запланировано, ожидание, бэклог, сделано.</p>
+  let html = `<p class="lead">Проекты и их задачи. Выберите проект — ниже все его задачи по состоянию: в работе, в разработке, запланировано, бэклог, сделано.</p>
     <div class="projects">${keys.map(k => cardP(k, P[k].name, P[k].url, P[k].description, P[k].status)).join('')}
     ${authed ? `<button class="proj add" data-pnew="1" type="button">＋ Новый проект</button>` : ''}</div>`;
   const k = S.projSel, pr = P[k];
@@ -541,7 +539,6 @@ function projectsView(){
     ['В работе', 'var(--accent)', t => t.status === 'in-progress', byHorizon],
     ['В разработке', '#bb9af7', t => t.status === 'in-development', byHorizon],
     ['Запланировано', '#8fd3f5', t => t.status === 'todo', byHorizon],
-    ['Ожидание', '#bb9af7', t => t.status === 'waiting', byHorizon],
     ['Бэклог и входящие', 'var(--should)', t => t.status === 'backlog' || t.status === 'inbox', byHorizon],
     ['Сделано', 'var(--ok)', isClosed, (a,b) => (b.closed||'').localeCompare(a.closed||'')],
   ];
@@ -613,7 +610,7 @@ function openTask(id){
   const edit = `https://github.com/${repo}/edit/main/${encodeURI(t.path)}`;
   const meta = [
     ['Статус', `<span class="pill st ${t.status}">${esc(L.status[t.status])}</span>`],
-    ['Горизонт', `<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])}</span> <span class="hint-s">считается по статусу и сроку</span>`],
+    ['Колонка', `<span class="pill p" style="--pc:${PCOLOR[t.priority]};margin-left:0">${esc(L.priority[t.priority][0])}</span>`],
     ['MoSCoW', t.moscow && MCOLOR[t.moscow] ? `<span class="pill ms" style="--mc:${MCOLOR[t.moscow]}" title="${esc(L.moscow[t.moscow][1])}">${esc(L.moscow[t.moscow][0])}</span>` : '—'],
     ['Срок', t.deadline ? `${esc(fmtD(t.deadline))}${dl && !isClosed(t) ? ` <span class="pill dl ${dl.cls}">${esc(dl.n>S.data.config.soon_days?'через '+dl.n+' дн.':dl.txt)}</span>`:''}` : '—'],
     ['Проект', t.project && S.data.projects[t.project] ? `<a href="${esc(S.data.projects[t.project].url)}" target="_blank" rel="noopener">${esc(S.data.projects[t.project].name)} ↗</a>` : '—'],
@@ -709,7 +706,7 @@ $('#fSystem').addEventListener('change', e => { S.system = e.target.value; rende
   $('#repoLink').href = `https://github.com/${repo}`;
   $('#newLink').href = `https://github.com/${repo}/issues/new?template=task.yml`;
   const g = new Date(S.data.generated);
-  $('#footer').textContent = `Данные обновлены ${g.toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})} · сроки пересчитываются по вашей текущей дате`;
+  $('#footer').textContent = `Данные обновлены ${g.toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})} · колонки выбираются вручную`;
   fillFilters(); render();
   if(location.hash.length > 1) openTask(decodeURIComponent(location.hash.slice(1)));
 })();
@@ -757,7 +754,7 @@ const errText = e => e.status === 401 ? 'токен не принят GitHub (и
 /* ── файл задачи: шапка и разделы ── */
 const FM = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
 const ALIAS = {
-  status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','в разработке':'in-development','ожидание':'waiting','готово':'done','отменено':'canceled'},
+  status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','в разработке':'in-development','waiting':'todo','ожидание':'todo','готово':'done','отменено':'canceled'},
   priority: {'сейчас':'now','в разработке':'development','далее':'next','потом':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
   moscow: {"won't":'wont'},
   type: {'аналитика':'analysis','разработка':'dev','консультация':'consult','исследование':'research','поддержка':'support'},
@@ -947,10 +944,9 @@ function decorate(t){
   const ed = act.querySelector('a[href*="/edit/"]'); if(ed) ed.remove();
   const closed = t.status === 'done' || t.status === 'canceled';
   const q = [];
-  if(!closed && t.status !== 'todo') q.push(['plan', ['in-progress','in-development','waiting'].includes(t.status) ? '📅 Вернуть в план' : '📅 Запланировать','']);
+  if(!closed) q.push(['plan', ['in-progress','in-development'].includes(t.status) ? '📅 Вернуть в план' : t.status === 'todo' ? '📅 Изменить план' : '📅 Запланировать','']);
   if(!closed && t.status !== 'in-progress') q.push(['start','▶ В работу','']);
   if(!closed && t.status !== 'in-development') q.push(['develop','⚙️ В разработку','']);
-  if(!closed && t.status !== 'waiting') q.push(['wait','⏳ Ожидание','']);
   if(!closed && t.status !== 'backlog') q.push(['tobacklog','🗂 В бэклог','']);
   if(!closed) q.push(['done','✓ Готово','ok'], ['cancel','✕ Отменить','danger']);
   if(closed) q.push(['reopen','↺ Вернуть в работу','']);
@@ -962,13 +958,13 @@ function decorate(t){
 function planPanel(){
   const L = S.data.labels, t = taskFromText(S.edit.text, S.edit.path);
   $('#actPanel').innerHTML = `<div class="panel"><label class="hint-s">Запланировать задачу</label>
-    <div class="form"><div class="fld full"><label for="pl_d">Срок — от него зависит колонка: до месяца → «Далее», дальше или без срока → «Потом»</label><input class="inp" type="date" id="pl_d" value="${esc(t.deadline||'')}"></div>
+    <div class="form"><div class="fld full"><label for="pl_column">Колонка</label><select class="inp" id="pl_column">${opt({next:'Далее',later:'Потом'}, ['next','later'].includes(t.priority) ? t.priority : 'next')}</select></div>
+    <div class="fld full"><label for="pl_d">Срок</label><input class="inp" type="date" id="pl_d" value="${esc(t.deadline||'')}"></div>
     <div class="fld full"><label for="pTxt">Комментарий в журнал (необязательно)</label><input class="inp" id="pTxt"></div></div>
     <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-plan">Запланировать</button></div></div>`;
 }
 function panel(kind){
   const cfg = {
-    wait: ['Кого или чего ждём? (запишется в журнал)', 'Поставить на ожидание'],
     done: ['Итог: что сделано (запишется в журнал)', 'Закрыть как выполненную'],
     cancel: ['Причина отмены (запишется в журнал)', 'Отменить задачу'],
   }[kind];
@@ -977,19 +973,9 @@ function panel(kind){
     <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-${kind}">${cfg[1]}</button></div></div>`;
   $('#pTxt').focus();
 }
-const STATUS_MSG = {'in-progress':'взята в работу', 'in-development':'передана в разработку', waiting:'на ожидании', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
-// Срок в ближайшую неделю → задача только «В работе»; возвращает итоговый статус
-function effStatus(status, deadline){
-  if(['done','canceled','in-progress','in-development'].includes(status)) return status;
-  const d = parseD(deadline), n = d ? Math.round((d - todayLocal())/864e5) : null;
-  return n !== null && n <= S.data.config.soon_days ? 'in-progress' : status;
-}
-const AUTO_MSG = 'Срок в ближайшую неделю — задача остаётся «В работе». Чтобы убрать её из «Сейчас», перенесите срок.';
+const STATUS_MSG = {'in-progress':'взята в работу', 'in-development':'передана в разработку', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
 async function setStatus(status, note, extra={}){
   const L = S.data.labels;
-  const cur0 = taskFromText(S.edit.text, S.edit.path);
-  const eff = effStatus(status, extra.deadline !== undefined ? extra.deadline : cur0.deadline);
-  if(eff !== status){ if(cur0.status === 'in-progress'){ toast(AUTO_MSG, true); return; } toast(AUTO_MSG); status = eff; }
   const ok = await run(() => commit(tx => {
     const cur = taskFromText(tx, S.edit.path);
     let n = fmSet(tx, 'status', status);
@@ -998,7 +984,9 @@ async function setStatus(status, note, extra={}){
     if(extra.deadline !== undefined && extra.deadline !== (cur.deadline||'')){ n = fmSet(n, 'deadline', extra.deadline); more.push(`срок: ${cur.deadline ? cur.deadline.split('-').reverse().join('.') : '—'} → ${extra.deadline ? extra.deadline.split('-').reverse().join('.') : '—'}`); }
     if(status === 'done' || status === 'canceled'){ if(!cur.closed) n = fmSet(n, 'closed', todayISO()); }
     else if(cur.closed) n = fmSet(n, 'closed', '');
-    n = fmSet(n, 'priority', horizonOf({status, deadline: extra.deadline !== undefined ? extra.deadline : cur.deadline}));
+    const priority = horizonOf({...cur, status, priority: extra.priority ?? cur.priority});
+    if(priority !== cur.priority) more.push(`колонка: ${L.priority[cur.priority][0]} → ${L.priority[priority][0]}`);
+    n = fmSet(n, 'priority', priority);
     return journalAdd(n, `статус: ${L.status[cur.status]} → ${L.status[status]}${more.length ? '; ' + more.join('; ') : ''}${note ? '. ' + note : ''}`);
   }, `${S.edit.id}: ${STATUS_MSG[status] || status} (дашборд)`),
   status === 'done' || status === 'canceled' ? 'Сохранено. Задача уедет в архив после пересборки (~1 минута)' : undefined);
@@ -1014,10 +1002,10 @@ $('#drawer').addEventListener('click', e => {
   if(a === 'reopen') return setStatus('in-progress');
   if(a === 'tobacklog') return setStatus('backlog');
   if(a === 'plan') return planPanel();
-  if(a === 'p-plan') return setStatus('todo', ($('#pTxt').value||'').trim(), {deadline: $('#pl_d').value});
-  if(a === 'wait' || a === 'done' || a === 'cancel') return panel(a);
+  if(a === 'p-plan') return setStatus('todo', ($('#pTxt').value||'').trim(), {deadline: $('#pl_d').value, priority: $('#pl_column').value});
+  if(a === 'done' || a === 'cancel') return panel(a);
   if(a === 'pclose') return $('#actPanel').innerHTML = '';
-  if(a.startsWith('p-')){ const note = $('#pTxt').value.trim(); return setStatus({'p-wait':'waiting','p-done':'done','p-cancel':'canceled'}[a], note); }
+  if(a.startsWith('p-')){ const note = $('#pTxt').value.trim(); return setStatus({'p-done':'done','p-cancel':'canceled'}[a], note); }
   if(a === 'cancel-form'){ S.dirty = false; S.mode = 'view'; return S.newMode ? (S.newMode = false, _closeTask()) : openTask(S.openId); }
   if(a === 'save-edit') return saveEdit();
   if(a === 'save-new') return saveNew();
@@ -1040,8 +1028,8 @@ function formFields(t, isNew){
   return [
     f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
     f('status', 'Статус', sel('status', statuses, t.status)),
-
-    f('deadline', 'Срок <span class="hint-s">— задаёт колонку в «Спринте»</span>', inp('deadline', t.deadline, 'type="date"')),
+    f('priority', 'Колонка плана', sel('priority', {next:'Далее',later:'Потом'}, ['next','later'].includes(t.priority) ? t.priority : 'next')),
+    f('deadline', 'Срок', inp('deadline', t.deadline, 'type="date"')),
     f('moscow', 'MoSCoW — влияние на бизнес', sel('moscow', L.moscow, t.moscow, (k,v)=>`${v[0]} — ${v[1]}`, 'Не оценено')),
     f('project', 'Проект', sel('project', Object.fromEntries(Object.entries(P).map(([k,v])=>[k,v.name])), t.project, undefined, 'Без проекта')),
     f('impact', 'Чем задача важна для системы и бизнеса (одна фраза)', inp('impact', t.impact), true),
@@ -1056,7 +1044,7 @@ function formFields(t, isNew){
 }
 function readFields(){
   const v = k => ($('#f_' + k) ? $('#f_' + k).value : '').trim();
-  const fields = {title:v('title'), status:v('status'), priority: horizonOf({status:v('status'), deadline:v('deadline')}), deadline:v('deadline'), moscow:v('moscow'),
+  const fields = {title:v('title'), status:v('status'), priority: horizonOf({status:v('status'), priority:v('priority')}), deadline:v('deadline'), moscow:v('moscow'),
     project:v('project'), impact:v('impact'), type:v('type'), system:v('system'), initiator:v('initiator'), bitrix:v('bitrix')};
   if($('#f_estimate')) fields.estimate = v('estimate');
   if($('#f_tags')) fields.tags = `[${v('tags').split(',').map(x => x.trim()).filter(Boolean).join(', ')}]`;
@@ -1069,6 +1057,11 @@ function formShell(title, sub, inner, saveAct, saveLabel){
     <div class="f-actions"><button class="btn" data-act="cancel-form">Отмена</button><button class="btn primary" data-act="${saveAct}">${saveLabel}</button></div>`;
   $('#dClose').onclick = () => { S.dirty = false; S.mode = 'view'; if(S.newMode){ S.newMode = false; _closeTask(); } else openTask(S.openId); };
   $('#eForm').addEventListener('input', () => S.dirty = true);
+  const status = $('#f_status'), priority = $('#f_priority');
+  if(status && priority){
+    const togglePlan = () => { priority.closest('.fld').hidden = status.value !== 'todo'; priority.disabled = status.value !== 'todo'; };
+    status.addEventListener('change', togglePlan); togglePlan();
+  }
   $('#drawer').scrollTop = 0;
 }
 
@@ -1087,13 +1080,12 @@ function openEdit(){
     `<div class="f-sec">Журнал</div>
      <div class="fld full"><ul class="journal">${journal.map(l => `<li>${esc(l.replace(/^- /,''))}</li>`).join('') || '<li>пусто</li>'}</ul></div>
      <div class="fld full"><label for="f_jnew">Новая запись в журнал (дата подставится сама)</label><input class="inp" id="f_jnew" placeholder="Например: согласовали с Эврисофт созвон на среду"></div>
-     <p class="hint-s full" style="grid-column:1/-1">Смена статуса, горизонта, MoSCoW, срока и очерёдности запишется в журнал автоматически.</p>`;
+     <p class="hint-s full" style="grid-column:1/-1">Смена статуса, колонки, MoSCoW и срока запишется в журнал автоматически.</p>`;
   formShell(t.title, `${t.id} · редактирование`, inner, 'save-edit', 'Сохранить');
 }
 async function saveEdit(){
   const E = S.edit, before = taskFromText(E.text, E.path), F = readFields(), L = S.data.labels;
   if(!F.title){ toast('Название не может быть пустым', true); return; }
-  { const eff = effStatus(F.status, F.deadline); if(eff !== F.status){ F.status = eff; F.priority = 'now'; toast(AUTO_MSG); } }
   const secVals = [...$('#dBody').querySelectorAll('textarea[data-sec]')].map(x => [x.dataset.sec, x.value]);
   const origSecs = Object.fromEntries(secVals.map(([n]) => [n, secGet(E.text, n)]));
   const jnew = ($('#f_jnew').value || '').trim();
@@ -1101,7 +1093,7 @@ async function saveEdit(){
     status: v => L.status[v] || v || '—', priority: v => (L.priority[v]||[v])[0] || '—', moscow: v => (L.moscow[v]||[v])[0] || 'не оценено',
     deadline: v => v ? v.split('-').reverse().join('.') : '—', order: v => v ? '#' + v : '—',
   };
-  const names = {status:'статус', moscow:'MoSCoW', deadline:'срок'};
+  const names = {status:'статус', priority:'колонка', moscow:'MoSCoW', deadline:'срок'};
   const changes = Object.keys(names).filter(k => (before[k]||'') !== (F[k]||'')).map(k => `${names[k]}: ${lbl[k](before[k])} → ${lbl[k](F[k])}`);
   const ok = await run(() => commit(tx => {
     const cur = taskFromText(tx, E.path); let n = tx;
@@ -1133,7 +1125,6 @@ function openCreate(){
 }
 async function saveNew(){
   const F = readFields(); if(!F.title){ toast('Заполните название', true); $('#f_title').focus(); return; }
-  { const eff = effStatus(F.status, F.deadline); if(eff !== F.status){ F.status = eff; F.priority = 'now'; toast(AUTO_MSG); } }
   const v = id => ($('#' + id).value || '').trim();
   const lines = s => s.split('\n').map(x => x.trim()).filter(Boolean);
   let created = null;
@@ -1223,4 +1214,5 @@ GH.load(); setAuthUI();
 </script>
 </body>
 </html>
+
 

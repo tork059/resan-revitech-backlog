@@ -65,6 +65,15 @@ body:
     attributes:
       label: Система
       placeholder: "1С:УТ, 1С:БП, Битрикс24 …"
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Колонка плана
+      description: Для запланированных задач. Дедлайн не меняет выбранную колонку.
+      options:
+        - Далее
+        - Потом
+      default: 0
   - type: input
     id: initiator
     attributes:
@@ -80,4 +89,5 @@ body:
     attributes:
       label: Ссылка на Битрикс
       placeholder: Необязательно
+
 

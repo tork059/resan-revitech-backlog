@@ -1,8 +1,8 @@
 ---
 id: BL-000
 title: Короткое название задачи
-status: inbox        # inbox | backlog | todo | in-progress | in-development | waiting | done | canceled
-priority: later      # горизонт считается сам: in-development → development; в работе → now; срок ≤ месяца → next; иначе later
+status: inbox        # inbox | backlog | todo | in-progress | in-development | done | canceled
+priority: later      # колонка выбирается вручную: now | development | next | later; дедлайн не влияет
 moscow:              # влияние на систему и бизнес: must | should | could | wont
 impact:              # одной фразой: чем задача важна для системы и бизнеса
 type: analysis       # analysis | dev | consult | research | support
@@ -23,4 +23,5 @@ closed:              # заполняется автоматически при 
 
 ## Журнал
 - 2026-01-01 — задача заведена
+
 

@@ -34,17 +34,16 @@ STATUSES = {
     "todo": ("Запланирована", "📅"),
     "in-progress": ("В работе", "🎯"),
     "in-development": ("В разработке", "🛠"),
-    "waiting": ("Ожидание", "⏳"),
     "done": ("Готово", "✅"),
     "canceled": ("Отменено", "🚫"),
 }
 CLOSED = {"done", "canceled"}
-# Приоритет = горизонт: когда я за это возьмусь
+# Колонка спринта выбирается пользователем, независимо от дедлайна.
 PRIORITIES = {
-    "now": ("Сейчас", "в работе, срок в ближайшую неделю", "🔴"),
+    "now": ("Сейчас", "делаю сейчас", "🔴"),
     "development": ("В разработке", "передано разработчикам", "🟣"),
-    "next": ("Далее", "срок в пределах месяца", "🟠"),
-    "later": ("Потом", "срок позже месяца или без срока", "⚪"),
+    "next": ("Далее", "запланировано следующим", "🟠"),
+    "later": ("Потом", "отложено", "⚪"),
 }
 PRIO_ORDER = list(PRIORITIES)
 # MoSCoW = влияние на систему и бизнес, не зависит от сроков и очерёдности
@@ -69,7 +68,7 @@ FIELDS = ["id", "title", "status", "priority", "moscow", "impact", "type", "proj
 ALIASES = {
     "status": {"входящие": "inbox", "бэклог": "backlog", "в работе": "in-progress",
                "запланирована": "todo", "запланировано": "todo", "planned": "todo",
-               "ожидание": "waiting", "готово": "done", "отменено": "canceled",
+               "waiting": "todo", "ожидание": "todo", "готово": "done", "отменено": "canceled",
                "wip": "in-progress", "в разработке": "in-development"},
     "priority": {"сейчас": "now", "в разработке": "development", "далее": "next", "потом": "later",
                  # старые значения MoSCoW в поле priority
@@ -125,6 +124,7 @@ def parse_task(path: Path) -> dict | None:
         meta[key.strip().lower()] = strip_comment(val).strip().strip('"').strip("'")
     tags = meta.get("tags", "").strip("[]")
     meta["tags"] = [t.strip().strip('"\'') for t in tags.split(",") if t.strip()]
+    meta["_legacy_waiting"] = meta.get("status", "").strip().lower() in ("waiting", "ожидание")
     for key in ("status", "priority", "moscow", "type"):
         raw = meta.get(key, "").strip().lower()
         meta[key] = ALIASES.get(key, {}).get(raw, raw)
@@ -216,13 +216,14 @@ def move(path: Path, dest_dir: Path) -> Path:
 
 
 def horizon_of(t: dict) -> str:
-    """Передано разработчикам → В разработке; в работе → Сейчас; остальные — по сроку."""
+    """Ручная колонка плана; статусы работы и разработки имеют свои колонки."""
+    if t["status"] in CLOSED:
+        return t.get("priority") if t.get("priority") in PRIORITIES else "next"
     if t["status"] == "in-development":
         return "development"
     if t["status"] == "in-progress":
         return "now"
-    n = days_left(t)
-    return "next" if n is not None and n <= CONFIG.get("next_days", 30) else "later"
+    return t.get("priority") if t.get("priority") in ("next", "later") else "next"
 
 
 def journal_append(path: Path, line: str) -> None:
@@ -233,23 +234,12 @@ def journal_append(path: Path, line: str) -> None:
     path.write_text(text + "\n" + entry + "\n", encoding="utf-8")
 
 
-def auto_start(t: dict) -> None:
-    """Срок — первичен: задача со сроком в ближайшую неделю (или просроченная) сама переходит в работу."""
-    n = days_left(t)
-    if t["status"] in CLOSED or t["status"] in ("in-progress", "in-development") or n is None or n > CONFIG["soon_days"]:
-        return
-    was = STATUSES[t["status"]][0]
-    set_field(t["path"], "status", "in-progress")
-    t["status"] = "in-progress"
-    when = f"просрочено на {-n} дн." if n < 0 else "сегодня" if n == 0 else f"до срока {n} дн."
-    journal_append(t["path"], f"автоматически взята в работу ({when}): статус {was} → В работе")
-    print(f"▶ в работу: {t['id']} ({when})")
-
-
 def normalize(tasks: list[dict]) -> None:
-    """Автоматический старт по сроку; горизонт — по статусу и сроку; закрытые — в архив, переоткрытые — обратно."""
+    """Сохраняет ручные колонки; закрытые — в архив, переоткрытые — обратно."""
     for t in tasks:
-        auto_start(t)
+        if t.pop("_legacy_waiting", False):
+            set_field(t["path"], "status", "todo")
+            journal_append(t["path"], "статус: Ожидание → Запланирована; статус «Ожидание» упразднён, колонка плана сохранена")
         if t["status"] not in CLOSED:
             h = horizon_of(t)
             if t.get("priority") != h:
@@ -340,7 +330,7 @@ def link(t: dict, text: str | None = None) -> str:
     return f"[{esc(text or t['title'])}]({quote(rel(t['path']))})"
 
 
-PLANNED = ("todo", "in-progress", "in-development", "waiting")
+PLANNED = ("todo", "in-progress", "in-development")
 
 
 def prio(t: dict) -> str:
@@ -358,7 +348,7 @@ def mos(t: dict) -> str:
 
 
 def table(rows: list[dict], cols: list[str]) -> str:
-    heads = {"id": "ID", "title": "Задача", "prio": "Горизонт", "deadline": "Срок", "moscow": "MoSCoW",
+    heads = {"id": "ID", "title": "Задача", "prio": "Колонка", "deadline": "Срок", "moscow": "MoSCoW",
              "impact": "Влияние на систему и бизнес", "age": "Лежит",
              "type": "Тип", "system": "Система", "estimate": "Оценка",
              "initiator": "Инициатор", "status": "Статус", "project": "Проект"}
@@ -405,7 +395,6 @@ def render_readme(tasks: list[dict]) -> str:
                   and n <= CONFIG["hot_days"]], key=by_deadline)
     in_work = sorted([t for t in active if t["status"] == "in-progress"], key=horizon_key)
     in_development = sorted([t for t in active if t["status"] == "in-development"], key=horizon_key)
-    waiting = sorted([t for t in active if t["status"] == "waiting"], key=by_deadline)
     inbox = sorted([t for t in active if t["status"] == "inbox"], key=lambda t: t.get("created", ""))
     backlog = sorted([t for t in active if t["status"] == "backlog"],
                      key=lambda t: (t.get("project", "") or "~", t.get("created", ""), t["id"]))
@@ -466,9 +455,9 @@ def render_readme(tasks: list[dict]) -> str:
           table(in_development, ["id", "title", "deadline", "moscow", "project"]) if in_development
           else "_Нет задач, переданных разработчикам._", ""]
 
-    L += ["## 📅 Запланировано по горизонту", "",
-          "<sub>Сейчас — задачи в работе (в том числе все со сроком в ближайшую неделю, см. выше), "
-          "Далее — срок в пределах месяца, Потом — срок позже месяца или без срока.</sub>", ""]
+    L += ["## 📅 Запланировано по колонкам", "",
+          "<sub>Колонки выбираются вручную: Далее — запланировано следующим, Потом — отложено. "
+          "Дедлайн не меняет колонку задачи.</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
         if key == "development":
             continue  # задачи разработчиков уже показаны отдельным разделом выше
@@ -495,12 +484,8 @@ def render_readme(tasks: list[dict]) -> str:
     if unrated:
         L += [f"<sub>Без оценки MoSCoW: {', '.join(t['id'] for t in unrated)}</sub>", ""]
 
-    L += [f"## ⏳ Ожидание · {len(waiting)}", "",
-          "<sub>Ждём ответа, данных или решения от других.</sub>", ""]
-    L += [table(waiting, ["id", "title", "prio", "deadline", "project"]) if waiting else "_Пусто_", ""]
-
     L += [f"## 📥 Входящие · {len(inbox)}", "",
-          "<sub>Новые, ещё не разобранные задачи: запланировать, взять в работу, поставить на ожидание или отложить в бэклог.</sub>", ""]
+          "<sub>Новые, ещё не разобранные задачи: запланировать, взять в работу, передать в разработку или отложить в бэклог.</sub>", ""]
     L += [table(inbox, ["id", "title", "deadline", "project", "initiator"]) if inbox else "_Всё разобрано_ ✨", ""]
 
     L += [f"## 🗂 Бэклог · {len(backlog)}", "",
@@ -637,7 +622,7 @@ ISSUE_FIELDS = {
     "название": "title", "описание": "body", "суть и контекст": "body", "приоритет": "priority", "тип": "type",
     "система": "system", "инициатор": "initiator", "срок": "deadline", "оценка": "estimate",
     "ссылка на битрикс": "bitrix", "статус": "status", "проект": "project",
-    "moscow — влияние на бизнес": "moscow", "горизонт": "priority",
+    "moscow — влияние на бизнес": "moscow", "горизонт": "priority", "колонка плана": "priority",
 }
 
 
@@ -703,4 +688,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     sys.exit(main())
+
 

@@ -1,8 +1,8 @@
 ---
 id: BL-030
 title: Сделать обработку удаления помеченных объектов
-status: in-progress  # inbox | backlog | in-progress | waiting | done | canceled
-priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: in-development # inbox | backlog | in-progress | waiting | done | canceled
+priority: development # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: should       # влияние на систему и бизнес: must | should | could | wont
 impact: Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы
 type: dev            # analysis | dev | consult | research | support
@@ -55,3 +55,4 @@ closed:              # заполняется автоматически при 
 - 2026-10-28 — Спроектированы ТЗ и прототип. Задача передана в разработку
 - 2026-11-13 — Дописал перечень доработок комплексного анализа и блокировок в дополнении к ТЗ. После доработки продолжу работу по нему
 - 2026-11-13 — срок: 09.11.2026 → 20.11.2026
+- 2026-11-16 — статус: В работе → В разработке

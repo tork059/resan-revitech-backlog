@@ -47,12 +47,11 @@ _Пусто_
 
 _Пусто_
 
-<details><summary><b>⚪ Потом — срок позже месяца или без срока · 5</b></summary>
+<details><summary><b>⚪ Потом — срок позже месяца или без срока · 4</b></summary>
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
 | `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | 21.12 · через 35 дн. | 🟥 Must | Бухгалтерия | 1С:УТ, 1С:БП |
-| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | 21.12 · через 35 дн. | 🟧 Should | Бухгалтерия | buh_resan, RIB |
 | `BL-010` | [Исправить счета-фактуры на аванс и адреса подразделений](tasks/BL-010-ispravit-scheta-faktury-na-avans-i-adresa-podraz.md) | — | 🟥 Must | Бухгалтерия | 1С:УТ, Диадок |
 | `BL-050` | [КорректировкаДолга. Транзакции под отчет](tasks/BL-050-korrektirovkadolga-tranzaktsii-pod-otchet.md) | — | 🟥 Must | Бухгалтерия | 1С:УТ, 1С:БП |
 | `BL-047` | [Перехватить задачу "Документ "платежная ведомость" и список для загрузки ПП](tasks/BL-047-perehvatit-zadachu-dokument-platezhnaya-vedomost.md) | — | 🟦 Could | Бухгалтерия | — |
@@ -114,12 +113,13 @@ _Пусто_
 
 <sub>Без оценки MoSCoW: BL-057</sub>
 
-## ⏳ Ожидание · 1
+## ⏳ Ожидание · 2
 
 <sub>Ждём ответа, данных или решения от других.</sub>
 
 | ID | Задача | Горизонт | Срок | Проект |
 |:--|:--|:--|:--|:--|
+| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | ⚪ Потом | 21.12 · через 35 дн. | Бухгалтерия |
 | `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | ⚪ Потом | — | Бухгалтерия |
 
 ## 📥 Входящие · 0

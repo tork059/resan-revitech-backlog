@@ -6,38 +6,48 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![в разработке: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-5-bb9af7?style=flat-square) ![горит: 0](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-0-414868?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 25](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-25-565f89?style=flat-square) ![закрыто за 30 дн: 15](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-15-9ece6a?style=flat-square)
+![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![в разработке: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-5-bb9af7?style=flat-square) ![горит: 6](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-6-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 25](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-25-565f89?style=flat-square) ![закрыто за 30 дн: 15](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-15-9ece6a?style=flat-square)
 
-<sub>Сводка собрана автоматически 16.11.2026 · не редактируйте этот файл вручную</sub>
+<sub>Сводка собрана автоматически 17.11.2026 · не редактируйте этот файл вручную</sub>
 
 </div>
+
+> [!CAUTION]
+> **Горит — срок истёк или наступает в ближайшие 3 дн.**
+>
+> - `BL-051` [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) — 20.11 · 🟠 через 3 дн.
+> - `BL-029` [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) — 20.11 · 🟠 через 3 дн.
+> - `BL-030` [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) — 20.11 · 🟠 через 3 дн.
+> - `BL-049` [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) — 20.11 · 🟠 через 3 дн.
+> - `BL-054` [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) — 20.11 · 🟠 через 3 дн.
+> - `BL-055` [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) — 20.11 · 🟠 через 3 дн.
 
 ## 📁 Проекты
 
 | Проект | Прогресс | Активных | Ближайший срок | Страница проекта |
 |:--|:--|:--|:--|:--|
-| **Автоматизация бухгалтерии** | `▰▰▰▰▰▱▱▱▱▱` 12/23 | 11 | `BL-049` 20.11 · 🟡 через 4 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
-| **Оптимизация 1С:УТ** | `▰▰▰▰▰▱▱▱▱▱` 8/17 | 9 | `BL-030` 20.11 · 🟡 через 4 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
+| **Автоматизация бухгалтерии** | `▰▰▰▰▰▱▱▱▱▱` 12/23 | 11 | `BL-049` 20.11 · 🟠 через 3 дн. | [открыть ↗](https://tork059.github.io/resan-revitech-buh/) |
+| **Оптимизация 1С:УТ** | `▰▰▰▰▰▱▱▱▱▱` 8/17 | 9 | `BL-030` 20.11 · 🟠 через 3 дн. | [открыть ↗](https://tork059.github.io/resan-ut-optimization/) |
 
 ## 🎯 В работе
 
 | ID | Задача | Колонка | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
-| `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 🔴 В работе | 20.11 · 🟡 через 4 дн. | 🟥 Must | — |
-| `BL-058` | [Создать документ \Счет-фактура на аванс\](tasks/BL-058-sozdat-dokument-schet-faktura-na-avans.md) | 🔴 В работе | 30.11 · через 14 дн. | 🟥 Must | Бухгалтерия |
-| `BL-059` | [УКД\|УПД. Доработать заполнение обособленных подразделений](tasks/BL-059-ukd-upd-dorabotat-zapolnenie-obosoblennyh-podraz.md) | 🔴 В работе | 30.11 · через 14 дн. | 🟥 Must | — |
-| `BL-060` | [УПД. Доработать заполнение ПП и счетов-фактуры](tasks/BL-060-upd-dorabotat-zapolnenie-pp-i-schetov-faktury.md) | 🔴 В работе | 30.11 · через 14 дн. | 🟥 Must | — |
-| `BL-061` | [Найти чем обосновывается кредитная линия в продажах товаров](tasks/BL-061-nayti-chem-obosnovyvaetsya-kreditnaya-liniya-v-p.md) | 🔴 В работе | 30.11 · через 14 дн. | 🟥 Must | — |
+| `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 🔴 В работе | 20.11 · 🟠 через 3 дн. | 🟥 Must | — |
+| `BL-058` | [Создать документ \Счет-фактура на аванс\](tasks/BL-058-sozdat-dokument-schet-faktura-na-avans.md) | 🔴 В работе | 30.11 · через 13 дн. | 🟥 Must | Бухгалтерия |
+| `BL-059` | [УКД\|УПД. Доработать заполнение обособленных подразделений](tasks/BL-059-ukd-upd-dorabotat-zapolnenie-obosoblennyh-podraz.md) | 🔴 В работе | 30.11 · через 13 дн. | 🟥 Must | — |
+| `BL-060` | [УПД. Доработать заполнение ПП и счетов-фактуры](tasks/BL-060-upd-dorabotat-zapolnenie-pp-i-schetov-faktury.md) | 🔴 В работе | 30.11 · через 13 дн. | 🟥 Must | — |
+| `BL-061` | [Найти чем обосновывается кредитная линия в продажах товаров](tasks/BL-061-nayti-chem-obosnovyvaetsya-kreditnaya-liniya-v-p.md) | 🔴 В работе | 30.11 · через 13 дн. | 🟥 Must | — |
 
 ## 🛠 В разработке
 
 | ID | Задача | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|
-| `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 20.11 · 🟡 через 4 дн. | 🟥 Must | — |
-| `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | 20.11 · 🟡 через 4 дн. | 🟥 Must | Бухгалтерия |
-| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 20.11 · 🟡 через 4 дн. | 🟧 Should | Оптимизация УТ |
-| `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | 20.11 · 🟡 через 4 дн. | 🟧 Should | Бухгалтерия |
-| `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | 20.11 · 🟡 через 4 дн. | 🟧 Should | Бухгалтерия |
+| `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 20.11 · 🟠 через 3 дн. | 🟥 Must | — |
+| `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | 20.11 · 🟠 через 3 дн. | 🟥 Must | Бухгалтерия |
+| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 20.11 · 🟠 через 3 дн. | 🟧 Should | Оптимизация УТ |
+| `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | 20.11 · 🟠 через 3 дн. | 🟧 Should | Бухгалтерия |
+| `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | 20.11 · 🟠 через 3 дн. | 🟧 Should | Бухгалтерия |
 
 ## 📅 Запланировано по колонкам
 
@@ -51,13 +61,13 @@ _Пусто_
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | 01.12 · через 15 дн. | 🟧 Should | Бухгалтерия | buh_resan, RIB |
+| `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | 01.12 · через 14 дн. | 🟧 Should | Бухгалтерия | buh_resan, RIB |
 
 <details><summary><b>⚪ Отложено — Запланировано в рамках более месяца · 4</b></summary>
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
-| `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | 21.12 · через 35 дн. | 🟥 Must | Бухгалтерия | 1С:УТ, 1С:БП |
+| `BL-013` | [Настроить запрет правки закрытого периода](tasks/BL-013-nastroit-zapret-pravki-zakrytogo-perioda.md) | 21.12 · через 34 дн. | 🟥 Must | Бухгалтерия | 1С:УТ, 1С:БП |
 | `BL-050` | [КорректировкаДолга. Транзакции под отчет](tasks/BL-050-korrektirovkadolga-tranzaktsii-pod-otchet.md) | — | 🟥 Must | Бухгалтерия | 1С:УТ, 1С:БП |
 | `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | — | 🟧 Should | Бухгалтерия | 1С:УТ, 1С:БП |
 | `BL-047` | [Перехватить задачу "Документ "платежная ведомость" и список для загрузки ПП](tasks/BL-047-perehvatit-zadachu-dokument-platezhnaya-vedomost.md) | — | 🟦 Could | Бухгалтерия | — |
@@ -135,15 +145,15 @@ _Всё разобрано_ ✨
 
 | ID | Задача | Проект | MoSCoW | Лежит | Срок |
 |:--|:--|:--|:--|:--|:--|
-| `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Бухгалтерия | 🟧 Should | 49 дн. | — |
-| `BL-057` | [Бухгалтерия. Универсальная обработка дублей](tasks/BL-057-buhgalteriya-universalnaya-obrabotka-dubley.md) | Бухгалтерия | — | 0 дн. | 21.12 · через 35 дн. |
-| `BL-016` | [Разрядить дневные выгрузки Insales и остатков](tasks/BL-016-razryadit-dnevnye-vygruzki-insales-i-ostatkov.md) | Оптимизация УТ | 🟦 Could | 49 дн. | — |
-| `BL-017` | [Отключить «зомби»-задания и ограничить длительность](tasks/BL-017-otklyuchit-zombi-zadaniya-i-ogranichit-dlitelnos.md) | Оптимизация УТ | 🟥 Must | 49 дн. | — |
-| `BL-018` | [Пересобрать расписание ночных заданий](tasks/BL-018-peresobrat-raspisanie-nochnyh-zadaniy.md) | Оптимизация УТ | 🟦 Could | 49 дн. | — |
-| `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | Оптимизация УТ | 🟦 Could | 49 дн. | 21.12 · через 35 дн. |
-| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Оптимизация УТ | 🟦 Could | 49 дн. | 20.12 · через 34 дн. |
-| `BL-021` | [Разобрать ошибки Диадока и бесхозные задания](tasks/BL-021-razobrat-oshibki-diadoka-i-beshoznye-zadaniya.md) | Оптимизация УТ | 🟧 Should | 49 дн. | — |
-| `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | Оптимизация УТ | 🟧 Should | 49 дн. | — |
-| `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Оптимизация УТ | 🟥 Must | 39 дн. | 21.12 · через 35 дн. |
+| `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Бухгалтерия | 🟧 Should | 50 дн. | — |
+| `BL-057` | [Бухгалтерия. Универсальная обработка дублей](tasks/BL-057-buhgalteriya-universalnaya-obrabotka-dubley.md) | Бухгалтерия | — | 1 дн. | 21.12 · через 34 дн. |
+| `BL-016` | [Разрядить дневные выгрузки Insales и остатков](tasks/BL-016-razryadit-dnevnye-vygruzki-insales-i-ostatkov.md) | Оптимизация УТ | 🟦 Could | 50 дн. | — |
+| `BL-017` | [Отключить «зомби»-задания и ограничить длительность](tasks/BL-017-otklyuchit-zombi-zadaniya-i-ogranichit-dlitelnos.md) | Оптимизация УТ | 🟥 Must | 50 дн. | — |
+| `BL-018` | [Пересобрать расписание ночных заданий](tasks/BL-018-peresobrat-raspisanie-nochnyh-zadaniy.md) | Оптимизация УТ | 🟦 Could | 50 дн. | — |
+| `BL-019` | [Разобрать задания goods_full и goods_change](tasks/BL-019-razobrat-zadaniya-goods-full-i-goods-change.md) | Оптимизация УТ | 🟦 Could | 50 дн. | 21.12 · через 34 дн. |
+| `BL-020` | [Перевести Insales на выгрузку изменений](tasks/BL-020-perevesti-insales-na-vygruzku-izmeneniy.md) | Оптимизация УТ | 🟦 Could | 50 дн. | 20.12 · через 33 дн. |
+| `BL-021` | [Разобрать ошибки Диадока и бесхозные задания](tasks/BL-021-razobrat-oshibki-diadoka-i-beshoznye-zadaniya.md) | Оптимизация УТ | 🟧 Should | 50 дн. | — |
+| `BL-032` | [Создать отдельную тестовую копию базы УТ](tasks/BL-032-sozdat-otdelnuyu-testovuyu-kopiyu-bazy-ut.md) | Оптимизация УТ | 🟧 Should | 50 дн. | — |
+| `BL-040` | [Переход с толстого клиента на тонкого](tasks/BL-040-perehod-s-tolstogo-klienta-ne-tonkogo.md) | Оптимизация УТ | 🟥 Must | 40 дн. | 21.12 · через 34 дн. |
 
 </details>

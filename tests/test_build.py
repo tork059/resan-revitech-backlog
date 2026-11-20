@@ -47,6 +47,50 @@ class DevelopmentWorkflowTests(unittest.TestCase):
                 self.assertIn('Существующие данные', loaded['body'])
                 self.assertNotIn('автоматически взята', loaded['body'])
 
+    def test_planning_preserves_stage_order_and_placement_through_builds(self):
+        for status, column in (('in-progress', 'now'), ('ready-for-development', 'ready'),
+                               ('in-development', 'development'), ('in-testing', 'testing')):
+            task = self.task(status=status, priority=column)
+            build.set_field(task['path'], 'sprint', 'next')
+            build.set_field(task['path'], 'planning_order', '12.5')
+            task = build.parse_task(task['path'])
+            original = task['path'].read_text()
+            build.normalize([task])
+            self.assertEqual(task['path'].read_text(), original)
+            self.assertEqual(task['status'], status)
+            self.assertEqual(task['sprint'], 'next')
+            readme = build.render_readme([task])
+            current, planning = readme.split('## 📅 На следующий спринт', 1)
+            self.assertNotIn('[Проверка]', current.split('## 🎯 В работе', 1)[1])
+            self.assertIn('[Проверка]', planning)
+            build.set_field(task['path'], 'status', 'done')
+            closed = build.parse_task(task['path'])
+            build.normalize([closed])
+            self.assertEqual(closed['sprint'], 'next')
+            self.assertIn(build.ARCHIVE, closed['path'].parents)
+            build.set_field(closed['path'], 'status', 'in-progress')
+            build.set_field(closed['path'], 'sprint', 'current')
+            reopened = build.parse_task(closed['path'])
+            build.normalize([reopened])
+            self.assertEqual(reopened['sprint'], 'current')
+            self.assertEqual(reopened['priority'], 'now')
+            reopened['path'].unlink()
+
+    def test_planning_order_is_exported_and_independent_of_deadlines(self):
+        task = self.task(status='in-testing')
+        build.set_field(task['path'], 'sprint', 'next')
+        build.set_field(task['path'], 'planning_order', '1234.5')
+        task = build.parse_task(task['path'])
+        build.normalize([task])
+        dashboard = build.ROOT / 'dashboard'
+        dashboard.mkdir()
+        (dashboard / 'index.html').write_text('<html></html>')
+        build.write_data([task])
+        saved = json.loads((build.SITE / 'data.json').read_text())['tasks'][0]
+        self.assertEqual(saved['sprint'], 'next')
+        self.assertEqual(saved['planning_order'], '1234.5')
+        self.assertLess(build.planning_key(task), build.planning_key({**task, 'planning_order':'2000', 'deadline':'2000-01-01'}))
+
     def test_new_stages_survive_normalization_reload_and_archiving(self):
         for status, column in (('ready-for-development', 'ready'), ('in-testing', 'testing')):
             for deadline in ('2000-01-01', '2026-11-20', ''):
@@ -70,19 +114,24 @@ class DevelopmentWorkflowTests(unittest.TestCase):
                     self.assertEqual(reopened['priority'], column)
                     reopened['path'].unlink()
 
-    def test_planned_tasks_keep_manual_column_despite_deadlines_and_daily_builds(self):
+    def test_old_plans_migrate_once_and_keep_deadlines_and_descriptions(self):
         for priority in ('next', 'later'):
             for deadline in ('2026-10-01', '2026-11-16', '2026-11-20', '2027-12-01', ''):
                 with self.subTest(priority=priority, deadline=deadline):
                     task = self.task(status='todo', deadline=deadline, priority=priority)
                     original = task['path'].read_text()
                     build.normalize([task])
+                    first = task['path'].read_text()
                     with patch.object(build, 'today', return_value=dt.date(2028, 1, 1)):
                         task = build.parse_task(task['path'])
                         build.normalize([task])
                     self.assertEqual(task['status'], 'todo')
                     self.assertEqual(task['priority'], priority)
-                    self.assertEqual(task['path'].read_text(), original)
+                    self.assertEqual(task['sprint'], 'next')
+                    self.assertIn('Существующие данные', task['body'])
+                    self.assertIn('На следующий спринт', task['body'])
+                    self.assertEqual(task['path'].read_text(), first)
+                    self.assertNotEqual(first, original)
 
     def test_waiting_migrates_once_without_changing_column_deadline_or_description(self):
         for priority in ('next', 'later'):

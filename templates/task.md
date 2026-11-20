@@ -3,6 +3,8 @@ id: BL-000
 title: Короткое название задачи
 status: inbox        # inbox | backlog | todo | in-progress | ready-for-development | in-development | in-testing | done | canceled
 priority: later      # колонка выбирается вручную: now | ready | development | testing | next | later; дедлайн не влияет
+sprint:              # current — текущий спринт; next — планирование; пусто — бэклог или входящие
+planning_order:      # ручная очередность в списке «На следующий спринт»
 moscow:              # влияние на систему и бизнес: must | should | could | wont
 impact:              # одной фразой: чем задача важна для системы и бизнеса
 type: analysis       # analysis | dev | consult | research | support

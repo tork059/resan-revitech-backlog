@@ -43,6 +43,73 @@ function fixture() {
   return {run, element, elements, context};
 }
 
+test('planning preserves each working stage, starts in work, and returns to backlog', async () => {
+  for(const status of ['backlog','inbox','in-progress','ready-for-development','in-development','in-testing']){
+    const {run}=fixture();
+    run(`S.edit={id:'BL-900',path:'tasks/test.md',sha:'old',text:${JSON.stringify('---\nid: BL-900\ntitle: Тест\nstatus: '+status+'\ndeadline: 2000-01-01\n---\n## Описание\nИсходный текст\n\n## Журнал\n- 2026-01-01 — старая запись\n')}};
+      S.data.tasks=[taskFromText(S.edit.text,S.edit.path)];`);
+    await run('sendToNextSprint()');
+    assert.equal(run(`taskFromText(S.written,'tasks/test.md').sprint`),'next');
+    assert.equal(run(`taskFromText(S.written,'tasks/test.md').status`),['backlog','inbox'].includes(status)?'todo':status);
+    assert.match(run('S.written'),/Исходный текст/);
+    assert.match(run('S.written'),/старая запись/);
+    assert.match(run('S.written'),/планирование:/);
+    const first=run('S.written');
+    await run('sendToNextSprint()');
+    assert.equal(run('S.written'),first);
+    await run(`setStatus('in-progress','',{sprint:'current'})`);
+    assert.equal(run(`taskFromText(S.written,'tasks/test.md').sprint`),'current');
+    assert.equal(run(`taskFromText(S.written,'tasks/test.md').status`),'in-progress');
+    assert.equal(run(`taskFromText(S.written,'tasks/test.md').priority`),'now');
+    await run('sendToNextSprint()');
+    await run(`setStatus('backlog')`);
+    assert.equal(run(`taskFromText(S.written,'tasks/test.md').sprint`),'');
+    assert.equal(run(`taskFromText(S.written,'tasks/test.md').status`),'backlog');
+  }
+});
+
+test('planning order persists, ignores deadlines, and filtered movement preserves hidden tasks', async () => {
+  const {run,element}=fixture();
+  run(`GH.token='test-only'; S.texts={};
+    for(const [id,title,deadline] of [['BL-900','Видимая А','2099-01-01'],['BL-901','Скрытая','2000-01-01'],['BL-902','Видимая Б','']]){
+      S.texts[id]='---\\nid: '+id+'\\ntitle: '+title+'\\nstatus: todo\\nsprint: next\\ndeadline: '+deadline+'\\n---\\n## Описание\\nСохранить описание\\n';
+      S.data.tasks.push(taskFromText(S.texts[id],'tasks/'+id+'.md'));
+    }
+    GH.getFile=async path=>({path,sha:'fresh',text:S.texts[path.split('/').pop().replace('.md','')]});
+    GH.putFile=async(path,text)=>{const id=path.split('/').pop().replace('.md',''); S.texts[id]=text; S.written=text; return 'saved';};
+    S.q='Видимая'; S.tab='planning'; render();`);
+  await run(`movePlanning('BL-902','up')`);
+  assert.deepEqual(JSON.parse(run(`JSON.stringify(S.data.tasks.slice().sort(byPlanning).map(t=>t.id))`)),['BL-902','BL-900','BL-901']);
+  run(`S.data.tasks=S.data.tasks.map(t=>taskFromText(S.texts[t.id],t.path)); S.q=''; render();`);
+  assert.ok(element('view').innerHTML.indexOf('data-id="BL-902"')<element('view').innerHTML.indexOf('data-id="BL-900"'));
+  assert.match(run('S.written'),/Сохранить описание/);
+  assert.match(run('S.written'),/выше в очереди/);
+  await run(`planningAction('BL-902','current')`);
+  assert.equal(run(`S.data.tasks.find(t=>t.id==='BL-902').priority`),'now');
+  assert.equal(run(`S.data.tasks.find(t=>t.id==='BL-902').sprint`),'current');
+  await run(`planningAction('BL-900','backlog')`);
+  assert.equal(run(`S.data.tasks.find(t=>t.id==='BL-900').status`),'backlog');
+  assert.equal(run(`S.data.tasks.filter(isNextSprint).length`),1);
+});
+
+test('planning stage survives description editing, closing, and conflict retries', async () => {
+  const {run,element}=fixture();
+  run(String.raw`S.edit={id:'BL-900',path:'tasks/test.md',sha:'old',text:'---\nid: BL-900\ntitle: Тест\nstatus: in-testing\npriority: testing\nsprint: next\nplanning_order: 1234\n---\n## Описание\nИсходное описание\n'};`);
+  for(const [id,value] of Object.entries({f_title:'Тест',f_status:'in-testing',f_deadline:'2000-01-01',f_jnew:'Комментарий'})) element(id).value=value;
+  await run('saveEdit()');
+  assert.equal(run(`taskFromText(S.written,'tasks/test.md').sprint`),'next');
+  assert.equal(run(`taskFromText(S.written,'tasks/test.md').planning_order`),'1234');
+  await run(`setStatus('done')`);
+  assert.equal(run(`isNextSprint(taskFromText(S.written,'tasks/test.md'))`),false);
+  assert.equal(run(`taskFromText(S.written,'tasks/test.md').sprint`),'next');
+  await run(`setStatus('in-progress','',{sprint:'current'})`);
+  run(`let planningAttempts=0; GH.putFile=async(path,text)=>{if(!planningAttempts++){const e=new Error('conflict');e.status=409;throw e;} S.written=text;return 'saved';};
+    GH.getFile=async()=>({sha:'fresh',text:S.edit.text.replace('Исходное описание','Одновременная правка')});`);
+  await run('sendToNextSprint()');
+  assert.match(run('S.written'),/Одновременная правка/);
+  assert.equal(run(`taskFromText(S.written,'tasks/test.md').sprint`),'next');
+});
+
 test('development remains distinct for all deadlines and after parsing saved text', () => {
   const {run} = fixture();
   for (const deadline of ['', '2000-01-01', '2099-01-01']) {
@@ -118,18 +185,26 @@ test('editing only a deadline preserves the manually selected planned column', a
   assert.match(run('S.written'), /Исходное описание/);
 });
 
-test('sprint keeps the four workflow stages in order and retains existing plans without a new tab', () => {
+test('sprint keeps four workflow stages and excludes planning tasks from board and counters', () => {
   const {run, element} = fixture();
   run(`S.data.tasks = [
     {id:'BL-900',title:'Передано',status:'in-development',priority:'development',tags:[]},
     {id:'BL-901',title:'Готово к реализации',status:'ready-for-development',priority:'ready',tags:[]},
-    {id:'BL-902',title:'Проверка',status:'in-testing',priority:'testing',tags:[]}]; render();`);
+    {id:'BL-902',title:'Проверка',status:'in-testing',priority:'testing',tags:[]},
+    {id:'BL-903',title:'На следующей неделе',status:'in-testing',priority:'testing',sprint:'next',tags:[]},
+    {id:'BL-904',title:'Старый план',status:'todo',priority:'later',tags:[]}]; render();`);
   assert.deepEqual([...element('view').innerHTML.matchAll(/data-column="([^"]+)"/g)].map(m=>m[1]),
-    ['now','ready','development','testing','next','later']);
+    ['now','ready','development','testing']);
   for(const id of ['BL-900','BL-901','BL-902'])
     assert.equal((element('view').innerHTML.match(new RegExp(`data-id="${id}"`,'g'))||[]).length, 1);
   assert.doesNotMatch(element('tabs').innerHTML + element('kpis').innerHTML, /data-tab="moscow"/);
-  assert.doesNotMatch(element('tabs').innerHTML, /Планирование/);
+  assert.match(element('tabs').innerHTML, /Планирование<span class="n">2/);
+  assert.match(element('tabs').innerHTML, /Спринт<span class="n">3/);
+  assert.doesNotMatch(element('view').innerHTML, /data-id="BL-90[34]"/);
+  run(`S.tab='planning'; render();`);
+  assert.match(element('view').innerHTML, /На следующий спринт/);
+  assert.match(element('view').innerHTML, /data-id="BL-903"/);
+  assert.match(element('view').innerHTML, /data-id="BL-904"/);
   assert.equal(run(`TAB_MIGRATE.moscow`), 'prio');
 });
 
@@ -201,7 +276,8 @@ test('new task has one description and saves it without removed fields or legacy
   await run('saveNew()');
   const text = run('S.written');
   assert.match(text, /status: todo/);
-  assert.match(text, /priority: later/);
+  assert.match(text, /sprint: next/);
+  assert.match(text, /planning_order:/);
   assert.match(text, /## Описание\nСуть и контекст вместе\nВторая строка/);
   assert.match(text, /## Материалы/);
   assert.match(text, /## Журнал/);

@@ -65,13 +65,13 @@ TYPES = {
     "support": "Поддержка",
 }
 PROJECTS = CONFIG.get("projects", {})
-FIELDS = ["id", "title", "status", "priority", "moscow", "impact", "type", "project", "system", "initiator",
+FIELDS = ["id", "title", "status", "priority", "sprint", "planning_order", "moscow", "impact", "type", "project", "system", "initiator",
           "created", "deadline", "estimate", "bitrix", "tags", "closed"]
 
 # Русские синонимы — чтобы при ручной правке можно было писать по-русски.
 ALIASES = {
     "status": {"входящие": "inbox", "бэклог": "backlog", "в работе": "in-progress",
-               "запланирована": "todo", "запланировано": "todo", "planned": "todo",
+               "запланирована": "todo", "запланировано": "todo", "на следующий спринт": "todo", "planned": "todo",
                "waiting": "todo", "ожидание": "todo", "готово": "done", "отменено": "canceled",
                "wip": "in-progress", "в разработке": "in-development",
                "готово к реализации": "ready-for-development", "готово к передаче": "ready-for-development",
@@ -136,9 +136,11 @@ def parse_task(path: Path) -> dict | None:
     for key in ("status", "priority", "moscow", "type"):
         raw = meta.get(key, "").strip().lower()
         meta[key] = ALIASES.get(key, {}).get(raw, raw)
+    meta["_legacy_plan"] = meta.get("status") == "todo" and not meta.get("sprint")
     meta["body"] = text[m.end():].strip()
     meta["path"] = path
     validate(meta)
+    meta["sprint"] = sprint_of(meta)
     return meta
 
 
@@ -182,7 +184,7 @@ def set_field(path: Path, key: str, value: str) -> None:
             break
     else:
         lines.append(f"{key}: {value}")
-    path.write_text("---\n" + "\n".join(lines) + "\n---\n" + text[m.end():], encoding="utf-8")
+    path.write_text(text[:m.start(1)] + "\n".join(lines) + text[m.end(1):], encoding="utf-8")
 
 
 def rel(path: Path) -> str:
@@ -238,6 +240,28 @@ def horizon_of(t: dict) -> str:
     return t.get("priority") if t.get("priority") in ("next", "later") else "next"
 
 
+WORKFLOW = ("in-progress", "ready-for-development", "in-development", "in-testing")
+
+
+def sprint_of(t: dict) -> str:
+    """Размещение задачи отделено от этапа работы и не зависит от срока."""
+    if t.get("status") in CLOSED:
+        return t.get("sprint") if t.get("sprint") in ("current", "next") else ""
+    if t.get("sprint") == "next" or t.get("status") == "todo":
+        return "next"
+    return "current" if t.get("status") in WORKFLOW else ""
+
+
+def planning_key(t: dict):
+    raw = str(t.get("planning_order", ""))
+    if re.fullmatch(r"\d+(?:\.\d+)?", raw):
+        rank = float(raw)
+    else:
+        num = re.search(r"(\d+)$", t.get("id", ""))
+        rank = 1_000_000_000 + (int(num.group(1)) if num else 0) * 1024
+    return (rank, t.get("id", ""))
+
+
 def journal_append(path: Path, line: str) -> None:
     text = path.read_text(encoding="utf-8").rstrip("\n")
     entry = f"- {today().isoformat()} — {line}"
@@ -252,6 +276,10 @@ def normalize(tasks: list[dict]) -> None:
         if t.pop("_legacy_waiting", False):
             set_field(t["path"], "status", "todo")
             journal_append(t["path"], "статус: Ожидание → Запланирована; статус «Ожидание» упразднён, колонка плана сохранена")
+        if t.pop("_legacy_plan", False):
+            set_field(t["path"], "sprint", "next")
+            journal_append(t["path"], "планирование: перенесена в список «На следующий спринт»; прежние колонки планирования объединены")
+            t["body"] = FM_RE.sub("", t["path"].read_text(encoding="utf-8"), count=1).strip()
         if t["status"] not in CLOSED:
             h = horizon_of(t)
             if t.get("priority") != h:
@@ -346,6 +374,8 @@ PLANNED = ("todo", "in-progress", "ready-for-development", "in-development", "in
 
 
 def prio(t: dict) -> str:
+    if t["status"] not in CLOSED and sprint_of(t) == "next":
+        return "📅 На следующий спринт"
     if t["status"] in ("backlog", "inbox"):
         return " ".join(reversed(STATUSES[t["status"]]))
     name, _, icon = PRIORITIES[t["priority"]]
@@ -405,14 +435,15 @@ def render_readme(tasks: list[dict]) -> str:
     closed = [t for t in tasks if t["status"] in CLOSED]
     hot = sorted([t for t in active if t["status"] != "inbox" and (n := days_left(t)) is not None
                   and n <= CONFIG["hot_days"]], key=by_deadline)
-    in_work = sorted([t for t in active if t["status"] == "in-progress"], key=horizon_key)
-    ready = sorted([t for t in active if t["status"] == "ready-for-development"], key=horizon_key)
-    in_development = sorted([t for t in active if t["status"] == "in-development"], key=horizon_key)
-    in_testing = sorted([t for t in active if t["status"] == "in-testing"], key=horizon_key)
-    inbox = sorted([t for t in active if t["status"] == "inbox"], key=lambda t: t.get("created", ""))
-    backlog = sorted([t for t in active if t["status"] == "backlog"],
+    current = [t for t in active if sprint_of(t) == "current"]
+    in_work = sorted([t for t in current if t["status"] == "in-progress"], key=horizon_key)
+    ready = sorted([t for t in current if t["status"] == "ready-for-development"], key=horizon_key)
+    in_development = sorted([t for t in current if t["status"] == "in-development"], key=horizon_key)
+    in_testing = sorted([t for t in current if t["status"] == "in-testing"], key=horizon_key)
+    inbox = sorted([t for t in active if t["status"] == "inbox" and not sprint_of(t)], key=lambda t: t.get("created", ""))
+    backlog = sorted([t for t in active if t["status"] == "backlog" and not sprint_of(t)],
                      key=lambda t: (t.get("project", "") or "~", t.get("created", ""), t["id"]))
-    planned = [t for t in active if t["status"] == "todo"]
+    planned = sorted([t for t in active if sprint_of(t) == "next"], key=planning_key)
     month_ago = today() - dt.timedelta(days=30)
     done_30 = [t for t in closed if t["status"] == "done"
                and (d := parse_date(t.get("closed", ""))) and d >= month_ago]
@@ -427,7 +458,7 @@ def render_readme(tasks: list[dict]) -> str:
         badge("в работе", len(in_work), "7aa2f7"),
         badge("в разработке", len(in_development), "bb9af7"),
         badge("горит", len(hot), "f7768e" if hot else "414868"),
-        badge("сейчас", sum(t["priority"] == "now" for t in active), "e06c75"),
+        badge("сейчас", sum(t["priority"] == "now" for t in current), "e06c75"),
         badge("Must для бизнеса", sum(t.get("moscow") == "must" for t in active), "c0392b"),
         badge("всего активных", len(active), "565f89"),
         badge("закрыто за 30 дн", len(done_30), "9ece6a"),
@@ -477,20 +508,10 @@ def render_readme(tasks: list[dict]) -> str:
           table(in_testing, ["id", "title", "deadline", "moscow", "project"]) if in_testing
           else "_Нет задач на тестировании._", ""]
 
-    L += ["## 📅 Запланировано по колонкам", "",
-          "<sub>Колонки выбираются вручную: Запланировано — выполнение в рамках месяца, Отложено — запланировано в рамках более месяца. "
-          "Дедлайн не меняет колонку задачи.</sub>", ""]
-    for key, (name, hint, icon) in PRIORITIES.items():
-        if key not in ("next", "later"):
-            continue  # этапы спринта уже показаны отдельными разделами выше
-        rows = sorted([t for t in planned if t["priority"] == key], key=horizon_key)
-        head = f"### {icon} {name} — {hint} · {len(rows)}"
-        body = table(rows, ["id", "title", "deadline", "moscow", "project", "system"]) if rows else "_Пусто_"
-        if key == "later":
-            L += [f"<details><summary><b>{icon} {name} — {hint} · {len(rows)}</b></summary>", "", body, "",
-                  "</details>", ""]
-        else:
-            L += [head, "", body, ""]
+    L += ["## 📅 На следующий спринт", "",
+          "<sub>Единый список планирования с ручной очередностью. Этап работы сохраняется при переносе сюда. "
+          "Кнопка «В текущий спринт» переводит задачу в «В работе». Дедлайн не перемещает задачи.</sub>", "",
+          table(planned, ["id", "title", "status", "deadline", "moscow", "project"]) if planned else "_Пусто_", ""]
 
     L += ["## ⚖️ MoSCoW — влияние на систему и бизнес", "",
           "<sub>Оценка важности задачи для системы и бизнеса. Не зависит от сроков и очерёдности — "
@@ -609,7 +630,7 @@ def build() -> None:
 # ─────────────────────── создание задач ───────────────────────
 def create_task(title: str, priority="next", type_="", system="", initiator="", deadline="",
                 estimate="", bitrix="", status="inbox", tags=None, body="", project="",
-                moscow="", impact="", order="") -> Path:
+                moscow="", impact="", order="", sprint="") -> Path:
     tasks = load_tasks()
     WARNINGS.clear()
     RULES.clear()
@@ -617,6 +638,7 @@ def create_task(title: str, priority="next", type_="", system="", initiator="", 
     d = parse_date(deadline)
     values = {
         "id": tid, "title": title.strip(), "status": status,
+        "sprint": sprint_of({"status": status, "sprint": sprint}),
         "priority": ALIASES["priority"].get(priority.lower(), priority.lower()),
         "moscow": moscow, "impact": impact,
         "type": ALIASES["type"].get(type_.lower(), type_.lower()), "project": project, "system": system,

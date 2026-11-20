@@ -33,7 +33,9 @@ STATUSES = {
     "backlog": ("Бэклог", "🗂"),
     "todo": ("Запланирована", "📅"),
     "in-progress": ("В работе", "🎯"),
+    "ready-for-development": ("Готово к реализации", "📤"),
     "in-development": ("В разработке", "🛠"),
+    "in-testing": ("На тестировании", "👀"),
     "done": ("Готово", "✅"),
     "canceled": ("Отменено", "🚫"),
 }
@@ -41,7 +43,9 @@ CLOSED = {"done", "canceled"}
 # Колонка спринта выбирается пользователем, независимо от дедлайна.
 PRIORITIES = {
     "now": ("В работе", "делаю сейчас", "🔴"),
+    "ready": ("Готово к реализации", "можно передавать разработчикам", "📤"),
     "development": ("В разработке", "передано разработчикам", "🟣"),
+    "testing": ("На тестировании", "проверка результата", "👀"),
     "next": ("Запланировано", "Выполнение в рамках месяца", "🟠"),
     "later": ("Отложено", "Запланировано в рамках более месяца", "⚪"),
 }
@@ -69,9 +73,12 @@ ALIASES = {
     "status": {"входящие": "inbox", "бэклог": "backlog", "в работе": "in-progress",
                "запланирована": "todo", "запланировано": "todo", "planned": "todo",
                "waiting": "todo", "ожидание": "todo", "готово": "done", "отменено": "canceled",
-               "wip": "in-progress", "в разработке": "in-development"},
+               "wip": "in-progress", "в разработке": "in-development",
+               "готово к реализации": "ready-for-development", "готово к передаче": "ready-for-development",
+               "на тестировании": "in-testing"},
     "priority": {"сейчас": "now", "в работе": "now", "в разработке": "development", "далее": "next", "потом": "later",
                  "запланировано": "next", "отложено": "later",
+                 "готово к реализации": "ready", "готово к передаче": "ready", "на тестировании": "testing",
                  # старые значения MoSCoW в поле priority
                  "must": "now", "should": "next", "could": "later", "wont": "later", "won't": "later"},
     "moscow": {"won't": "wont", "обязательно": "must", "важно": "should",
@@ -146,7 +153,7 @@ def validate(t: dict) -> None:
         t["status"] = "inbox"
     if t.get("priority") not in PRIORITIES:
         if t.get("priority"):
-            WARNINGS.append(f"{where} — неизвестный приоритет `{t.get('priority')}` (now / development / next / later), считаю «Запланировано»")
+            WARNINGS.append(f"{where} — неизвестная колонка `{t.get('priority')}`, считаю «Запланировано»")
         t["priority"] = "next"
     if t.get("moscow") and t["moscow"] not in MOSCOW:
         WARNINGS.append(f"{where} — неизвестная оценка MoSCoW `{t['moscow']}` (must / should / could / wont)")
@@ -222,6 +229,10 @@ def horizon_of(t: dict) -> str:
         return t.get("priority") if t.get("priority") in PRIORITIES else "next"
     if t["status"] == "in-development":
         return "development"
+    if t["status"] == "ready-for-development":
+        return "ready"
+    if t["status"] == "in-testing":
+        return "testing"
     if t["status"] == "in-progress":
         return "now"
     return t.get("priority") if t.get("priority") in ("next", "later") else "next"
@@ -331,7 +342,7 @@ def link(t: dict, text: str | None = None) -> str:
     return f"[{esc(text or t['title'])}]({quote(rel(t['path']))})"
 
 
-PLANNED = ("todo", "in-progress", "in-development")
+PLANNED = ("todo", "in-progress", "ready-for-development", "in-development", "in-testing")
 
 
 def prio(t: dict) -> str:
@@ -395,7 +406,9 @@ def render_readme(tasks: list[dict]) -> str:
     hot = sorted([t for t in active if t["status"] != "inbox" and (n := days_left(t)) is not None
                   and n <= CONFIG["hot_days"]], key=by_deadline)
     in_work = sorted([t for t in active if t["status"] == "in-progress"], key=horizon_key)
+    ready = sorted([t for t in active if t["status"] == "ready-for-development"], key=horizon_key)
     in_development = sorted([t for t in active if t["status"] == "in-development"], key=horizon_key)
+    in_testing = sorted([t for t in active if t["status"] == "in-testing"], key=horizon_key)
     inbox = sorted([t for t in active if t["status"] == "inbox"], key=lambda t: t.get("created", ""))
     backlog = sorted([t for t in active if t["status"] == "backlog"],
                      key=lambda t: (t.get("project", "") or "~", t.get("created", ""), t["id"]))
@@ -452,16 +465,24 @@ def render_readme(tasks: list[dict]) -> str:
     L += [table(in_work, ["id", "title", "prio", "deadline", "moscow", "project"]) if in_work
           else "_Нет задач в работе. Чтобы начать задачу, нажмите «В работу»._", ""]
 
+    L += ["## 📤 Готово к реализации", "",
+          table(ready, ["id", "title", "deadline", "moscow", "project"]) if ready
+          else "_Нет задач, готовых к передаче разработчикам._", ""]
+
     L += ["## 🛠 В разработке", "",
           table(in_development, ["id", "title", "deadline", "moscow", "project"]) if in_development
           else "_Нет задач, переданных разработчикам._", ""]
+
+    L += ["## 👀 На тестировании", "",
+          table(in_testing, ["id", "title", "deadline", "moscow", "project"]) if in_testing
+          else "_Нет задач на тестировании._", ""]
 
     L += ["## 📅 Запланировано по колонкам", "",
           "<sub>Колонки выбираются вручную: Запланировано — выполнение в рамках месяца, Отложено — запланировано в рамках более месяца. "
           "Дедлайн не меняет колонку задачи.</sub>", ""]
     for key, (name, hint, icon) in PRIORITIES.items():
-        if key == "development":
-            continue  # задачи разработчиков уже показаны отдельным разделом выше
+        if key not in ("next", "later"):
+            continue  # этапы спринта уже показаны отдельными разделами выше
         rows = sorted([t for t in planned if t["priority"] == key], key=horizon_key)
         head = f"### {icon} {name} — {hint} · {len(rows)}"
         body = table(rows, ["id", "title", "deadline", "moscow", "project", "system"]) if rows else "_Пусто_"
@@ -649,8 +670,8 @@ def from_issue(event_path: str) -> None:
     type_key = next((k for k, name in TYPES.items() if type_raw.lower().startswith(name.lower())), "")
     proj = next((k for k, p in PROJECTS.items() if vals.get("project", "").strip().strip('"') == p["name"]), "")
     st_raw = vals.get("status", "").lower()
-    status = ("in-development" if st_raw.startswith("в разработке") else
-              "backlog" if st_raw.startswith("бэклог") else "todo" if st_raw.startswith("запланир") else "inbox")
+    status_label = st_raw.split(" — ", 1)[0].strip()
+    status = ALIASES["status"].get(status_label, status_label if status_label in STATUSES else "inbox")
     body = vals.get("body", "")
     body = f"## Описание\n{body}\n\n## Материалы\n- Создано из [issue #{issue['number']}]({issue['html_url']})"
     path = create_task(
@@ -689,6 +710,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     sys.exit(main())
+
 
 
 

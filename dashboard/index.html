@@ -76,6 +76,7 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start}
 .col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;min-height:120px}
+.col.plan-col{grid-column:span 2}
 .col-h{display:grid;grid-template-columns:8px minmax(0,1fr) auto;align-items:center;gap:4px 8px;padding:2px 4px 12px;font-weight:600;font-size:13px}
 .col-h .hint{grid-column:2/-1;color:var(--faint);font-weight:400;font-size:11.5px;line-height:1.4}
 .col-h .cnt{grid-column:3;grid-row:1;color:var(--faint);font-weight:500;font-variant-numeric:tabular-nums}
@@ -149,6 +150,8 @@ h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
 .pill.dl.soon{background:var(--warn-bg);color:var(--should)}
 .pill.st{background:var(--accent-soft);color:var(--accent)}
 .pill.st.in-development{background:rgba(187,154,247,.12);color:#bb9af7}
+.pill.st.ready-for-development{background:rgba(224,175,104,.12);color:#e0af68}
+.pill.st.in-testing{background:rgba(125,207,255,.12);color:#7dcfff}
 .pill.st.inbox{background:var(--surface-3);color:var(--muted)}
 .pill.st.todo{background:rgba(125,207,255,.10);color:#8fd3f5}
 .pill.st.backlog{background:rgba(224,175,104,.10);color:var(--should)}
@@ -267,6 +270,7 @@ input[type=date].inp{color-scheme:dark}
 footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 
 @media (max-width:1000px){
+  .col.plan-col{grid-column:auto}
   .board.bl{grid-template-columns:1fr}
   .board.b3{grid-template-columns:repeat(2,minmax(0,1fr))}
   .board{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -341,8 +345,8 @@ footer{color:var(--faint);font-size:12px;margin-top:40px;text-align:center}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const PCOLOR = {now:'var(--must)', development:'#bb9af7', next:'var(--should)', later:'var(--wont)'};
-const PRIO = ['now','development','next','later'];
+const PCOLOR = {now:'var(--must)', ready:'#e0af68', development:'#bb9af7', testing:'#7dcfff', next:'var(--should)', later:'var(--wont)'};
+const PRIO = ['now','ready','development','testing','next','later'];
 const MCOLOR = {must:'#f7768e', should:'#e0af68', could:'#7dcfff', wont:'#6b7394'};
 const S = {data:null, tab:'prio', q:'', type:'', system:'', project:''};
 const $ = s => document.querySelector(s);
@@ -366,7 +370,7 @@ function dlInfo(t){
   return {n, txt, cls};
 }
 const isClosed = t => t.status === 'done' || t.status === 'canceled';
-const PLANNED = ['todo','in-progress','in-development'];
+const PLANNED = ['todo','in-progress','ready-for-development','in-development','in-testing'];
 const isPlanned = t => PLANNED.includes(t.status);
 const MOS_RANK = {must:0, should:1, could:2, wont:3};
 const mosRank = t => MOS_RANK[t.moscow] ?? 4;
@@ -374,6 +378,8 @@ const mosRank = t => MOS_RANK[t.moscow] ?? 4;
 function horizonOf(t){
   if(isClosed(t)) return PRIO.includes(t.priority) ? t.priority : 'next';
   if(t.status === 'in-development') return 'development';
+  if(t.status === 'ready-for-development') return 'ready';
+  if(t.status === 'in-testing') return 'testing';
   if(t.status === 'in-progress') return 'now';
   return ['next','later'].includes(t.priority) ? t.priority : 'next';
 }
@@ -484,9 +490,9 @@ function render(){
   let html = '';
   if(S.tab === 'prio'){
     const pool = active.filter(isPlanned);
-    html = `<p class="lead"><b>В работе</b> — задачи, которыми я занимаюсь. <b>В разработке</b> — переданы разработчикам. <b>Запланировано</b> — выполнение в рамках месяца. <b>Отложено</b> — запланировано в рамках более месяца. Колонки выбираются вручную: дедлайн не перемещает задачи.</p><div class="board">${PRIO.map(p => {
+    html = `<p class="lead"><b>В работе</b> — задачи, которыми я занимаюсь. <b>Готово к реализации</b> — можно передавать разработчикам. <b>В разработке</b> — переданы разработчикам. <b>На тестировании</b> — проверка результата. Ниже остаются планы: <b>Запланировано</b> и <b>Отложено</b>. Колонки выбираются вручную: дедлайн не перемещает задачи.</p><div class="board">${PRIO.map(p => {
       const arr = pool.filter(t=>t.priority===p).sort(byHorizon);
-      return `<div class="col"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span><span>${esc(L.priority[p][0])}</span>
+      return `<div class="col${['next','later'].includes(p)?' plan-col':''}" data-column="${p}"><div class="col-h"><span class="dot" style="background:${PCOLOR[p]}"></span><span>${esc(L.priority[p][0])}</span>
         <span class="hint">${esc(L.priority[p][1])}</span><span class="cnt">${arr.length}</span></div>${stack(arr,{status:true,noPrio:true})}</div>`;
     }).join('')}</div>`;
   }
@@ -526,7 +532,7 @@ function projectsView(){
       <div class="proj-m"><span>${x.done} из ${x.total} готово · ${x.pct}%</span><span>активных ${x.act.length}</span>
       ${x.nxt?`<span>ближайший срок: ${esc(x.nxt.id)} · ${esc(dl.n>S.data.config.soon_days?fmtD(x.nxt.deadline):dl.txt)}</span>`:''}</div></div>`;
   };
-  let html = `<p class="lead">Проекты и их задачи. Выберите проект — ниже все его задачи по состоянию: в работе, в разработке, запланировано, бэклог, сделано.</p>
+  let html = `<p class="lead">Проекты и их задачи. Выберите проект — ниже все его задачи по состоянию: в работе, готово к реализации, в разработке, на тестировании, запланировано, бэклог, сделано.</p>
     <div class="projects">${keys.map(k => cardP(k, P[k].name, P[k].url, P[k].description, P[k].status)).join('')}
     ${authed ? `<button class="proj add" data-pnew="1" type="button">＋ Новый проект</button>` : ''}</div>`;
   const k = S.projSel, pr = P[k];
@@ -537,7 +543,9 @@ function projectsView(){
   const x = projectStats(k);
   const groups = [
     ['В работе', 'var(--accent)', t => t.status === 'in-progress', byHorizon],
+    ['Готово к реализации', '#e0af68', t => t.status === 'ready-for-development', byHorizon],
     ['В разработке', '#bb9af7', t => t.status === 'in-development', byHorizon],
+    ['На тестировании', '#7dcfff', t => t.status === 'in-testing', byHorizon],
     ['Запланировано', '#8fd3f5', t => t.status === 'todo', byHorizon],
     ['Бэклог и входящие', 'var(--should)', t => t.status === 'backlog' || t.status === 'inbox', byHorizon],
     ['Сделано', 'var(--ok)', isClosed, (a,b) => (b.closed||'').localeCompare(a.closed||'')],
@@ -754,8 +762,8 @@ const errText = e => e.status === 401 ? 'токен не принят GitHub (и
 /* ── файл задачи: шапка и разделы ── */
 const FM = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
 const ALIAS = {
-  status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','в разработке':'in-development','waiting':'todo','ожидание':'todo','готово':'done','отменено':'canceled'},
-  priority: {'сейчас':'now','в работе':'now','в разработке':'development','далее':'next','потом':'later','запланировано':'next','отложено':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
+  status: {'входящие':'inbox','бэклог':'backlog','в работе':'in-progress','готово к реализации':'ready-for-development','готово к передаче':'ready-for-development','в разработке':'in-development','на тестировании':'in-testing','waiting':'todo','ожидание':'todo','готово':'done','отменено':'canceled'},
+  priority: {'сейчас':'now','в работе':'now','готово к реализации':'ready','готово к передаче':'ready','в разработке':'development','на тестировании':'testing','далее':'next','потом':'later','запланировано':'next','отложено':'later','must':'now','should':'next','could':'later','wont':'later',"won't":'later'},
   moscow: {"won't":'wont'},
   type: {'аналитика':'analysis','разработка':'dev','консультация':'consult','исследование':'research','поддержка':'support'},
 };
@@ -944,9 +952,11 @@ function decorate(t){
   const ed = act.querySelector('a[href*="/edit/"]'); if(ed) ed.remove();
   const closed = t.status === 'done' || t.status === 'canceled';
   const q = [];
-  if(!closed) q.push(['plan', ['in-progress','in-development'].includes(t.status) ? '📅 Вернуть в план' : t.status === 'todo' ? '📅 Изменить план' : '📅 Запланировать','']);
+  if(!closed) q.push(['plan', ['in-progress','ready-for-development','in-development','in-testing'].includes(t.status) ? '📅 Вернуть в план' : t.status === 'todo' ? '📅 Изменить план' : '📅 Запланировать','']);
   if(!closed && t.status !== 'in-progress') q.push(['start','▶ В работу','']);
+  if(!closed && t.status !== 'ready-for-development') q.push(['ready','📤 Готово к передаче','']);
   if(!closed && t.status !== 'in-development') q.push(['develop','⚙️ В разработку','']);
+  if(!closed && t.status !== 'in-testing') q.push(['testing','👀 В тестирование','']);
   if(!closed && t.status !== 'backlog') q.push(['tobacklog','🗂 В бэклог','']);
   if(!closed) q.push(['done','✓ Готово','ok'], ['cancel','✕ Отменить','danger']);
   if(closed) q.push(['reopen','↺ Вернуть в работу','']);
@@ -973,7 +983,7 @@ function panel(kind){
     <div class="row-btns"><button class="btn sm" data-act="pclose">Отмена</button><button class="btn sm primary" data-act="p-${kind}">${cfg[1]}</button></div></div>`;
   $('#pTxt').focus();
 }
-const STATUS_MSG = {'in-progress':'взята в работу', 'in-development':'передана в разработку', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
+const STATUS_MSG = {'in-progress':'взята в работу', 'ready-for-development':'готова к реализации', 'in-development':'передана в разработку', 'in-testing':'передана на тестирование', done:'выполнена', canceled:'отменена', backlog:'в бэклог', todo:'запланирована'};
 async function setStatus(status, note, extra={}){
   const L = S.data.labels;
   const ok = await run(() => commit(tx => {
@@ -998,7 +1008,9 @@ $('#drawer').addEventListener('click', e => {
   if(!S.edit && !['pclose','cancel-form','save-new'].includes(a)){ toast('Загружаю актуальную версию задачи — повторите через секунду'); return; }
   if(a === 'edit') return openEdit();
   if(a === 'start') return setStatus('in-progress');
+  if(a === 'ready') return setStatus('ready-for-development');
   if(a === 'develop') return setStatus('in-development');
+  if(a === 'testing') return setStatus('in-testing');
   if(a === 'reopen') return setStatus('in-progress');
   if(a === 'tobacklog') return setStatus('backlog');
   if(a === 'plan') return planPanel();
@@ -1024,7 +1036,7 @@ function formFields(t, isNew){
   const f = (k, label, html, full) => `<div class="fld${full?' full':''}"><label for="f_${k}">${label}</label>${html}</div>`;
   const inp = (k, v, attrs='') => `<input class="inp" id="f_${k}" value="${esc(v||'')}" ${attrs}>`;
   const sel = (k, obj, cur, lbl, empty) => `<select class="inp" id="f_${k}">${empty!==undefined?`<option value="">${empty}</option>`:''}${opt(obj, cur, lbl)}</select>`;
-  const statuses = isNew ? {todo:L.status.todo, 'in-progress':L.status['in-progress'], 'in-development':L.status['in-development'], inbox:L.status.inbox, backlog:L.status.backlog} : L.status;
+  const statuses = isNew ? {todo:L.status.todo, 'in-progress':L.status['in-progress'], 'ready-for-development':L.status['ready-for-development'], 'in-development':L.status['in-development'], 'in-testing':L.status['in-testing'], inbox:L.status.inbox, backlog:L.status.backlog} : L.status;
   return [
     f('title', 'Название <span class="req">*</span>', inp('title', t.title, 'required'), true),
     f('status', 'Статус', sel('status', statuses, t.status)),
@@ -1215,6 +1227,7 @@ GH.load(); setAuthUI();
 </script>
 </body>
 </html>
+
 
 
 

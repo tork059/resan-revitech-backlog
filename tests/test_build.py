@@ -47,6 +47,29 @@ class DevelopmentWorkflowTests(unittest.TestCase):
                 self.assertIn('Существующие данные', loaded['body'])
                 self.assertNotIn('автоматически взята', loaded['body'])
 
+    def test_new_stages_survive_normalization_reload_and_archiving(self):
+        for status, column in (('ready-for-development', 'ready'), ('in-testing', 'testing')):
+            for deadline in ('2000-01-01', '2026-11-20', ''):
+                with self.subTest(status=status, deadline=deadline):
+                    task = self.task(status=status, deadline=deadline)
+                    build.normalize([task])
+                    loaded = build.parse_task(task['path'])
+                    self.assertEqual(loaded['status'], status)
+                    self.assertEqual(loaded['priority'], column)
+                    self.assertEqual(loaded['path'].parent, build.TASKS)
+                    self.assertNotIn('автоматически взята', loaded['body'])
+                    self.assertIn(status, build.PLANNED)
+                    build.set_field(loaded['path'], 'status', 'done')
+                    closed = build.parse_task(loaded['path'])
+                    build.normalize([closed])
+                    self.assertIn(build.ARCHIVE, closed['path'].parents)
+                    build.set_field(closed['path'], 'status', status)
+                    reopened = build.parse_task(closed['path'])
+                    build.normalize([reopened])
+                    self.assertEqual(reopened['path'].parent, build.TASKS)
+                    self.assertEqual(reopened['priority'], column)
+                    reopened['path'].unlink()
+
     def test_planned_tasks_keep_manual_column_despite_deadlines_and_daily_builds(self):
         for priority in ('next', 'later'):
             for deadline in ('2026-10-01', '2026-11-16', '2026-11-20', '2027-12-01', ''):
@@ -101,6 +124,15 @@ class DevelopmentWorkflowTests(unittest.TestCase):
         self.assertIn('development', build.PRIORITIES)
         self.assertIn('in-development', build.PLANNED)
 
+    def test_stage_order_and_readme_include_both_new_stages(self):
+        self.assertEqual(list(build.PRIORITIES)[:4], ['now', 'ready', 'development', 'testing'])
+        for status, title in (('ready-for-development', 'Готово к реализации'), ('in-testing', 'На тестировании')):
+            task = self.task(status=status)
+            build.normalize([task])
+            readme = build.render_readme([task])
+            section = readme.split(title, 1)[1].split('\n## ', 1)[0]
+            self.assertIn('BL-900', section)
+
     def test_issue_creation_uses_description_and_accepts_legacy_label(self):
         for label in ('Описание', 'Суть и контекст'):
             with self.subTest(label=label):
@@ -130,8 +162,22 @@ class DevelopmentWorkflowTests(unittest.TestCase):
             self.assertEqual(create.call_args.kwargs['status'], 'todo')
             self.assertEqual(create.call_args.kwargs['priority'], 'later')
 
+    def test_issue_new_stages_are_not_mistaken_for_done(self):
+        for label, status in (('Готово к реализации — можно передавать разработчикам', 'ready-for-development'),
+                              ('Готово к передаче', 'ready-for-development'),
+                              ('На тестировании — проверка результата', 'in-testing')):
+            event = {'issue': {'number': 902, 'title': '[Задача] Проверка',
+                              'html_url': 'https://example.test/902', 'body': f'### Статус\n{label}'}}
+            path = Path(self.tmp.name) / 'event.json'
+            path.write_text(json.dumps(event))
+            with patch.object(build, 'create_task') as create:
+                create.return_value = build.TASKS / 'BL-902-test.md'
+                build.from_issue(str(path))
+                self.assertEqual(create.call_args.kwargs['status'], status)
+
 
 if __name__ == '__main__':
     unittest.main()
+
 
 

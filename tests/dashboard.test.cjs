@@ -35,8 +35,8 @@ function fixture() {
   const run = code => vm.runInContext(code, context);
   run(`S.data = {tasks:[], projects:{}, config:{hot_days:3,soon_days:7,next_days:30},
     labels:{status:{inbox:'Входящие',backlog:'Бэклог',todo:'Запланирована',
-      'in-progress':'В работе','in-development':'В разработке',done:'Готово',canceled:'Отменено'},
-      priority:{now:['В работе','делаю сейчас'],development:['В разработке',''],next:['Запланировано','Выполнение в рамках месяца'],later:['Отложено','Запланировано в рамках более месяца']},
+      'in-progress':'В работе','ready-for-development':'Готово к реализации','in-development':'В разработке','in-testing':'На тестировании',done:'Готово',canceled:'Отменено'},
+      priority:{now:['В работе','делаю сейчас'],ready:['Готово к реализации','можно передавать разработчикам'],development:['В разработке','передано разработчикам'],testing:['На тестировании','проверка результата'],next:['Запланировано','Выполнение в рамках месяца'],later:['Отложено','Запланировано в рамках более месяца']},
       moscow:{must:['Must',''],should:['Should','']},type:{analysis:'Аналитика'}}, repo:'test/test'};
     openTask = id => { S.lastOpened = id; };
     GH.putFile = async (path, text) => { S.written = text; return 'saved-sha'; };`);
@@ -118,13 +118,61 @@ test('editing only a deadline preserves the manually selected planned column', a
   assert.match(run('S.written'), /Исходное описание/);
 });
 
-test('horizon renders four columns and no navigation points to the removed tab', () => {
+test('sprint keeps the four workflow stages in order and retains existing plans without a new tab', () => {
   const {run, element} = fixture();
-  run(`S.data.tasks = [{id:'BL-900',title:'Передано',status:'in-development',priority:'development',tags:[]}]; render();`);
-  assert.equal((element('view').innerHTML.match(/class="col"/g)||[]).length, 4);
-  assert.equal((element('view').innerHTML.match(/data-id="BL-900"/g)||[]).length, 1);
+  run(`S.data.tasks = [
+    {id:'BL-900',title:'Передано',status:'in-development',priority:'development',tags:[]},
+    {id:'BL-901',title:'Готово к реализации',status:'ready-for-development',priority:'ready',tags:[]},
+    {id:'BL-902',title:'Проверка',status:'in-testing',priority:'testing',tags:[]}]; render();`);
+  assert.deepEqual([...element('view').innerHTML.matchAll(/data-column="([^"]+)"/g)].map(m=>m[1]),
+    ['now','ready','development','testing','next','later']);
+  for(const id of ['BL-900','BL-901','BL-902'])
+    assert.equal((element('view').innerHTML.match(new RegExp(`data-id="${id}"`,'g'))||[]).length, 1);
   assert.doesNotMatch(element('tabs').innerHTML + element('kpis').innerHTML, /data-tab="moscow"/);
+  assert.doesNotMatch(element('tabs').innerHTML, /Планирование/);
   assert.equal(run(`TAB_MIGRATE.moscow`), 'prio');
+});
+
+test('new stages persist through saving, parsing, deadline changes, completion and reopening', async () => {
+  const {run} = fixture();
+  run(String.raw`S.edit = {id:'BL-900',path:'tasks/test.md',sha:'old',text:'---\nid: BL-900\ntitle: Тест\nstatus: in-progress\npriority: now\ndeadline: 2000-01-01\n---\n## Описание\nСохранить данные\n\n## Журнал\n- 2026-01-01 — исходная запись\n'};`);
+  for(const [status,column] of [['ready-for-development','ready'],['in-development','development'],['in-testing','testing']]) {
+    await run(`setStatus(${JSON.stringify(status)})`);
+    assert.equal(run(`taskFromText(S.written, 'tasks/test.md').status`), status);
+    assert.equal(run(`taskFromText(S.written, 'tasks/test.md').priority`), column);
+    assert.equal(run(`isClosed(taskFromText(S.written, 'tasks/test.md'))`), false);
+    assert.equal(run(`isPlanned(taskFromText(S.written, 'tasks/test.md'))`), true);
+    for(const deadline of ['', '2000-01-01','2099-01-01']) {
+      assert.equal(run(`syncHorizon({status:${JSON.stringify(status)},deadline:${JSON.stringify(deadline)}}).priority`), column);
+    }
+  }
+  assert.match(run('S.written'), /статус: В работе → Готово к реализации/);
+  assert.match(run('S.written'), /статус: В разработке → На тестировании/);
+  assert.match(run('S.written'), /исходная запись/);
+  assert.match(run('S.written'), /Сохранить данные/);
+  await run(`setStatus('done')`);
+  assert.equal(run(`taskFromText(S.written, 'tasks/test.md').priority`), 'testing');
+  assert.ok(run(`taskFromText(S.written, 'tasks/test.md').closed`));
+  await run(`setStatus('in-testing')`);
+  assert.equal(run(`taskFromText(S.written, 'tasks/test.md').closed`), '');
+  await run(`setStatus('todo', '', {priority:'later'})`);
+  assert.equal(run(`taskFromText(S.written, 'tasks/test.md').priority`), 'later');
+});
+
+test('new action buttons and statuses appear in task cards and forms', () => {
+  const {run,element} = fixture();
+  const act=element('dHead .d-actions');
+  act.querySelector=()=>null;
+  act.insertAdjacentHTML=(_,html)=>{act.innerHTML+=html;};
+  run(`decorate({status:'in-progress'})`);
+  assert.match(act.innerHTML, /data-act="ready">📤 Готово к передаче/);
+  assert.match(act.innerHTML, /data-act="testing">👀 В тестирование/);
+  const form=run(`formFields({status:'ready-for-development',priority:'ready'}, true)`);
+  assert.match(form, /value="ready-for-development" selected/);
+  assert.match(form, /value="in-testing"/);
+  act.innerHTML='';
+  run(`decorate({status:'ready-for-development'})`);
+  assert.doesNotMatch(act.innerHTML, /data-act="ready"/);
 });
 
 test('editing an archived task preserves its last column and closing date', async () => {
@@ -162,5 +210,6 @@ test('new task has one description and saves it without removed fields or legacy
     assert.ok(!text.includes(removed), removed);
   }
 });
+
 
 

@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![в разработке: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-5-bb9af7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 25](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-25-565f89?style=flat-square) ![закрыто за 30 дн: 12](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-12-9ece6a?style=flat-square)
+![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![в разработке: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-5-bb9af7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 26](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-26-565f89?style=flat-square) ![закрыто за 30 дн: 12](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-12-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 20.11.2026 · не редактируйте этот файл вручную</sub>
 
@@ -56,11 +56,12 @@
 
 _Пусто_
 
-### 🟠 Запланировано — Выполнение в рамках месяца · 1
+### 🟠 Запланировано — Выполнение в рамках месяца · 2
 
 | ID | Задача | Срок | MoSCoW | Проект | Система |
 |:--|:--|:--|:--|:--|:--|
 | `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | 01.12 · через 11 дн. | 🟧 Should | Бухгалтерия | buh_resan, RIB |
+| `BL-062` | [Проверка заполнения ИНН + КПП в карточке контрагента](tasks/BL-062-proverka-zapolneniya-inn-kpp-v-kartochke-kontrag.md) | 21.12 · через 31 дн. | — | — | 1С:УТ |
 
 <details><summary><b>⚪ Отложено — Запланировано в рамках более месяца · 4</b></summary>
 
@@ -128,7 +129,7 @@ _Пусто_
 
 </details>
 
-<sub>Без оценки MoSCoW: BL-057</sub>
+<sub>Без оценки MoSCoW: BL-057, BL-062</sub>
 
 ## 📥 Входящие · 0
 

@@ -37,7 +37,7 @@
 | `BL-059` | [УКД\|УПД. Доработать заполнение обособленных подразделений](tasks/BL-059-ukd-upd-dorabotat-zapolnenie-obosoblennyh-podraz.md) | 🔴 В работе | 30.11 · через 10 дн. | 🟥 Must | — |
 | `BL-060` | [УПД. Доработать заполнение ПП и счетов-фактуры](tasks/BL-060-upd-dorabotat-zapolnenie-pp-i-schetov-faktury.md) | 🔴 В работе | 30.11 · через 10 дн. | 🟥 Must | — |
 | `BL-061` | [Найти чем обосновывается кредитная линия в продажах товаров](tasks/BL-061-nayti-chem-obosnovyvaetsya-kreditnaya-liniya-v-p.md) | 🔴 В работе | 30.11 · через 10 дн. | 🟥 Must | — |
-| `BL-063` | [Добавить вид контрагента = "Склад](tasks/BL-063-dobavit-vid-kontragenta-sklad.md) | 🔴 В работе | 30.11 · через 10 дн. | — | — |
+| `BL-063` | [Добавить вид контрагента = \Склад\](tasks/BL-063-dobavit-vid-kontragenta-sklad.md) | 🔴 В работе | 30.11 · через 10 дн. | — | — |
 
 ## 🛠 В разработке
 

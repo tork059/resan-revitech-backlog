@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![в разработке: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-3-bb9af7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 27](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-27-565f89?style=flat-square) ![закрыто за 30 дн: 10](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-10-9ece6a?style=flat-square)
+![в работе: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-3-7aa2f7?style=flat-square) ![в разработке: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-3-bb9af7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 3](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-3-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 27](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-27-565f89?style=flat-square) ![закрыто за 30 дн: 10](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-10-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 23.11.2026 · не редактируйте этот файл вручную</sub>
 
@@ -32,17 +32,17 @@
 
 | ID | Задача | Колонка | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|:--|
-| `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 🔴 В работе | 30.11 · 🟡 через 7 дн. | 🟥 Must | — |
 | `BL-058` | [Создать документ \Счет-фактура на аванс\](tasks/BL-058-sozdat-dokument-schet-faktura-na-avans.md) | 🔴 В работе | 30.11 · 🟡 через 7 дн. | 🟥 Must | Бухгалтерия |
 | `BL-060` | [УПД. Доработать заполнение ПП и счетов-фактуры](tasks/BL-060-upd-dorabotat-zapolnenie-pp-i-schetov-faktury.md) | 🔴 В работе | 30.11 · 🟡 через 7 дн. | 🟥 Must | — |
 | `BL-061` | [Найти чем обосновывается кредитная линия в продажах товаров](tasks/BL-061-nayti-chem-obosnovyvaetsya-kreditnaya-liniya-v-p.md) | 🔴 В работе | 30.11 · 🟡 через 7 дн. | 🟥 Must | — |
-| `BL-063` | [Добавить вид контрагента = \Склад\](tasks/BL-063-dobavit-vid-kontragenta-sklad.md) | 🔴 В работе | 30.11 · 🟡 через 7 дн. | — | — |
 
 ## 📤 Готово к реализации
 
 | ID | Задача | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|
+| `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | 30.11 · 🟡 через 7 дн. | 🟥 Must | — |
 | `BL-059` | [УКД\|УПД. Доработать заполнение обособленных подразделений](tasks/BL-059-ukd-upd-dorabotat-zapolnenie-obosoblennyh-podraz.md) | 30.11 · 🟡 через 7 дн. | 🟥 Must | — |
+| `BL-063` | [Добавить вид контрагента = \Склад\](tasks/BL-063-dobavit-vid-kontragenta-sklad.md) | 30.11 · 🟡 через 7 дн. | — | — |
 
 ## 🛠 В разработке
 
@@ -80,10 +80,10 @@
 
 | ID | Задача | Влияние на систему и бизнес | Колонка |
 |:--|:--|:--|:--|
-| `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | Исключение дублей после обработки УТ и БП | 🔴 В работе |
 | `BL-058` | [Создать документ \Счет-фактура на аванс\](tasks/BL-058-sozdat-dokument-schet-faktura-na-avans.md) | Удовлетворение требований ФНС | 🔴 В работе |
 | `BL-060` | [УПД. Доработать заполнение ПП и счетов-фактуры](tasks/BL-060-upd-dorabotat-zapolnenie-pp-i-schetov-faktury.md) | Корректность документооборота | 🔴 В работе |
 | `BL-061` | [Найти чем обосновывается кредитная линия в продажах товаров](tasks/BL-061-nayti-chem-obosnovyvaetsya-kreditnaya-liniya-v-p.md) | Корректность документооборота | 🔴 В работе |
+| `BL-051` | [Признак "ОсновнойКонтргаент" в карточках](tasks/BL-051-priznak-osnovnoykontrgaent-v-kartochkah.md) | Исключение дублей после обработки УТ и БП | 📤 Готово к реализации |
 | `BL-059` | [УКД\|УПД. Доработать заполнение обособленных подразделений](tasks/BL-059-ukd-upd-dorabotat-zapolnenie-obosoblennyh-podraz.md) | Корректность документооборота | 📤 Готово к реализации |
 | `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | Групповое изменение реквизитов и автоматизация определения последующий поступлений исключат ручной труд бухгалтерии по множеству операций | 🟣 В разработке |
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | Чистота НСИ: дубли контрагентов искажают отчёты по клиентам, взаиморасчёты и акты сверки | 👀 На тестировании |

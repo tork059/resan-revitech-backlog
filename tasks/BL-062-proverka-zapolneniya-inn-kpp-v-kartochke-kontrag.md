@@ -1,8 +1,8 @@
 ---
 id: BL-062
 title: Проверка заполнения ИНН + КПП в карточке контрагента
-status: todo         # inbox | backlog | todo | in-progress | in-development | done | canceled
-priority: next       # колонка выбирается вручную: now | development | next | later; дедлайн не влияет
+status: in-progress  # inbox | backlog | todo | in-progress | in-development | done | canceled
+priority: now        # колонка выбирается вручную: now | development | next | later; дедлайн не влияет
 moscow:              # влияние на систему и бизнес: must | should | could | wont
 impact: Создание карточек контрагента
 type:                # analysis | dev | consult | research | support
@@ -13,7 +13,7 @@ created: 2026-11-20
 deadline: 2026-12-21 # ГГГГ-ММ-ДД, можно оставить пустым
 bitrix:              # ссылка на задачу в Битрикс24, если есть
 closed:              # заполняется автоматически при закрытии
-sprint: next
+sprint: current
 ---
 
 ## Описание
@@ -24,3 +24,4 @@ sprint: next
 ## Журнал
 - 2026-11-20 — задача заведена (дашборд)
 - 2026-11-20 — планирование: перенесена в список «На следующий спринт»; прежние колонки планирования объединены
+- 2026-11-23 — статус: Запланирована → В работе; размещение: На следующий спринт → Текущий спринт; колонка: Запланировано → В работе

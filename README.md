@@ -6,7 +6,7 @@
 
 **[Дашборд](https://tork059.github.io/resan-revitech-backlog/)** · [Архив](archive/README.md) · [Инструкция](docs/GUIDE.md) · [＋ Новая задача](https://github.com/tork059/resan-revitech-backlog/issues/new?template=task.yml)
 
-![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![в разработке: 4](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-4-bb9af7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 27](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-27-565f89?style=flat-square) ![закрыто за 30 дн: 10](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-10-9ece6a?style=flat-square)
+![в работе: 5](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-5-7aa2f7?style=flat-square) ![в разработке: 3](https://img.shields.io/badge/%D0%B2_%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-3-bb9af7?style=flat-square) ![горит: 5](https://img.shields.io/badge/%D0%B3%D0%BE%D1%80%D0%B8%D1%82-5-f7768e?style=flat-square) ![сейчас: 5](https://img.shields.io/badge/%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81-5-e06c75?style=flat-square) ![Must для бизнеса: 11](https://img.shields.io/badge/Must_%D0%B4%D0%BB%D1%8F_%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0-11-c0392b?style=flat-square) ![всего активных: 27](https://img.shields.io/badge/%D0%B2%D1%81%D0%B5%D0%B3%D0%BE_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-27-565f89?style=flat-square) ![закрыто за 30 дн: 10](https://img.shields.io/badge/%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D1%82%D0%BE_%D0%B7%D0%B0_30_%D0%B4%D0%BD-10-9ece6a?style=flat-square)
 
 <sub>Сводка собрана автоматически 23.11.2026 · не редактируйте этот файл вручную</sub>
 
@@ -15,11 +15,11 @@
 > [!CAUTION]
 > **Горит — срок истёк или наступает в ближайшие 3 дн.**
 >
-> - `BL-030` [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) — 20.11 · 🔴 просрочено на 3 дн.
 > - `BL-049` [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) — 20.11 · 🔴 просрочено на 3 дн.
 > - `BL-054` [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) — 20.11 · 🔴 просрочено на 3 дн.
 > - `BL-055` [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) — 20.11 · 🔴 просрочено на 3 дн.
 > - `BL-029` [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) — 20.11 · 🔴 просрочено на 3 дн.
+> - `BL-030` [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) — 20.11 · 🔴 просрочено на 3 дн.
 
 ## 📁 Проекты
 
@@ -49,7 +49,6 @@
 | ID | Задача | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|
 | `BL-055` | [Поступления оплат по QR](tasks/BL-055-postupleniya-oplat-po-qr.md) | 20.11 · 🔴 просрочено на 3 дн. | 🟥 Must | Бухгалтерия |
-| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 20.11 · 🔴 просрочено на 3 дн. | 🟧 Should | Оптимизация УТ |
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | 20.11 · 🔴 просрочено на 3 дн. | 🟧 Should | Бухгалтерия |
 | `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | 20.11 · 🔴 просрочено на 3 дн. | 🟧 Should | Бухгалтерия |
 
@@ -58,6 +57,7 @@
 | ID | Задача | Срок | MoSCoW | Проект |
 |:--|:--|:--|:--|:--|
 | `BL-029` | [Сделать обработку поиска дублей контрагентов](tasks/BL-029-sdelat-obrabotku-poiska-dubley-kontragentov.md) | 20.11 · 🔴 просрочено на 3 дн. | 🟥 Must | — |
+| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | 20.11 · 🔴 просрочено на 3 дн. | 🟧 Should | Оптимизация УТ |
 
 ## 📅 На следующий спринт
 
@@ -98,9 +98,9 @@
 
 | ID | Задача | Влияние на систему и бизнес | Колонка |
 |:--|:--|:--|:--|
-| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | 🟣 В разработке |
 | `BL-049` | [ВыпискиБанка. Загрузка xml в 1С:УТ](tasks/BL-049-vypiskibanka-zagruzka-xml-v-1s-ut.md) | Приведение выгрузки в стандартный и правильный вид | 🟣 В разработке |
 | `BL-054` | [buh_resan. Подотчетные транзакции](tasks/BL-054-buh-resan-podotchetnye-tranzaktsii.md) | Изменения сокращающие ручной труд бухгалтерии | 🟣 В разработке |
+| `BL-030` | [Сделать обработку удаления помеченных объектов](tasks/BL-030-sdelat-obrabotku-udaleniya-pomechennyh-obektov.md) | Инструмент для безопасного удаления помеченных; эффект зависит от замера объёма базы | 👀 На тестировании |
 | `BL-046` | [Автоматизация оформления заявки на расходование средств](tasks/BL-046-avtomatizatsiya-oformleniya-zayavki-na-rashodova.md) | Альтернатива SberAPI. Необходимо автоматизировать процесс согласования и исполнения заявок на расходование средств | 📅 На следующий спринт |
 | `BL-006` | [Настроить автозапуск обмена, права и уведомления](tasks/BL-006-nastroit-avtozapusk-obmena-prava-i-uvedomleniya.md) | Автоматический обмен УТ → БП убирает ручную выгрузку дважды в месяц, двойной ввод и дубли в бухгалтерии; сейчас учёт держится на ручном труде — обходной путь есть | 🗂 Бэклог |
 | `BL-012` | [SberAPI. Выписки банка и платежные поручения](tasks/BL-012-avtomatizirovat-bankovskie-vypiski-i-platezhki.md) | Экономит ручной труд с выписками и платёжками; на достоверность учёта влияет умеренно | 📅 На следующий спринт |

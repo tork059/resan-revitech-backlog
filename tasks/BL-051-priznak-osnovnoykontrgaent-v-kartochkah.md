@@ -1,8 +1,8 @@
 ---
 id: BL-051
 title: Признак "ОсновнойКонтргаент" в карточках
-status: in-progress  # inbox | backlog | todo | in-progress | waiting | done | canceled
-priority: now        # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
+status: ready-for-development # inbox | backlog | todo | in-progress | waiting | done | canceled
+priority: ready      # горизонт считается сам: в работе → now; срок ≤ месяца → next; иначе later
 moscow: must         # влияние на систему и бизнес: must | should | could | wont
 impact: Исключение дублей после обработки УТ и БП
 type: analysis       # analysis | dev | consult | research | support
@@ -15,6 +15,7 @@ estimate:            # оценка: 2h, 1d, 3d …
 bitrix:              # ссылка на задачу в Битрикс24, если есть
 tags: []             # [отчёты, регламенты]
 closed:              # заполняется автоматически при закрытии
+sprint: current
 ---
 
 ## Суть
@@ -29,3 +30,4 @@ https://docs.google.com/document/d/1hWkFarzRIPAEzowTFEOaAi5o7CFJosGSae-AdohzFY0/
 - 2026-11-13 — Написал ТЗ, задача готова к реализации. Нужно найти ответственного разработчика
 - 2026-11-13 — срок: 13.11.2026 → 20.11.2026
 - 2026-11-20 — срок: 20.11.2026 → 30.11.2026
+- 2026-11-23 — статус: В работе → Готово к реализации; колонка: В работе → Готово к реализации
